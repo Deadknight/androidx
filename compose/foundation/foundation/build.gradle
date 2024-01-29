@@ -23,7 +23,9 @@ plugins {
     id("AndroidXPlugin")
     id("com.android.library")
     id("AndroidXComposePlugin")
+    id("AndroidXComposeNativePlugin")
     id("AndroidXPaparazziPlugin")
+    id("org.jetbrains.kotlin.native.cocoapods")
 }
 
 def desktopEnabled = KmpPlatformsKt.enableDesktop(project)
@@ -31,6 +33,7 @@ def desktopEnabled = KmpPlatformsKt.enableDesktop(project)
 androidXMultiplatform {
     android()
     if (desktopEnabled) desktop()
+    ios()
 
     defaultPlatform(PlatformIdentifier.ANDROID)
 
@@ -68,6 +71,16 @@ androidXMultiplatform {
                 implementation("androidx.core:core:1.11.0-beta02")
             }
         }
+
+        iosX64Main {}
+        iosArm64Main {}
+        iosSimulatorArm64Main {}
+        iosMain {
+            dependsOn(commonMain)
+        }
+        iosX64Main.dependsOn(iosMain)
+        iosArm64Main.dependsOn(iosMain)
+        iosSimulatorArm64Main.dependsOn(iosMain)
 
         if (desktopEnabled) {
             desktopMain {
@@ -144,6 +157,24 @@ androidXMultiplatform {
 dependencies {
     lintChecks(project(":compose:foundation:foundation-lint"))
     lintPublish(project(":compose:foundation:foundation-lint"))
+}
+
+kotlin {
+    cocoapods {
+        version = "1.11.0"
+        ios.deploymentTarget = "13.0"
+        specRepos {
+            url("https://github.com/Deadknight/dk-specs.git")
+        }
+        //pod("ToppingIOSKotlinHelper", "0.6.0")
+        pod("Topping", "0.6.0")
+        framework {
+            // ---> HERE: If true (or omitted) linking fails, missing symbols are from "Topping" dependency
+            // if false, then linking succeeds as per Kotlin 1.7 behaviour
+            isStatic = false
+            embedBitcode("disable")
+        }
+    }
 }
 
 // Screenshot tests related setup

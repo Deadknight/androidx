@@ -24,8 +24,10 @@ import okio.FileSystem
 import okio.IOException
 import okio.Path
 
+expect fun FileSystem.Companion.SYSTEM(): FileSystem
+
 open class OkioTestIO(
-    private val fileSystem: FileSystem = FileSystem.SYSTEM
+    private val fileSystem: FileSystem = FileSystem.SYSTEM()
 ) : TestIO<OkioPath, IOException>(
     getTmpDir = {
         OkioPath(fileSystem = fileSystem, path = FileSystem.SYSTEM_TEMPORARY_DIRECTORY)

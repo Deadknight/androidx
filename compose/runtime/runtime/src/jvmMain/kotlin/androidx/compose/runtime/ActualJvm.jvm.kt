@@ -78,14 +78,16 @@ internal actual class SnapshotThreadLocal<T> {
 
 internal expect val MainThreadId: Long
 
-internal actual fun identityHashCode(instance: Any?): Int = System.identityHashCode(instance)
+actual fun identityHashCode(instance: Any?): Int = System.identityHashCode(instance)
+
+actual typealias SyncLock = Any
 
 @PublishedApi
-internal actual inline fun <R> synchronized(lock: Any, block: () -> R): R {
+internal actual inline fun <R> synchronized(lock: SyncLock, block: () -> R): R {
     return kotlin.synchronized(lock, block)
 }
 
-internal actual typealias TestOnly = org.jetbrains.annotations.TestOnly
+actual typealias TestOnly = org.jetbrains.annotations.TestOnly
 
 internal actual fun invokeComposable(composer: Composer, composable: @Composable () -> Unit) {
     @Suppress("UNCHECKED_CAST")

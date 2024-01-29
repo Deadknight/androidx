@@ -722,10 +722,10 @@ internal object AnchoredDraggableDefaults {
 }
 
 private class AnchoredDragFinishedSignal : CancellationException() {
-    override fun fillInStackTrace(): Throwable {
+    /*override fun fillInStackTrace(): Throwable {
         stackTrace = emptyArray()
         return this
-    }
+    }*/
 }
 
 private suspend fun <I> restartable(inputs: () -> I, block: suspend (I) -> Unit) {

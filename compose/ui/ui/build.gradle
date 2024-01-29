@@ -24,6 +24,8 @@ plugins {
     id("AndroidXPlugin")
     id("com.android.library")
     id("AndroidXComposePlugin")
+    id("AndroidXComposeNativePlugin")
+    id("org.jetbrains.kotlin.native.cocoapods")
 }
 
 def desktopEnabled = KmpPlatformsKt.enableDesktop(project)
@@ -31,6 +33,7 @@ def desktopEnabled = KmpPlatformsKt.enableDesktop(project)
 androidXMultiplatform {
     android()
     if (desktopEnabled) desktop()
+    ios()
 
     defaultPlatform(PlatformIdentifier.ANDROID)
 
@@ -39,8 +42,10 @@ androidXMultiplatform {
             dependencies {
                 implementation(libs.kotlinStdlibCommon)
                 implementation(libs.kotlinCoroutinesCore)
-                api("androidx.annotation:annotation:1.6.0")
-                implementation("androidx.collection:collection:1.2.0")
+                api(project(":annotation:annotation"))
+                //api("androidx.annotation:annotation:1.6.0")
+                implementation(project(":collection:collection"))
+                //implementation("androidx.collection:collection:1.2.0")
                 // when updating the runtime version please also update the runtime-saveable version
                 implementation(project(":compose:runtime:runtime"))
                 api(project(":compose:runtime:runtime-saveable"))
@@ -110,6 +115,23 @@ androidXMultiplatform {
                 }
             }
         }
+
+        iosX64Main {}
+        iosArm64Main {}
+        iosSimulatorArm64Main {}
+        iosMain {
+            dependsOn(commonMain)
+            dependencies {
+                api(project(":compose:ui:ui-graphics"))
+                api(project(":compose:ui:ui-util"))
+                api(libs.skikoCommon)
+                implementation(libs.atomicFu)
+                implementation(libs.kotlinReflect)
+            }
+        }
+        iosX64Main.dependsOn(iosMain)
+        iosArm64Main.dependsOn(iosMain)
+        iosSimulatorArm64Main.dependsOn(iosMain)
 
         jvmTest {
             dependsOn(commonTest)
@@ -223,6 +245,24 @@ androidx {
 if (desktopEnabled) {
     tasks.findByName("desktopTest").configure {
         systemProperties["GOLDEN_PATH"] = project.rootDir.absolutePath + "/../../golden"
+    }
+}
+
+kotlin {
+    cocoapods {
+        version = "1.11.0"
+        ios.deploymentTarget = "13.0"
+        specRepos {
+            url("https://github.com/Deadknight/dk-specs.git")
+        }
+        pod("ToppingIOSKotlinHelper", "0.6.0")
+        pod("Topping", "0.6.0")
+        framework {
+            // ---> HERE: If true (or omitted) linking fails, missing symbols are from "Topping" dependency
+            // if false, then linking succeeds as per Kotlin 1.7 behaviour
+            isStatic = false
+            embedBitcode("disable")
+        }
     }
 }
 

@@ -45,6 +45,19 @@ androidXMultiplatform {
                 api(libs.kotlinTest)
             }
         }
+        iosX64Main {}
+        iosArm64Main {}
+        iosSimulatorArm64Main {}
+        iosMain {
+            dependsOn(commonMain)
+            dependencies {
+                api(libs.kotlinStdlib)
+                api(libs.kotlinTest)
+            }
+        }
+        iosX64Main.dependsOn(iosMain)
+        iosArm64Main.dependsOn(iosMain)
+        iosSimulatorArm64Main.dependsOn(iosMain)
         commonTest {
             dependencies {
                 implementation(project(":kruth:kruth"))

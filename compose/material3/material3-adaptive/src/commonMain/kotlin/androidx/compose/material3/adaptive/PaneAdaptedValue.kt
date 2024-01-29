@@ -16,6 +16,8 @@
 
 package androidx.compose.material3.adaptive
 
+import kotlin.jvm.JvmInline
+
 /**
  * The adapted state of a pane. It gives clues to pane scaffolds about if a certain pane should be
  * composed and how.

@@ -16,6 +16,8 @@
 
 package androidx.compose.ui.platform
 
+import androidx.compose.runtime.SyncLock
+
 internal actual typealias AtomicInt = java.util.concurrent.atomic.AtomicInteger
 
 internal actual fun simpleIdentityToString(obj: Any, name: String?): String {
@@ -30,6 +32,6 @@ internal actual fun simpleIdentityToString(obj: Any, name: String?): String {
 
 internal actual fun Any.nativeClass(): Any = this.javaClass
 
-internal actual inline fun <R> synchronized(lock: Any, block: () -> R): R {
+internal actual inline fun <R> synchronized(lock: SyncLock, block: () -> R): R {
     return kotlin.synchronized(lock, block)
 }

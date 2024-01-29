@@ -38,6 +38,8 @@ expect class CalendarLocale
 @ReadOnlyComposable
 internal expect fun defaultLocale(): CalendarLocale
 
+expect fun MatchGroup.range() : IntRange
+
 /**
  * Returns a string representation of an integer for the current Locale.
  *

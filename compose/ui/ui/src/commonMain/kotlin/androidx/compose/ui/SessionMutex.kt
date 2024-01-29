@@ -21,6 +21,7 @@ import kotlinx.coroutines.Job
 import kotlinx.coroutines.cancelAndJoin
 import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.job
+import kotlin.jvm.JvmInline
 
 /**
  * Helper class for coordinating between mutually-exclusive sessions. A session is represented as

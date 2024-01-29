@@ -25,6 +25,7 @@ import androidx.compose.ui.util.fastAny
 import androidx.compose.ui.util.fastFilter
 import androidx.compose.ui.util.fastForEach
 import androidx.compose.ui.util.fastMap
+import kotlin.jvm.JvmName
 
 /**
  * The basic data structure of text with multiple styles. To construct an [AnnotatedString] you

@@ -310,8 +310,8 @@ sealed interface AnimatedContentTransitionScope<S> : Transition.Segment<S> {
      * [slideOutOfContainer]. The supported directions are: [Left], [Right], [Up] and [Down].
      */
     @Immutable
-    @kotlin.jvm.JvmInline
-    value class SlideDirection internal constructor(private val value: Int) {
+    //@kotlin.jvm.JvmInline
+    /*value*/ class SlideDirection internal constructor(private val value: Int) {
         companion object {
             val Left = SlideDirection(0)
             val Right = SlideDirection(1)

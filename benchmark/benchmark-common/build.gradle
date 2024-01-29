@@ -38,6 +38,7 @@ android {
     }
     namespace "androidx.benchmark"
     defaultConfig {
+        minSdkVersion 21
         externalNativeBuild {
             cmake {
                 cppFlags ''

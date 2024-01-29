@@ -7,16 +7,16 @@ import java.util.regex.Pattern
 
 pluginManagement {
     repositories {
-        maven {
+        /*maven {
             url = new File(buildscript.sourceFile.parent + "/../../prebuilts/androidx/external").getCanonicalFile()
         }
-        if (System.getenv("ALLOW_PUBLIC_REPOS") != null || System.getProperty("ALLOW_PUBLIC_REPOS") != null) {
+        if (System.getenv("ALLOW_PUBLIC_REPOS") != null || System.getProperty("ALLOW_PUBLIC_REPOS") != null) {*/
             mavenCentral()
             google()
             maven {
                 url = "https://plugins.gradle.org/m2/"
             }
-        }
+        //}
     }
 }
 
@@ -35,12 +35,12 @@ buildscript {
 }
 
 // Abort immediately if we're running in Studio, but not a managed instance of Studio.
-if (startParameter.projectProperties.containsKey('android.injected.invoked.from.ide')) {
+/*if (startParameter.projectProperties.containsKey('android.injected.invoked.from.ide')) {
     def expectedAgpVersion = System.getenv().get("EXPECTED_AGP_VERSION")
     if (expectedAgpVersion == null) {
         throw new Exception("Android Studio must be run from studiow or gradlew studio.")
     }
-}
+}*/
 
 // Makes strong assumptions about the project structure.
 def prebuiltsRoot = new File(
@@ -201,11 +201,12 @@ enum BuildType {
 }
 
 private String getRequestedProjectSubsetName() {
-    def envProp = providers.environmentVariable("ANDROIDX_PROJECTS")
+    /*def envProp = providers.environmentVariable("ANDROIDX_PROJECTS")
     if (envProp.isPresent()) {
         return envProp.get().toUpperCase()
     }
-    return null
+    return null*/
+    return "COMPOSE"
 }
 
 private String getRequestedProjectPrefix() {
@@ -546,6 +547,7 @@ includeProject(":collection:collection-ktx", [BuildType.MAIN, BuildType.INFRAROG
 includeProject(":collection:integration-tests:testapp", [BuildType.MAIN, BuildType.INFRAROGUE, BuildType.KMP])
 includeProject(":compose:animation", [BuildType.COMPOSE])
 includeProject(":compose:animation:animation", [BuildType.COMPOSE])
+//includeProject(":compose:animation:animation2", [BuildType.COMPOSE])
 includeProject(":compose:animation:animation-lint", [BuildType.COMPOSE])
 includeProject(":compose:animation:animation-core", [BuildType.COMPOSE])
 includeProject(":compose:animation:animation-core-lint", [BuildType.COMPOSE])
@@ -949,20 +951,20 @@ includeProject(":room:integration-tests:room-testapp-autovalue", "room/integrati
 includeProject(":room:integration-tests:room-testapp-kotlin", "room/integration-tests/kotlintestapp", [BuildType.MAIN])
 includeProject(":room:integration-tests:room-testapp-noappcompat", "room/integration-tests/noappcompattestapp", [BuildType.MAIN])
 includeProject(":room:room-benchmark", "room/benchmark", [BuildType.MAIN])
-includeProject(":room:room-common", [BuildType.MAIN, BuildType.COMPOSE, BuildType.KMP])
-includeProject(":room:room-compiler", [BuildType.MAIN, BuildType.COMPOSE])
-includeProject(":room:room-compiler-processing", [BuildType.MAIN, BuildType.COMPOSE, BuildType.FLAN])
-includeProject(":room:room-compiler-processing-testing", [BuildType.MAIN, BuildType.COMPOSE, BuildType.FLAN])
+includeProject(":room:room-common", [BuildType.MAIN/*, BuildType.COMPOSE, BuildType.KMP*/])
+includeProject(":room:room-compiler", [BuildType.MAIN/*, BuildType.COMPOSE*/])
+includeProject(":room:room-compiler-processing", [BuildType.MAIN/*, BuildType.COMPOSE*/, BuildType.FLAN])
+includeProject(":room:room-compiler-processing-testing", [BuildType.MAIN/*, BuildType.COMPOSE*/, BuildType.FLAN])
 includeProject(":room:room-guava", [BuildType.MAIN])
 includeProject(":room:room-gradle-plugin", [BuildType.MAIN])
-includeProject(":room:room-ktx", [BuildType.MAIN, BuildType.COMPOSE])
-includeProject(":room:room-migration", [BuildType.MAIN, BuildType.COMPOSE])
-includeProject(":room:room-paging", [BuildType.MAIN, BuildType.COMPOSE])
+includeProject(":room:room-ktx", [BuildType.MAIN/*, BuildType.COMPOSE*/])
+includeProject(":room:room-migration", [BuildType.MAIN/*, BuildType.COMPOSE*/])
+includeProject(":room:room-paging", [BuildType.MAIN/*, BuildType.COMPOSE*/])
 includeProject(":room:room-paging-guava", [BuildType.MAIN])
 includeProject(":room:room-paging-rxjava2", [BuildType.MAIN])
 includeProject(":room:room-paging-rxjava3", [BuildType.MAIN])
-includeProject(":room:room-runtime", [BuildType.MAIN, BuildType.COMPOSE])
-includeProject(":room:room-runtime-lint", [BuildType.MAIN, BuildType.COMPOSE])
+includeProject(":room:room-runtime", [BuildType.MAIN/*, BuildType.COMPOSE*/])
+includeProject(":room:room-runtime-lint", [BuildType.MAIN/*, BuildType.COMPOSE*/])
 includeProject(":room:room-rxjava2", [BuildType.MAIN])
 includeProject(":room:room-rxjava3", [BuildType.MAIN])
 includeProject(":room:room-testing", [BuildType.MAIN])

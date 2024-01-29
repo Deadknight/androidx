@@ -17,8 +17,8 @@
 package androidx.compose.runtime.snapshots
 
 import androidx.compose.runtime.ExperimentalComposeApi
+import androidx.compose.runtime.ThreadContextElement
 import kotlin.coroutines.CoroutineContext
-import kotlinx.coroutines.ThreadContextElement
 
 /**
  * Return a [SnapshotContextElement] that will [enter][Snapshot.enter] this [Snapshot] whenever

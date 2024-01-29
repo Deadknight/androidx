@@ -17,6 +17,7 @@
 package androidx.compose.runtime.snapshots
 
 import androidx.compose.runtime.Stable
+import androidx.compose.runtime.SyncLock
 import androidx.compose.runtime.external.kotlinx.collections.immutable.PersistentList
 import androidx.compose.runtime.external.kotlinx.collections.immutable.persistentListOf
 import androidx.compose.runtime.synchronized
@@ -244,7 +245,7 @@ class SnapshotStateList<T> : MutableList<T>, StateObject, RandomAccess {
  * In code the requires this lock and calls `writable` (or other operation that acquires the
  * snapshot global lock), this lock *MUST* be acquired first to avoid deadlocks.
  */
-private val sync = Any()
+private val sync = SyncLock()
 
 private fun modificationError(): Nothing =
     error("Cannot modify a state list through an iterator")

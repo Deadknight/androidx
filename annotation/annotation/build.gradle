@@ -4,6 +4,7 @@ import androidx.build.PlatformIdentifier
 import androidx.build.KotlinTarget
 import org.jetbrains.kotlin.gradle.plugin.KotlinPlatformType
 import org.jetbrains.kotlin.gradle.tasks.KotlinNativeCompile
+import org.jetbrains.kotlin.gradle.plugin.mpp.apple.XCFrameworkConfig
 
 plugins {
     id("AndroidXPlugin")
@@ -24,6 +25,7 @@ androidXMultiplatform {
             }
         }
 
+        println("native " + KmpPlatformsKt.enableNative(project))
         if (KmpPlatformsKt.enableNative(project)) {
             nonJvmMain {
                 dependsOn commonMain
@@ -38,10 +40,32 @@ androidXMultiplatform {
             }
         }
 
+        iosX64Main {}
+        iosArm64Main {}
+        iosSimulatorArm64Main {}
+        iosMain {
+            dependsOn(commonMain)
+        }
+        iosX64Main.dependsOn(iosMain)
+        iosArm64Main.dependsOn(iosMain)
+        iosSimulatorArm64Main.dependsOn(iosMain)
+
         // Workaround for https://youtrack.jetbrains.com/issue/KT-51763
         // Make sure commonization runs before any compilation task.
         tasks.withType(KotlinNativeCompile).configureEach {
             it.dependsOn(tasks.named("commonize"))
+        }
+    }
+}
+
+kotlin {
+    def xcf = new XCFrameworkConfig(project)
+    def iosTargets = [iosX64(), iosArm64(), iosSimulatorArm64()]
+
+    iosTargets.forEach {
+        it.binaries.framework {
+            baseName = 'annotation'
+            xcf.add(it)
         }
     }
 }

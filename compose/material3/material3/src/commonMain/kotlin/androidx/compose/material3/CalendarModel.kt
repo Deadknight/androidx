@@ -324,7 +324,7 @@ internal fun datePatternAsInputFormat(localeFormat: String): DateInputFormat {
 
     val delimiterRegex = Regex("[/\\-.]")
     val delimiterMatchResult = delimiterRegex.find(patternWithDelimiters)
-    val delimiterIndex = delimiterMatchResult!!.groups[0]!!.range.first
+    val delimiterIndex = delimiterMatchResult!!.groups[0]!!.range().first
     val delimiter = patternWithDelimiters.substring(delimiterIndex, delimiterIndex + 1)
     return DateInputFormat(
         patternWithDelimiters = patternWithDelimiters,

@@ -46,6 +46,7 @@ import androidx.compose.ui.unit.LayoutDirection
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.offset
 import kotlin.math.max
+import kotlin.jvm.JvmInline
 
 /**
  * <a href="https://m3.material.io/components/lists/overview" class="external" target="_blank">Material Design list item.</a>

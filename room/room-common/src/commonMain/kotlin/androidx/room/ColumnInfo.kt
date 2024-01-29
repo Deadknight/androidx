@@ -45,7 +45,7 @@ public annotation class ColumnInfo(
      * @return The type affinity of the column. This is either [UNDEFINED], [TEXT],
      * [INTEGER], [REAL], or [BLOB].
      */
-    @SuppressWarnings("unused")
+    //@SuppressWarnings("unused")
     @get:SQLiteTypeAffinity
     val typeAffinity: Int = UNDEFINED,
 

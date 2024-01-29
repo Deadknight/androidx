@@ -73,6 +73,25 @@ class PathEasing(path: Path) : Easing {
         }
     }
 
+    fun binarySearch(element: Float, array: FloatArray): Int {
+        var index: Int = 0
+        var end = array.size - 1
+
+        while(index <= end){
+
+            val center: Int = (index + end) / 2
+
+            if (element == array[center]){
+                return center
+            }else if (element < array[center]){
+                end = center - 1
+            }else if(element > array[center]){
+                index = center + 1
+            }
+        }
+        return -1
+    }
+
     override fun transform(fraction: Float): Float {
         if (fraction <= 0.0f) {
             return 0.0f
@@ -81,7 +100,7 @@ class PathEasing(path: Path) : Easing {
         }
 
         // Do a binary search for the correct x to interpolate between.
-        val startIndex = offsetX.binarySearch(fraction)
+        val startIndex = binarySearch(fraction, offsetX)
         // the index will be negative if an exact match is not found,
         // so return the exact item if the index is positive.
         if (startIndex > 0) {

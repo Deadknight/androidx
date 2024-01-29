@@ -18,6 +18,7 @@ package androidx.compose.runtime
 
 import androidx.compose.runtime.snapshots.Snapshot
 import androidx.compose.runtime.snapshots.SnapshotContextElement
+import kotlin.coroutines.CoroutineContext
 
 // TODO(aelias): Mark the typealiases internal when https://youtrack.jetbrains.com/issue/KT-36695 is fixed.
 // Currently, they behave as internal because the actual is internal, even though the expect is public.
@@ -59,10 +60,12 @@ internal expect class SnapshotThreadLocal<T>() {
  * if (identityHashCode(midVal) < identityHashCode(leftVal)) ...
  * ```
  */
-internal expect fun identityHashCode(instance: Any?): Int
+expect fun identityHashCode(instance: Any?): Int
+
+expect class SyncLock()
 
 @PublishedApi
-internal expect inline fun <R> synchronized(lock: Any, block: () -> R): R
+internal expect inline fun <R> synchronized(lock: SyncLock, block: () -> R): R
 
 expect class AtomicReference<V>(value: V) {
     fun get(): V
@@ -135,3 +138,31 @@ internal expect fun logError(message: String, e: Throwable)
 internal expect fun currentThreadId(): Long
 
 internal expect fun currentThreadName(): String
+
+expect interface ThreadContextElement<S> {
+    /**
+     * Updates context of the current thread.
+     * This function is invoked before the coroutine in the specified [context] is resumed in the current thread
+     * when the context of the coroutine this element.
+     * The result of this function is the old value of the thread-local state that will be passed to [restoreThreadContext].
+     * This method should handle its own exceptions and do not rethrow it. Thrown exceptions will leave coroutine which
+     * context is updated in an undefined state and may crash an application.
+     *
+     * @param context the coroutine context.
+     */
+    fun updateThreadContext(context: CoroutineContext): S
+
+    /**
+     * Restores context of the current thread.
+     * This function is invoked after the coroutine in the specified [context] is suspended in the current thread
+     * if [updateThreadContext] was previously invoked on resume of this coroutine.
+     * The value of [oldState] is the result of the previous invocation of [updateThreadContext] and it should
+     * be restored in the thread-local state by this function.
+     * This method should handle its own exceptions and do not rethrow it. Thrown exceptions will leave coroutine which
+     * context is updated in an undefined state and may crash an application.
+     *
+     * @param context the coroutine context.
+     * @param oldState the value returned by the previous invocation of [updateThreadContext].
+     */
+    fun restoreThreadContext(context: CoroutineContext, oldState: S)
+}

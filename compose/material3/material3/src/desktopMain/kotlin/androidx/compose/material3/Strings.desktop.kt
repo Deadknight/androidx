@@ -18,6 +18,7 @@ package androidx.compose.material3
 
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.ReadOnlyComposable
+import androidx.compose.ui.util.ID
 import java.util.Locale
 
 @Composable
@@ -93,7 +94,7 @@ internal actual fun getString(string: Strings): String {
 }
 
 @JvmInline
-internal actual value class Strings constructor(val value: Int) {
+internal actual value class Strings constructor(val value: ID) {
     actual companion object {
         actual val NavigationMenu = Strings(0)
         actual val CloseDrawer = Strings(1)

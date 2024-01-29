@@ -24,6 +24,7 @@ plugins {
     id("AndroidXPlugin")
     id("com.android.library")
     id("AndroidXComposePlugin")
+    id("AndroidXComposeNativePlugin")
     id("AndroidXPaparazziPlugin")
 }
 
@@ -32,6 +33,7 @@ def desktopEnabled = KmpPlatformsKt.enableDesktop(project)
 androidXMultiplatform {
     android()
     if (desktopEnabled) desktop()
+    ios()
 
     defaultPlatform(PlatformIdentifier.ANDROID)
 
@@ -104,6 +106,19 @@ androidXMultiplatform {
                 }
             }
         }
+
+        iosX64Main {}
+        iosArm64Main {}
+        iosSimulatorArm64Main {}
+        iosMain {
+            dependsOn(skikoMain)
+            dependencies {
+                implementation("org.jetbrains.kotlinx:kotlinx-datetime:0.5.0")
+            }
+        }
+        iosX64Main.dependsOn(iosMain)
+        iosArm64Main.dependsOn(iosMain)
+        iosSimulatorArm64Main.dependsOn(iosMain)
 
         jvmTest {
             dependsOn(commonTest)

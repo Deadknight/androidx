@@ -17,6 +17,7 @@
 package androidx.compose.ui.text.style
 
 import androidx.compose.runtime.Immutable
+import kotlin.jvm.JvmInline
 
 @Immutable
 @JvmInline

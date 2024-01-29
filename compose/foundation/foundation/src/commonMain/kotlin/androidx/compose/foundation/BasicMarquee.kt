@@ -65,6 +65,7 @@ import kotlin.math.absoluteValue
 import kotlin.math.ceil
 import kotlin.math.roundToInt
 import kotlin.math.sign
+import kotlin.jvm.JvmInline
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext

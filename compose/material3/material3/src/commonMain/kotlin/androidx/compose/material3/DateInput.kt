@@ -42,6 +42,8 @@ import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.text.input.TransformedText
 import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.util.formatCommon
+import kotlin.jvm.JvmInline
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -248,11 +250,11 @@ internal class DateInputValidator(
         locale: CalendarLocale
     ): String {
         if (dateToValidate == null) {
-            return errorDatePattern.format(dateInputFormat.patternWithDelimiters.uppercase())
+            return errorDatePattern.formatCommon(dateInputFormat.patternWithDelimiters.uppercase())
         }
         // Check that the date is within the valid range of years.
         if (!yearRange.contains(dateToValidate.year)) {
-            return errorDateOutOfYearRange.format(
+            return errorDateOutOfYearRange.formatCommon(
                 yearRange.first.toLocalString(),
                 yearRange.last.toLocalString()
             )
@@ -262,7 +264,7 @@ internal class DateInputValidator(
             if (!isSelectableYear(dateToValidate.year) ||
                 !isSelectableDate(dateToValidate.utcTimeMillis)
             ) {
-                return errorInvalidNotAllowed.format(
+                return errorInvalidNotAllowed.formatCommon(
                     dateFormatter.formatDate(
                         dateMillis = dateToValidate.utcTimeMillis,
                         locale = locale

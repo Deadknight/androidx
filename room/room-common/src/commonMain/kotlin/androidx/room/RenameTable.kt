@@ -22,7 +22,7 @@ package androidx.room
  * @see [AutoMigration]
  *
  */
-@JvmRepeatable(RenameTable.Entries::class)
+//@JvmRepeatable(RenameTable.Entries::class)
 @Target(AnnotationTarget.CLASS)
 @Retention(AnnotationRetention.BINARY)
 public annotation class RenameTable(

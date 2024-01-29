@@ -19,6 +19,7 @@ package androidx.compose.ui.focus
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.node.ModifierNodeElement
 import androidx.compose.ui.platform.InspectorInfo
+import androidx.compose.ui.internal.JvmDefaultWithCompatibility
 
 /**
  * A [modifier][Modifier.Element] that can be used to observe focus state events.

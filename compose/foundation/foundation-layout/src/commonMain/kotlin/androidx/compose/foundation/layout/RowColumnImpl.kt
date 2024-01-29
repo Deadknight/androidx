@@ -42,6 +42,7 @@ import androidx.compose.ui.util.fastForEach
 import kotlin.math.max
 import kotlin.math.min
 import kotlin.math.roundToInt
+import kotlin.jvm.JvmInline
 
 internal fun rowColumnMeasurePolicy(
     orientation: LayoutOrientation,

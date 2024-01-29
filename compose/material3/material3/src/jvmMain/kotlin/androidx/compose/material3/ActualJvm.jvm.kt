@@ -34,6 +34,10 @@ internal actual typealias InternalAtomicReference<V> =
  */
 actual typealias CalendarLocale = Locale
 
+actual fun MatchGroup.range() : IntRange {
+    return this.range
+}
+
 /**
  * Returns a string representation of an integer for the current Locale.
  */

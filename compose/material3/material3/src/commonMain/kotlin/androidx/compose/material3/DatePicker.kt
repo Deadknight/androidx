@@ -109,9 +109,11 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.util.fastForEach
+import androidx.compose.ui.util.formatCommon
 import kotlin.math.max
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
+import kotlin.jvm.JvmInline
 
 /**
  * <a href="https://m3.material.io/components/date-pickers/overview" class="external" target="_blank">Material Design date picker</a>.
@@ -622,7 +624,7 @@ object DatePickerDefaults {
             DisplayMode.Picker -> getString(Strings.DatePickerHeadlineDescription)
             DisplayMode.Input -> getString(Strings.DateInputHeadlineDescription)
             else -> ""
-        }.format(verboseDateDescription)
+        }.formatCommon(verboseDateDescription)
 
         Text(
             text = headlineText,
@@ -1933,7 +1935,7 @@ private fun YearPicker(
                     onClick = { onYearSelected(selectedYear) },
                     enabled = selectableDates.isSelectableYear(selectedYear),
                     description = getString(Strings.DatePickerNavigateToYearDescription)
-                        .format(localizedYear),
+                        .formatCommon(localizedYear),
                     colors = colors
                 ) {
                     Text(

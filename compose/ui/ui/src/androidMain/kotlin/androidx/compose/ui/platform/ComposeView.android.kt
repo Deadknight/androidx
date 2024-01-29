@@ -16,11 +16,13 @@
 
 package androidx.compose.ui.platform
 
+import android.app.Activity
 import android.content.Context
 import android.os.IBinder
 import android.util.AttributeSet
 import android.view.View
 import android.view.ViewGroup
+import androidx.activity.ComponentActivity
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.Composition
 import androidx.compose.runtime.CompositionContext
@@ -33,6 +35,11 @@ import androidx.compose.ui.node.Owner
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.findViewTreeLifecycleOwner
+import androidx.lifecycle.findViewTreeViewModelStoreOwner
+import androidx.lifecycle.setViewTreeLifecycleOwner
+import androidx.lifecycle.setViewTreeViewModelStoreOwner
+import androidx.savedstate.findViewTreeSavedStateRegistryOwner
+import androidx.savedstate.setViewTreeSavedStateRegistryOwner
 import java.lang.ref.WeakReference
 
 /**
@@ -411,11 +418,68 @@ abstract class AbstractComposeView @JvmOverloads constructor(
  * never initially attached to a window. (The requirement to dispose of the composition explicitly
  * in the event that the view is never (re)attached is temporary.)
  */
-class ComposeView @JvmOverloads constructor(
+
+actual class CommonContext actual constructor(nativeContext: Any, nativeAttributeSet: Any?) {
+    val nContext: Context
+    val nAttributeSet: AttributeSet?
+    init {
+        this.nContext = nativeContext as Context
+        this.nAttributeSet = nativeAttributeSet as AttributeSet?
+    }
+    actual fun getNativeContext(): Any {
+        return nContext
+    }
+
+    actual fun getNativeAttributeSet(): Any? {
+        return nAttributeSet
+    }
+}
+
+private val DefaultActivityContentLayoutParams = ViewGroup.LayoutParams(
+    ViewGroup.LayoutParams.WRAP_CONTENT,
+    ViewGroup.LayoutParams.WRAP_CONTENT
+)
+
+/**
+ * These owners are not set before AppCompat 1.3+ due to a bug, so we need to set them manually in
+ * case developers are using an older version of AppCompat.
+ */
+/*fun ComponentActivity.setOwners() {
+    val decorView = getWindow().decorView
+    if (decorView.findViewTreeLifecycleOwner() == null) {
+        decorView.setViewTreeLifecycleOwner(this)
+    }
+    if (decorView.findViewTreeViewModelStoreOwner() == null) {
+        decorView.setViewTreeViewModelStoreOwner(this)
+    }
+    if (decorView.findViewTreeSavedStateRegistryOwner() == null) {
+        decorView.setViewTreeSavedStateRegistryOwner(this)
+    }
+}*/
+
+actual class ComposeView @JvmOverloads constructor(
     context: Context,
     attrs: AttributeSet? = null,
     defStyleAttr: Int = 0
 ) : AbstractComposeView(context, attrs, defStyleAttr) {
+
+    actual constructor(commonContext: CommonContext, defStyleAttr: Int)
+        : this(commonContext.getNativeContext() as Context, commonContext.nAttributeSet, defStyleAttr)
+
+    actual fun addSelfToActivity(
+        activity: Any,
+        parent: CompositionContext?,
+        content: @Composable () -> Unit) {
+
+        val act = activity as ComponentActivity
+
+        setParentCompositionContext(parent)
+        setContent(content)
+        // Set the view tree owners before setting the content view so that the inflation process
+        // and attach listeners will see them already present
+        //act.setOwners()
+        act.setContentView(this, DefaultActivityContentLayoutParams)
+    }
 
     private val content = mutableStateOf<(@Composable () -> Unit)?>(null)
 

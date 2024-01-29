@@ -16,6 +16,7 @@
 
 package androidx.compose.ui.input.pointer
 
+import androidx.compose.runtime.SyncLock
 import androidx.compose.runtime.collection.mutableVectorOf
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.Size
@@ -427,6 +428,7 @@ internal class SuspendingPointerInputModifierNodeImpl(
 
     private var currentEvent: PointerEvent = EmptyPointerEvent
 
+    private val pointerHandlersLock = SyncLock()
     /**
      * Actively registered input handlers from currently ongoing calls to [awaitPointerEventScope].
      * Must use `synchronized(pointerHandlers)` to access.
@@ -516,7 +518,7 @@ internal class SuspendingPointerInputModifierNodeImpl(
         block: (SuspendingPointerInputModifierNodeImpl.PointerEventHandlerCoroutine<*>) -> Unit
     ) {
         // Copy handlers to avoid mutating the collection during dispatch
-        synchronized(pointerHandlers) {
+        synchronized(pointerHandlersLock) {
             dispatchingPointerHandlers.addAll(pointerHandlers)
         }
         try {
@@ -608,7 +610,7 @@ internal class SuspendingPointerInputModifierNodeImpl(
         block: suspend AwaitPointerEventScope.() -> R
     ): R = suspendCancellableCoroutine { continuation ->
         val handlerCoroutine = PointerEventHandlerCoroutine(continuation)
-        synchronized(pointerHandlers) {
+        synchronized(pointerHandlersLock) {
             pointerHandlers += handlerCoroutine
 
             // NOTE: We resume the new continuation while holding this lock.
@@ -678,7 +680,7 @@ internal class SuspendingPointerInputModifierNodeImpl(
 
         // Implementation of Continuation; clean up and resume our wrapped continuation.
         override fun resumeWith(result: Result<R>) {
-            synchronized(pointerHandlers) {
+            synchronized(pointerHandlersLock) {
                 pointerHandlers -= this
             }
             completion.resumeWith(result)
@@ -740,11 +742,12 @@ internal class SuspendingPointerInputModifierNodeImpl(
 class PointerEventTimeoutCancellationException(
     time: Long
 ) : CancellationException("Timed out waiting for $time ms") {
-    override fun fillInStackTrace(): Throwable {
+    //TODO:removing this
+    /*override fun fillInStackTrace(): Throwable {
         // Avoid null.clone() on Android <= 6.0 when accessing stackTrace
         stackTrace = emptyArray()
         return this
-    }
+    }*/
 }
 
 /**
@@ -753,11 +756,12 @@ class PointerEventTimeoutCancellationException(
  * Remove if these are changed in kotlinx.coroutines.
  */
 private class PointerInputResetException : CancellationException("Pointer input was reset") {
-    override fun fillInStackTrace(): Throwable {
+    //TODO: removing this
+    /*override fun fillInStackTrace(): Throwable {
         // Avoid null.clone() on Android <= 6.0 when accessing stackTrace
         stackTrace = emptyArray()
         return this
-    }
+    }*/
 }
 
 /**
@@ -765,10 +769,11 @@ private class PointerInputResetException : CancellationException("Pointer input 
  * we shouldn't need to worry about other code calling addSuppressed on this exception
  * so a singleton instance is used
  */
-private object CancelTimeoutCancellationException : CancellationException() {
-    override fun fillInStackTrace(): Throwable {
+private object CancelTimeoutCancellationException : CancellationException("") {
+    //TODO
+    /*override fun fillInStackTrace(): Throwable {
         // Avoid null.clone() on Android <= 6.0 when accessing stackTrace
         stackTrace = emptyArray()
         return this
-    }
+    }*/
 }

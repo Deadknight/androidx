@@ -172,6 +172,7 @@ import kotlin.math.hypot
 import kotlin.math.roundToInt
 import kotlin.math.sin
 import kotlinx.coroutines.launch
+import kotlin.jvm.JvmInline
 
 /**
  * <a href="https://m3.material.io/components/time-pickers/overview" class="external" target="_blank">Material Design time picker</a>.

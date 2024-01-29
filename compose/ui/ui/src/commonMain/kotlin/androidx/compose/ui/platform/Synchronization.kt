@@ -16,5 +16,7 @@
 
 package androidx.compose.ui.platform
 
+import androidx.compose.runtime.SyncLock
+
 @PublishedApi
-internal expect inline fun <R> synchronized(lock: Any, block: () -> R): R
+internal expect inline fun <R> synchronized(lock: SyncLock, block: () -> R): R

@@ -19,6 +19,7 @@ package androidx.compose.ui.text.font
 import androidx.compose.runtime.Immutable
 import androidx.compose.runtime.Stable
 import androidx.compose.ui.text.ExperimentalTextApi
+import androidx.compose.ui.util.ID
 
 /**
  * The interface of the font resource.
@@ -166,7 +167,7 @@ internal interface PlatformFontLoader {
  */
 @OptIn(ExperimentalTextApi::class)
 class ResourceFont internal constructor(
-    val resId: Int,
+    val resId: ID,
     override val weight: FontWeight = FontWeight.Normal,
     override val style: FontStyle = FontStyle.Normal,
     @Suppress("OPT_IN_MARKER_ON_WRONG_TARGET")
@@ -182,14 +183,14 @@ class ResourceFont internal constructor(
     override val loadingStrategy: FontLoadingStrategy = loadingStrategy
 
     fun copy(
-        resId: Int = this.resId,
+        resId: ID = this.resId,
         weight: FontWeight = this.weight,
         style: FontStyle = this.style
     ): ResourceFont = copy(resId, weight, style, loadingStrategy = loadingStrategy)
 
     @ExperimentalTextApi
     fun copy(
-        resId: Int = this.resId,
+        resId: ID = this.resId,
         weight: FontWeight = this.weight,
         style: FontStyle = this.style,
         loadingStrategy: FontLoadingStrategy = this.loadingStrategy,
@@ -216,7 +217,7 @@ class ResourceFont internal constructor(
     }
 
     override fun hashCode(): Int {
-        var result = resId
+        var result = 0
         result = 31 * result + weight.hashCode()
         result = 31 * result + style.hashCode()
         result = 31 * result + loadingStrategy.hashCode()
@@ -258,7 +259,7 @@ class ResourceFont internal constructor(
 )
 @Stable
 fun Font(
-    resId: Int,
+    resId: ID,
     weight: FontWeight = FontWeight.Normal,
     style: FontStyle = FontStyle.Normal
 ): Font = ResourceFont(resId, weight, style, loadingStrategy = FontLoadingStrategy.Blocking)
@@ -285,7 +286,7 @@ fun Font(
  */
 @Stable
 fun Font(
-    resId: Int,
+    resId: ID,
     weight: FontWeight = FontWeight.Normal,
     style: FontStyle = FontStyle.Normal,
     loadingStrategy: FontLoadingStrategy = FontLoadingStrategy.Blocking
@@ -293,7 +294,7 @@ fun Font(
 
 @ExperimentalTextApi
 fun Font(
-    resId: Int,
+    resId: ID,
     weight: FontWeight = FontWeight.Normal,
     style: FontStyle = FontStyle.Normal,
     loadingStrategy: FontLoadingStrategy = FontLoadingStrategy.Blocking,

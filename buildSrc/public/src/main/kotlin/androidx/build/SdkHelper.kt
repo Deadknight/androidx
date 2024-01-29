@@ -49,10 +49,10 @@ fun Project.getSdkDependency(): FileTree =
 
 /** Returns the root project's platform-specific SDK path as a file. */
 fun Project.getSdkPath(): File {
-    if (
+    /*if (
         rootProject.plugins.hasPlugin("AndroidXPlaygroundRootPlugin") ||
             System.getenv("COMPOSE_DESKTOP_GITHUB_BUILD") != null
-    ) {
+    ) {*/
         // This is not full checkout, use local settings instead.
         // https://developer.android.com/studio/command-line/variables
         // check for local.properties first
@@ -69,7 +69,7 @@ fun Project.getSdkPath(): File {
             }
         }
         return getSdkPathFromEnvironmentVariable()
-    }
+   /* }
     val os = getOperatingSystem()
     return if (os == OperatingSystem.WINDOWS) {
         getSdkPathFromEnvironmentVariable()
@@ -78,7 +78,7 @@ fun Project.getSdkPath(): File {
 
         // By convention, the SDK prebuilts live under the root checkout directory.
         File(project.getCheckoutRoot(), "prebuilts/fullsdk-$platform")
-    }
+    }*/
 }
 
 /** @return [File] representing the path stored in [envValue] if it exists, `null` otherwise. */

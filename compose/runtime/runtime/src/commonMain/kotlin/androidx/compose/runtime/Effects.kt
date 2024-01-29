@@ -390,11 +390,12 @@ fun LaunchedEffect(
 private class LeftCompositionCancellationException : CancellationException(
     "The coroutine scope left the composition"
 ) {
-    override fun fillInStackTrace(): Throwable {
+    //TODO:Removed for ios
+    /*override fun fillInStackTrace(): Throwable {
         // Avoid null.clone() on Android <= 6.0 when accessing stackTrace
         stackTrace = emptyArray()
         return this
-    }
+    }*/
 }
 
 /**

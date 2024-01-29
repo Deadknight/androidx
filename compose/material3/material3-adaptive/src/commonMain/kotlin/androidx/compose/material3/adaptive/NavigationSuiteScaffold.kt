@@ -57,6 +57,7 @@ import androidx.compose.ui.layout.Layout
 import androidx.compose.ui.util.fastForEach
 import androidx.compose.ui.util.fastMap
 import androidx.compose.ui.util.fastMaxOfOrNull
+import kotlin.jvm.JvmInline
 
 /**
  * The Navigation Suite Scaffold wraps the provided content and places the adequate provided

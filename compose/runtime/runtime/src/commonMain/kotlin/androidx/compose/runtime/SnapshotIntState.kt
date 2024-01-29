@@ -27,6 +27,9 @@ import androidx.compose.runtime.snapshots.StateRecord
 import androidx.compose.runtime.snapshots.overwritable
 import androidx.compose.runtime.snapshots.readable
 import androidx.compose.runtime.snapshots.withCurrent
+import kotlin.jvm.JvmName
+import kotlin.jvm.JvmMultifileClass
+import androidx.compose.runtime.internal.JvmDefaultWithCompatibility
 import kotlin.reflect.KProperty
 
 /**

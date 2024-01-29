@@ -79,6 +79,7 @@ import kotlin.math.min
 // The public API refers only to Index values. Address values are internal.
 
 internal class SlotTable : CompositionData, Iterable<CompositionGroup> {
+    val lock = SyncLock()
     /**
      * An array to store group information that is stored as groups of [Group_Fields_Size]
      * elements of the array. The [groups] array can be thought of as an array of an inline
@@ -266,7 +267,7 @@ internal class SlotTable : CompositionData, Iterable<CompositionGroup> {
         runtimeCheck(reader.table === this && readers > 0) { "Unexpected reader close()" }
         readers--
         if (sourceInformationMap != null) {
-            synchronized(this) {
+            synchronized(lock) {
                 val thisMap = this.sourceInformationMap
                 if (thisMap != null) {
                     thisMap.putAll(sourceInformationMap)

@@ -23,6 +23,7 @@ import androidx.compose.runtime.DisallowComposableCalls
 import androidx.compose.runtime.ExperimentalComposeApi
 import androidx.compose.runtime.InternalComposeApi
 import androidx.compose.runtime.SnapshotThreadLocal
+import androidx.compose.runtime.SyncLock
 import androidx.compose.runtime.collection.IdentityArraySet
 import androidx.compose.runtime.internal.JvmDefaultWithCompatibility
 import androidx.compose.runtime.synchronized
@@ -1708,7 +1709,7 @@ private val threadSnapshot = SnapshotThreadLocal<Snapshot>()
  * of the fields below.
  */
 @PublishedApi
-internal val lock = Any()
+internal val lock = SyncLock()
 
 @PublishedApi
 internal inline fun <T> sync(block: () -> T): T = synchronized(lock, block)

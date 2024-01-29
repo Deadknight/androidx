@@ -23,6 +23,7 @@ import androidx.compose.runtime.ReadOnlyComposable
 import androidx.compose.ui.R
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.util.ID
 import androidx.core.os.ConfigurationCompat
 import java.util.Locale
 
@@ -45,7 +46,7 @@ internal actual fun getString(string: Strings, vararg formatArgs: Any): String {
 
 @JvmInline
 @Immutable
-internal actual value class Strings constructor(val value: Int) {
+internal actual value class Strings constructor(val value: ID) {
     actual companion object {
         actual inline val DefaultErrorMessage get() = Strings(R.string.default_error_message)
         actual inline val ExposedDropdownMenu get() = Strings(R.string.dropdown_menu)

@@ -125,16 +125,16 @@ private fun FocusTargetNode.searchChildren(
     check(focusState == ActiveParent) {
         "This function should only be used within a parent that has focus."
     }
-    val children = MutableVector<FocusTargetNode>().apply {
+    val children = MutableVector<FocusTargetNode?>().apply {
         visitChildren(Nodes.FocusTarget) { add(it) }
     }
     children.sortWith(FocusableChildrenComparator)
     when (direction) {
         Next -> children.forEachItemAfter(focusedItem) { child ->
-            if (child.isEligibleForFocusSearch && child.forwardFocusSearch(onFound)) return true
+            if (child != null && child.isEligibleForFocusSearch && child.forwardFocusSearch(onFound)) return true
         }
         Previous -> children.forEachItemBefore(focusedItem) { child ->
-            if (child.isEligibleForFocusSearch && child.backwardFocusSearch(onFound)) return true
+            if (child != null && child.isEligibleForFocusSearch && child.backwardFocusSearch(onFound)) return true
         }
         else -> error(InvalidFocusDirection)
     }
@@ -151,22 +151,22 @@ private fun FocusTargetNode.searchChildren(
 private fun FocusTargetNode.pickChildForForwardSearch(
     onFound: (FocusTargetNode) -> Boolean
 ): Boolean {
-    val children = MutableVector<FocusTargetNode>().apply {
+    val children = MutableVector<FocusTargetNode?>().apply {
         visitChildren(Nodes.FocusTarget) { add(it) }
     }
     children.sortWith(FocusableChildrenComparator)
-    return children.any { it.isEligibleForFocusSearch && it.forwardFocusSearch(onFound) }
+    return children.any { it != null && it.isEligibleForFocusSearch && it.forwardFocusSearch(onFound) }
 }
 
 private fun FocusTargetNode.pickChildForBackwardSearch(
     onFound: (FocusTargetNode) -> Boolean
 ): Boolean {
-    val children = MutableVector<FocusTargetNode>().apply {
+    val children = MutableVector<FocusTargetNode?>().apply {
         visitChildren(Nodes.FocusTarget) { add(it) }
     }
     children.sortWith(FocusableChildrenComparator)
     children.forEachReversed {
-        if (it.isEligibleForFocusSearch && it.backwardFocusSearch(onFound)) {
+        if (it != null && it.isEligibleForFocusSearch && it.backwardFocusSearch(onFound)) {
             return true
         }
     }
@@ -218,7 +218,7 @@ private inline fun <T> MutableVector<T>.forEachItemBefore(item: T, action: (T) -
  * order index. This would be more expensive than sorting the items. In addition to this, sorting
  * the items makes the next focus search more efficient.
  */
-private object FocusableChildrenComparator : Comparator<FocusTargetNode> {
+private object FocusableChildrenComparator : Comparator<FocusTargetNode?> {
     override fun compare(
         focusTarget1: FocusTargetNode?,
         focusTarget2: FocusTargetNode?

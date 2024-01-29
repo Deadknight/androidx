@@ -66,6 +66,8 @@ import org.gradle.api.artifacts.CacheableRule
 import org.gradle.api.artifacts.ComponentMetadataContext
 import org.gradle.api.artifacts.ComponentMetadataRule
 import org.gradle.api.artifacts.Configuration
+import org.gradle.api.artifacts.type.ArtifactTypeDefinition
+import org.gradle.api.attributes.Attribute
 import org.gradle.api.component.SoftwareComponentFactory
 import org.gradle.api.file.DuplicatesStrategy
 import org.gradle.api.plugins.JavaPlugin
@@ -921,12 +923,45 @@ constructor(private val componentFactory: SoftwareComponentFactory) : Plugin<Pro
     }
 
     private fun Project.overrideKotlinNativeDependenciesUrlToLocalDirectory() {
+        // Create configuration that we'll use to load Compose compiler plugin
+        val configurationNative = project.configurations.create(COMPILER_NATIVE_PLUGIN_CONFIGURATION)
+        // Add Compose compiler plugin to kotlinPlugin configuration, making sure it works
+        // for Playground builds as well
+        project.dependencies.add(
+            COMPILER_NATIVE_PLUGIN_CONFIGURATION,
+            if (ProjectLayoutType.isPlayground(project)) {
+                AndroidXPlaygroundRootImplPlugin.projectOrArtifact(
+                    project.rootProject,
+                    ":compose:compiler:compiler"
+                )
+            } else {
+                project.rootProject.resolveProject(":compose:compiler:compiler")
+            }
+        )
+
+        val kotlinNativePlugin =
+            configurationNative.incoming
+                .artifactView { view ->
+                    view.attributes { attributes ->
+                        attributes.attribute(
+                            Attribute.of("artifactType", String::class.java),
+                            ArtifactTypeDefinition.JAR_TYPE
+                        )
+                    }
+                }
+                .files
+
+        val androidXComposeExtension =
+            project.extensions.findByType(AndroidXComposeNativeExtension::class.java)
+
         val konanPrebuiltsFolder = getKonanPrebuiltsFolder()
         // use relative path so it doesn't affect gradle remote cache.
         val relativeRootPath = konanPrebuiltsFolder.relativeTo(rootProject.projectDir).path
         val relativeProjectPath = konanPrebuiltsFolder.relativeTo(projectDir).path
         tasks.withType(KotlinNativeCompile::class.java).configureEach {
-            it.kotlinOptions.freeCompilerArgs +=
+            it.kotlinOptions.freeCompilerArgs += if(androidXComposeExtension != null)
+                listOf("-Xoverride-konan-properties=dependenciesUrl=file:$relativeRootPath", "-Xplugin=${kotlinNativePlugin.first()}")
+            else
                 listOf("-Xoverride-konan-properties=dependenciesUrl=file:$relativeRootPath")
         }
         tasks.withType(CInteropProcess::class.java).configureEach {

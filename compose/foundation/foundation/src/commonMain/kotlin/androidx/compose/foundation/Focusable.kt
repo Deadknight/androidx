@@ -22,6 +22,7 @@ import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.relocation.BringIntoViewRequester
 import androidx.compose.foundation.relocation.BringIntoViewRequesterNode
 import androidx.compose.runtime.Stable
+import androidx.compose.runtime.identityHashCode
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusEventModifierNode
 import androidx.compose.ui.focus.FocusProperties
@@ -140,7 +141,7 @@ private val FocusableInNonTouchModeElement =
 
         override fun update(node: FocusableInNonTouchMode) {}
 
-        override fun hashCode(): Int = System.identityHashCode(this)
+        override fun hashCode(): Int = identityHashCode(this)
 
         override fun equals(other: Any?): Boolean = this === other
 

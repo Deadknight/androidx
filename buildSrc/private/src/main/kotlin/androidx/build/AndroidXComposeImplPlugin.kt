@@ -34,6 +34,7 @@ import org.gradle.kotlin.dsl.create
 import org.jetbrains.kotlin.gradle.plugin.KotlinBasePluginWrapper
 import org.jetbrains.kotlin.gradle.plugin.KotlinMultiplatformPluginWrapper
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
+import org.jetbrains.kotlin.gradle.tasks.KotlinNativeCompile
 
 const val composeSourceOption =
     "plugin:androidx.compose.compiler.plugins.kotlin:sourceInformation=true"
@@ -207,6 +208,7 @@ private fun configureComposeCompilerPlugin(project: Project, extension: AndroidX
                 project.rootProject.resolveProject(":compose:compiler:compiler")
             }
         )
+
         val kotlinPlugin =
             configuration.incoming
                 .artifactView { view ->

@@ -366,7 +366,7 @@ private fun BottomSheetScaffoldLayout(
 
         layout(layoutWidth, layoutHeight) {
             val sheetOffsetY = sheetOffset().roundToInt()
-            val sheetOffsetX = Integer.max(0, (layoutWidth - sheetPlaceable.width) / 2)
+            val sheetOffsetX = kotlin.math.max(0, (layoutWidth - sheetPlaceable.width) / 2)
 
             val snackbarOffsetX = (layoutWidth - snackbarPlaceable.width) / 2
             val snackbarOffsetY = when (sheetState.currentValue) {

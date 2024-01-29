@@ -67,6 +67,8 @@ constructor(private val fileSystemOperations: FileSystemOperations) : Plugin<Pro
         val cachedGoldenRootDirectory = project.goldenRootDirectory
         val cachedReportDirectory = reportDirectory
         val android = project.the<BaseExtension>()
+        if(android.namespace == null)
+            android.namespace = "default"
         val packageName =
             requireNotNull(android.namespace) { "android.namespace must be set for Paparazzi" }
 

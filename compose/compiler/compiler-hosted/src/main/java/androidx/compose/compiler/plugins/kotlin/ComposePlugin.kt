@@ -296,6 +296,7 @@ class ComposePluginRegistrar : org.jetbrains.kotlin.compiler.plugin.ComponentReg
         }
 
         fun registerCommonExtensions(project: Project) {
+            println(project.toString())
             StorageComponentContainerContributor.registerExtension(
                 project,
                 ComposableCallChecker()

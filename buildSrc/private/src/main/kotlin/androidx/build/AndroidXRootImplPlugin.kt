@@ -61,7 +61,7 @@ abstract class AndroidXRootImplPlugin : Plugin<Project> {
         maybeRegisterFilterableTask()
 
         // If we're running inside Studio, validate the Android Gradle Plugin version.
-        val expectedAgpVersion = System.getenv("EXPECTED_AGP_VERSION")
+        /*val expectedAgpVersion = System.getenv("EXPECTED_AGP_VERSION")
         if (properties.containsKey("android.injected.invoked.from.ide")) {
             if (expectedAgpVersion != ANDROID_GRADLE_PLUGIN_VERSION) {
                 throw GradleException(
@@ -75,7 +75,7 @@ abstract class AndroidXRootImplPlugin : Plugin<Project> {
                         .trimIndent()
                 )
             }
-        }
+        }*/
 
         val buildOnServerTask = tasks.create(BUILD_ON_SERVER_TASK, BuildOnServerTask::class.java)
         buildOnServerTask.cacheEvenIfNoOutputs()

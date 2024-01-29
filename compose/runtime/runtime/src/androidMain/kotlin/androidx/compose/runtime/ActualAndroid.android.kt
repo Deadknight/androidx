@@ -115,3 +115,5 @@ internal actual fun logError(message: String, e: Throwable) {
 }
 
 internal actual val MainThreadId: Long = Looper.getMainLooper()?.thread?.id ?: -1
+
+actual typealias ThreadContextElement<S> = kotlinx.coroutines.ThreadContextElement<S>

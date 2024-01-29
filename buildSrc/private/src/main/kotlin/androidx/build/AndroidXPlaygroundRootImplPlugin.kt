@@ -219,6 +219,7 @@ class AndroidXPlaygroundRootImplPlugin : Plugin<Project> {
                             // Last element is the artifact.
                             .dropLast(1)
                             .joinToString(".")
+                    println("lib " + "androidx.$group:${sections.last()}:$SNAPSHOT_MARKER")
                     return "androidx.$group:${sections.last()}:$SNAPSHOT_MARKER"
                 }
 

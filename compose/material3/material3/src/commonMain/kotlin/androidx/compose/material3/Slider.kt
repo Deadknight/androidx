@@ -99,6 +99,7 @@ import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.launch
+import kotlin.jvm.JvmInline
 
 /**
  * <a href="https://m3.material.io/components/sliders/overview" class="external" target="_blank">Material Design slider</a>.

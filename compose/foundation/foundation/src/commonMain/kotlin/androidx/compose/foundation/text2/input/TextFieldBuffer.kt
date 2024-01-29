@@ -20,7 +20,13 @@ import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.text2.input.TextFieldBuffer.ChangeList
 import androidx.compose.foundation.text2.input.internal.ChangeTracker
 import androidx.compose.foundation.text2.input.internal.PartialGapBuffer
+import androidx.compose.foundation.text2.input.internal.codePointCount
 import androidx.compose.ui.text.TextRange
+import kotlin.Char.Companion.MAX_HIGH_SURROGATE
+import kotlin.Char.Companion.MAX_LOW_SURROGATE
+import kotlin.Char.Companion.MIN_HIGH_SURROGATE
+import kotlin.Char.Companion.MIN_LOW_SURROGATE
+import kotlin.jvm.JvmName
 
 /**
  * A text buffer that can be edited, similar to [StringBuilder].
@@ -73,7 +79,7 @@ class TextFieldBuffer internal constructor(
     /**
      * The number of codepoints in the text field. This will be equal to or less than [length].
      */
-    val codepointLength: Int get() = Character.codePointCount(buffer, 0, length)
+    val codepointLength: Int get() = buffer.codePointCount()
 
     /**
      * The [ChangeList] represents the changes made to this value and is inherently mutable. This

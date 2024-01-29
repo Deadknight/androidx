@@ -19,6 +19,7 @@ package androidx.compose.ui.node
 
 import kotlin.math.abs
 import kotlin.math.min
+import kotlin.jvm.JvmInline
 
 internal interface DiffCallback {
     fun areItemsTheSame(oldIndex: Int, newIndex: Int): Boolean

@@ -47,7 +47,7 @@ enum class PlatformGroup {
          * Do *not* enable [JS] unless you have read and understand this:
          * https://blog.jetbrains.com/kotlin/2021/10/important-ua-parser-js-exploit-and-kotlin-js/
          */
-        val enabledByDefault = listOf(JVM, DESKTOP)
+        val enabledByDefault = listOf(JVM, DESKTOP, MAC)
     }
 }
 
@@ -117,8 +117,7 @@ private fun Project.isKotlinNativeEnabled(): Boolean {
 
 /** Extension used to store parsed KMP configuration information. */
 private open class KmpPlatformsExtension(project: Project) {
-    val enabledKmpPlatforms =
-        parseTargetPlatformsFlag(project.findProperty(ENABLED_KMP_TARGET_PLATFORMS) as? String)
+    val enabledKmpPlatforms = parseTargetPlatformsFlag(project.findProperty(ENABLED_KMP_TARGET_PLATFORMS) as? String)
 }
 
 fun Project.enableJs(): Boolean = enabledKmpPlatforms.contains(PlatformGroup.JS)
@@ -133,4 +132,4 @@ fun Project.enableJvm(): Boolean = enabledKmpPlatforms.contains(PlatformGroup.JV
 
 fun Project.enableDesktop(): Boolean = enabledKmpPlatforms.contains(PlatformGroup.DESKTOP)
 
-fun Project.enableNative(): Boolean = enableMac() && enableLinux()
+fun Project.enableNative(): Boolean = enableMac() || enableLinux()

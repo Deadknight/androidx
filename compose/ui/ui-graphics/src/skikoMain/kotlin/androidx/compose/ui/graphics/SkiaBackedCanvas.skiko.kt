@@ -49,6 +49,9 @@ internal actual fun ActualCanvas(image: ImageBitmap): Canvas {
  */
 fun org.jetbrains.skia.Canvas.asComposeCanvas(): Canvas = SkiaBackedCanvas(this)
 
+val org.jetbrains.skia.Canvas.isHardwareAccelerated
+    get() = false
+
 actual val Canvas.nativeCanvas: NativeCanvas get() = (this as SkiaBackedCanvas).skia
 
 class SkiaBackedCanvas(val skia: org.jetbrains.skia.Canvas) : Canvas {

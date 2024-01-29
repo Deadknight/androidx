@@ -19,10 +19,12 @@ package androidx.compose.material3
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.Immutable
 import androidx.compose.runtime.ReadOnlyComposable
+import androidx.compose.ui.util.ID
+import kotlin.jvm.JvmInline
 
 @Immutable
 @JvmInline
-internal expect value class Strings constructor(val value: Int) {
+internal expect value class Strings constructor(val value: ID) {
     companion object {
         val NavigationMenu: Strings
         val CloseDrawer: Strings

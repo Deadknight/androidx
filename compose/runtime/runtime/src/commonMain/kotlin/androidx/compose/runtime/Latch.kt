@@ -31,7 +31,7 @@ import kotlinx.coroutines.suspendCancellableCoroutine
  */
 internal class Latch {
 
-    private val lock = Any()
+    private val lock = SyncLock()
     private var awaiters = mutableListOf<Continuation<Unit>>()
     private var spareList = mutableListOf<Continuation<Unit>>()
 

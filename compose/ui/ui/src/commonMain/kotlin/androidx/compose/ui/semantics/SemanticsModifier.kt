@@ -16,6 +16,7 @@
 
 package androidx.compose.ui.semantics
 
+import androidx.compose.runtime.identityHashCode
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.internal.JvmDefaultWithCompatibility
 import androidx.compose.ui.node.ModifierNodeElement
@@ -56,7 +57,7 @@ internal object EmptySemanticsElement :
         // Nothing to inspect.
     }
 
-    override fun hashCode(): Int = System.identityHashCode(this)
+    override fun hashCode(): Int = identityHashCode(this)
     override fun equals(other: Any?) = (other === this)
 }
 

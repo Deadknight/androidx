@@ -89,7 +89,7 @@ case "`uname`" in
     msys=true
     ;;
 esac
-platform_suffix="x86"
+platform_suffix=""x86"
 case "$(arch)" in
   arm64* )
     platform_suffix="arm64"

@@ -32,7 +32,7 @@ import org.jetbrains.skia.Typeface as SkTypeface
 import org.jetbrains.skia.paragraph.FontCollection
 import org.jetbrains.skia.paragraph.TypefaceFontProvider
 
-expect sealed class PlatformFont : Font {
+expect sealed class PlatformFont constructor() : Font {
     abstract val identity: String
     internal val cacheKey: String
 }
@@ -151,6 +151,8 @@ class FontLoader : Font.ResourceLoader {
 }
 
 class FontLoadResult(val typeface: SkTypeface?, val aliases: List<String>)
+
+internal expect val GenericFontFamiliesMapping : Map<String, List<String>>
 
 internal class FontCache {
     internal val fonts = FontCollection()

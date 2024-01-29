@@ -29,6 +29,7 @@ def desktopEnabled = KmpPlatformsKt.enableDesktop(project)
 androidXMultiplatform {
     android()
     if (desktopEnabled) desktop()
+    ios()
 
     defaultPlatform(PlatformIdentifier.ANDROID)
 
@@ -37,7 +38,8 @@ androidXMultiplatform {
             dependencies {
                 implementation(libs.kotlinStdlibCommon)
 
-                implementation("androidx.compose.runtime:runtime:1.2.1")
+                //implementation("androidx.compose.runtime:runtime:1.2.1")
+                implementation(project(":compose:runtime:runtime"))
                 implementation(project(":compose:ui:ui-util"))
             }
         }
@@ -70,6 +72,19 @@ androidXMultiplatform {
                 }
             }
         }
+
+        iosX64Main {}
+        iosArm64Main {}
+        iosSimulatorArm64Main {}
+        iosMain {
+            dependsOn(commonMain)
+            dependencies {
+                implementation(project(":compose:runtime:runtime"))
+            }
+        }
+        iosX64Main.dependsOn(iosMain)
+        iosArm64Main.dependsOn(iosMain)
+        iosSimulatorArm64Main.dependsOn(iosMain)
 
         jvmTest {
             dependencies {

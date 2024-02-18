@@ -23,6 +23,7 @@ import View
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.DisposableEffect
+import androidx.compose.runtime.ProvidedValue
 import androidx.compose.runtime.Stable
 import androidx.compose.runtime.compositionLocalOf
 import androidx.compose.runtime.getValue
@@ -36,8 +37,10 @@ import androidx.compose.ui.res.ImageVectorCache
 import applicationContext
 import cocoapods.Topping.ComponentCallbacksProtocol
 import cocoapods.Topping.Configuration
+import cocoapods.Topping.ViewModelStoreOwnerProtocol
 import configuration
 import context
+import findViewTreeViewModelStoreOwner
 import kotlinx.cinterop.ExperimentalForeignApi
 import kotlinx.cinterop.ObjCAction
 import kotlinx.cinterop.useContents
@@ -95,6 +98,30 @@ val LocalView = staticCompositionLocalOf<View> {
 
 val LocalKeyboardOverlapHeight = staticCompositionLocalOf<KeyboardObserver> {
     noLocalProvidedFor("LocalKeyboardOverlapHeight")
+}
+
+public object LocalViewModelStoreOwner {
+    private val LocalViewModelStoreOwner =
+        compositionLocalOf<ViewModelStoreOwnerProtocol?> { null }
+
+    /**
+     * Returns current composition local value for the owner or `null` if one has not
+     * been provided nor is one available via [findViewTreeViewModelStoreOwner] on the
+     * current [LocalView].
+     */
+    public val current: ViewModelStoreOwnerProtocol?
+        @Composable
+        get() = LocalViewModelStoreOwner.current
+            ?: LocalView.current.findViewTreeViewModelStoreOwner()
+
+    /**
+     * Associates a [LocalViewModelStoreOwner] key to a value in a call to
+     * [CompositionLocalProvider].
+     */
+    public infix fun provides(viewModelStoreOwner: ViewModelStoreOwnerProtocol):
+        ProvidedValue<ViewModelStoreOwnerProtocol?> {
+        return LocalViewModelStoreOwner.provides(viewModelStoreOwner)
+    }
 }
 
 @Composable

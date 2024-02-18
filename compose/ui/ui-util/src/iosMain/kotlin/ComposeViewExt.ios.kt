@@ -39,6 +39,7 @@ import cocoapods.Topping.LGViewGroup
 import cocoapods.Topping.LGXmlParser
 import cocoapods.Topping.Lifecycle
 import cocoapods.Topping.LifecycleOwnerProtocol
+import cocoapods.Topping.LuaBundle
 import cocoapods.Topping.LuaColor
 import cocoapods.Topping.LuaComponentDialog
 import cocoapods.Topping.LuaContext
@@ -89,6 +90,7 @@ import platform.Foundation.NSArray
 import platform.Foundation.NSAttributedString
 import platform.Foundation.NSCoder
 import platform.Foundation.NSCodingProtocol
+import platform.Foundation.NSCopyingProtocol
 import platform.Foundation.NSData
 import platform.Foundation.NSDate
 import platform.Foundation.NSJSONReadingMutableContainers
@@ -166,8 +168,28 @@ typealias LifecycleOwner = LifecycleOwnerProtocol
 typealias SavedStateRegistryOwner = SavedStateRegistryOwnerProtocol
 typealias ExtractedText = NSTextRange
 typealias Outline = Rect
-typealias Bundle = MutableMap<String, Any>
+typealias Bundle = LuaBundle
 typealias AndroidKeyEvent = UIKey
+
+//////////////////////
+
+fun LuaBundle.containsKey(key: String) : Boolean {
+    return bundle?.objectForKey(key) != null
+}
+
+fun LuaBundle.putAll(key: LuaBundle) : Boolean {
+    key.bundle?.allKeys()?.forEach { keyP ->
+        val value = key.bundle?.objectForKey(keyP)
+        value?.let {
+            bundle?.setObject(value, keyP as NSCopyingProtocol)
+        }
+    }
+    return bundle?.objectForKey(key) != null
+}
+
+operator fun LuaBundle.get(index: String): Any? {
+    return bundle?.objectForKey(index)
+}
 
 //////////////////////
 
@@ -310,7 +332,10 @@ val SavedStateRegistryOwnerProtocol.savedStateRegistry
     get() = getSavedStateRegistry()
 
 fun SavedStateRegistry.consumeRestoredStateForKey(key: String): Map<Any?, *>? {
-    return consumeRestoredStateForKeyWithKey(key)
+    val bundle = consumeRestoredStateForKeyWithKey(key)
+    if(bundle == null)
+        return null
+    return bundle.getObject("savedStateProvider") as Map<Any?, *>?
 }
 
 fun SavedStateRegistry.registerSavedStateProvider(key: String, provider: SavedStateProviderProtocol) {
@@ -319,8 +344,11 @@ fun SavedStateRegistry.registerSavedStateProvider(key: String, provider: SavedSt
 
 fun SavedStateRegistry.registerSavedStateProvider(key: String, block: () -> Map<Any?, *>) {
     val sspp = object : NSObject(), SavedStateProviderProtocol {
-        override fun saveState(): Map<Any?, *> {
-            return block()
+        override fun saveState(): LuaBundle {
+            val res = block()
+            val bundle = LuaBundle()
+            bundle.putObject("savedStateProvider", res)
+            return bundle
         }
     }
     registerSavedStateProviderWithKey(key, sspp)

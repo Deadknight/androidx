@@ -1,0 +1,158 @@
+/*
+ * Copyright 2020 The Android Open Source Project
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+import androidx.build.KmpPlatformsKt
+import androidx.build.LibraryType
+import androidx.build.PlatformIdentifier
+
+plugins {
+    id("AndroidXPlugin")
+    id("com.android.library")
+    id("AndroidXComposePlugin")
+    id("AndroidXComposeNativePlugin")
+    id("org.jetbrains.kotlin.native.cocoapods")
+}
+
+def desktopEnabled = KmpPlatformsKt.enableDesktop(project)
+
+androidXMultiplatform {
+    android()
+    if (desktopEnabled) desktop()
+    ios()
+
+    defaultPlatform(PlatformIdentifier.ANDROID)
+
+    sourceSets {
+        commonMain {
+            dependencies {
+                implementation(libs.kotlinStdlibCommon)
+                implementation(project(":compose:animation:animation"))
+                implementation(project(":compose:runtime:runtime"))
+                implementation(project(":compose:ui:ui"))
+                api(project(":compose:runtime:runtime-saveable"))
+            }
+        }
+
+        commonTest {
+            dependencies {
+                implementation(kotlin("test-junit"))
+            }
+        }
+
+        jvmMain {
+            dependsOn(commonMain)
+            dependencies {
+                implementation(libs.kotlinStdlib)
+            }
+        }
+
+
+        androidMain {
+            dependsOn(jvmMain)
+            dependencies {
+                implementation(libs.kotlinStdlib)
+                implementation("androidx.compose.foundation:foundation-layout:1.5.1")
+                api("androidx.activity:activity-compose:1.7.0")
+                api("androidx.compose.animation:animation:1.5.1")
+                api("androidx.compose.runtime:runtime:1.5.1")
+                api("androidx.compose.runtime:runtime-saveable:1.5.1")
+                api("androidx.compose.ui:ui:1.5.1")
+                api("androidx.lifecycle:lifecycle-viewmodel-compose:2.6.2")
+                api(projectOrArtifact(":navigation:navigation-runtime-ktx"))
+                api(projectOrArtifact(":navigation:navigation-compose"))
+            }
+        }
+
+        if (desktopEnabled) {
+            desktopMain {
+                dependsOn(jvmMain)
+            }
+        }
+
+        iosX64Main {}
+        iosArm64Main {}
+        iosSimulatorArm64Main {}
+        iosMain {
+            dependsOn(commonMain)
+            dependencies {
+                implementation(project(":collection:collection"))
+                api(libs.kotlinCoroutinesCore)
+                implementation(libs.atomicFu)
+            }
+        }
+        iosX64Main.dependsOn(iosMain)
+        iosArm64Main.dependsOn(iosMain)
+        iosSimulatorArm64Main.dependsOn(iosMain)
+
+        jvmTest {
+            dependencies {
+            }
+        }
+
+        androidInstrumentedTest {
+            dependsOn(jvmTest)
+            dependencies {
+            }
+        }
+
+        androidUnitTest {
+            dependsOn(jvmTest)
+            dependencies {
+                implementation(libs.truth)
+            }
+        }
+
+        if (desktopEnabled) {
+            desktopTest {
+                dependsOn(jvmTest)
+            }
+        }
+    }
+}
+
+androidx {
+    name = "Compose Navigation"
+    type = LibraryType.PUBLISHED_LIBRARY
+    inceptionYear = "2023"
+    description = "Internal Compose utilities used by other modules"
+    legacyDisableKotlinStrictApiMode = true
+}
+
+/*androidxCompose {
+    composeCompilerPluginEnabled = false
+}*/
+
+kotlin {
+    cocoapods {
+        version = "1.11.0"
+        ios.deploymentTarget = "13.0"
+        specRepos {
+            url("https://github.com/Deadknight/dk-specs.git")
+        }
+        pod("ToppingIOSKotlinHelper", "0.6.0")
+        pod("Topping", "0.6.0")
+        framework {
+            // ---> HERE: If true (or omitted) linking fails, missing symbols are from "Topping" dependency
+            // if false, then linking succeeds as per Kotlin 1.7 behaviour
+            isStatic = false
+            embedBitcode("disable")
+        }
+    }
+}
+
+android {
+    namespace "androidx.compose.ui.navigation"
+}

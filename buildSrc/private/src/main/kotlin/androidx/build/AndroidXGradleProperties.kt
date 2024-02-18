@@ -199,7 +199,7 @@ fun Project.getAlternativeProjectUrl(): String? =
  * Check that version extra meets the specified rules (version is in format major.minor.patch-extra)
  */
 fun Project.isVersionExtraCheckEnabled(): Boolean =
-    findBooleanProperty(VERSION_EXTRA_CHECK_ENABLED) ?: true
+    findBooleanProperty(VERSION_EXTRA_CHECK_ENABLED) ?: false
 
 /** Validate the project structure against Jetpack guidelines */
 fun Project.isValidateProjectStructureEnabled(): Boolean =

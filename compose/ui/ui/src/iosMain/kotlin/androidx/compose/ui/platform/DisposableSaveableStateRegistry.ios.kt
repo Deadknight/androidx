@@ -33,6 +33,7 @@ import androidx.compose.runtime.structuralEqualityPolicy
 import androidx.compose.ui.geometry.Size
 import consumeRestoredStateForKey
 import id
+import platform.Foundation.allKeys
 import registerSavedStateProvider
 import savedStateRegistry
 import unregisterSavedStateProvider
@@ -184,8 +185,8 @@ private val AcceptableClasses = arrayOf(
 @Suppress("DEPRECATION")
 private fun Bundle.toMapInternal(): Map<String, List<Any?>>? {
     val map = mutableMapOf<String, List<Any?>>()
-    this.keys.forEach { key ->
-        map[key] = this[key] as List<Any?>
+    this.bundle?.allKeys()?.forEach { key ->
+        map[key.toString()] = this.bundle?.objectForKey(key) as List<Any?>
     }
     return map
 }

@@ -25,7 +25,6 @@ plugins {
     id("com.android.library")
     id("AndroidXComposePlugin")
     id("AndroidXComposeNativePlugin")
-    id("org.jetbrains.kotlin.native.cocoapods")
 }
 
 def desktopEnabled = KmpPlatformsKt.enableDesktop(project)
@@ -236,6 +235,18 @@ dependencies {
     lintPublish(project(":compose:ui:ui-lint"))
 }
 
+kotlin {
+    compilerOptions {
+        optIn.addAll([
+                'kotlin.RequiresOptIn',
+                "kotlinx.cinterop.BetaInteropApi",
+                "kotlinx.cinterop.ExperimentalForeignApi",
+                "kotlin.experimental.ExperimentalNativeApi",
+                "org.jetbrains.kotlin.backend.konan.InternalKotlinNativeApi",
+        ])
+    }
+}
+
 androidx {
     name = "Compose UI"
     type = LibraryType.PUBLISHED_LIBRARY
@@ -247,24 +258,6 @@ androidx {
 if (desktopEnabled) {
     tasks.findByName("desktopTest").configure {
         systemProperties["GOLDEN_PATH"] = project.rootDir.absolutePath + "/../../golden"
-    }
-}
-
-kotlin {
-    cocoapods {
-        version = "1.11.0"
-        ios.deploymentTarget = "13.0"
-        specRepos {
-            url("https://github.com/Deadknight/dk-specs.git")
-        }
-        //pod("ToppingIOSKotlinHelper", "0.6.0")
-        pod("Topping", "0.6.0")
-        framework {
-            // ---> HERE: If true (or omitted) linking fails, missing symbols are from "Topping" dependency
-            // if false, then linking succeeds as per Kotlin 1.7 behaviour
-            isStatic = false
-            embedBitcode("disable")
-        }
     }
 }
 

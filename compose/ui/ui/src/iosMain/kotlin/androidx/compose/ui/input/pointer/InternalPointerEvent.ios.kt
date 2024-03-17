@@ -18,7 +18,7 @@ package androidx.compose.ui.input.pointer
 
 import androidx.collection.LongSparseArray
 import androidx.compose.ui.util.fastFirstOrNull
-import cocoapods.Topping.TIOSKHMotionEvent
+import cocoapods.ToppingCompose.TIOSKHMotionEvent
 
 internal actual class InternalPointerEvent actual constructor(
     actual val changes: LongSparseArray<PointerInputChange>,

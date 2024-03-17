@@ -16,6 +16,6 @@
 
 package androidx.compose.ui.viewinterop
 
-import cocoapods.Topping.LGView
+import cocoapods.ToppingCompose.LGView
 
 actual typealias InteropView = LGView

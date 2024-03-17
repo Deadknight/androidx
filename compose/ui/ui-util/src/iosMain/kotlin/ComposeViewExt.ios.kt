@@ -20,56 +20,56 @@ import androidx.collection.SparseArrayCompat
 import androidx.collection.forEach
 import androidx.collection.set
 import androidx.compose.ui.util.ID
-import cocoapods.Topping.ComponentCallbacksProtocol
-import cocoapods.Topping.DisplayMetrics
-import cocoapods.Topping.GRAVITY_BOTTOM
-import cocoapods.Topping.GRAVITY_END
-import cocoapods.Topping.GRAVITY_START
-import cocoapods.Topping.GRAVITY_TOP
-import cocoapods.Topping.Gravity
-import cocoapods.Topping.LGColorParser
-import cocoapods.Topping.LGColorState
-import cocoapods.Topping.LGDrawableParser
-import cocoapods.Topping.LGDrawableReturn
-import cocoapods.Topping.LGFontParser
-import cocoapods.Topping.LGFontReturn
-import cocoapods.Topping.LGValueParser
-import cocoapods.Topping.LGView
-import cocoapods.Topping.LGViewGroup
-import cocoapods.Topping.LGXmlParser
-import cocoapods.Topping.Lifecycle
-import cocoapods.Topping.LifecycleOwnerProtocol
-import cocoapods.Topping.LuaBundle
-import cocoapods.Topping.LuaColor
-import cocoapods.Topping.LuaComponentDialog
-import cocoapods.Topping.LuaContext
-import cocoapods.Topping.LuaForm
-import cocoapods.Topping.LuaMenu
-import cocoapods.Topping.LuaResource
-import cocoapods.Topping.MeasureSpec
-import cocoapods.Topping.SavedStateProviderProtocol
-import cocoapods.Topping.SavedStateRegistry
-import cocoapods.Topping.SavedStateRegistryOwnerProtocol
-import cocoapods.Topping.TIOSKHKotlinArray
-import cocoapods.Topping.TIOSKHKotlinIntArray
-import cocoapods.Topping.TIOSKHMotionEvent
-import cocoapods.Topping.TIOSKHMotionEventCompanion
-import cocoapods.Topping.TIOSKHMotionEventPointerCoords
-import cocoapods.Topping.TIOSKHMotionEventPointerProperties
-import cocoapods.Topping.TIOSKHSkikoClipMode
-import cocoapods.Topping.TIOSKHTCanvasProtocol
-import cocoapods.Topping.TIOSKHTDisplayMetrics
-import cocoapods.Topping.TIOSKHViewGroupLayoutParams
-import cocoapods.Topping.ToppingResources
-import cocoapods.Topping.ViewModelStoreOwnerProtocol
-import cocoapods.ToppingIOSKotlinHelper.TIOSKHCoreXmlBufferedReader
-import cocoapods.ToppingIOSKotlinHelper.TIOSKHPoint
-import cocoapods.ToppingIOSKotlinHelper.TIOSKHRect
-import cocoapods.ToppingIOSKotlinHelper.TIOSKHTColorCompanion
-import cocoapods.ToppingIOSKotlinHelper.TIOSKHTResourcesProtocol
-import cocoapods.ToppingIOSKotlinHelper.TIOSKHTViewCompanion
-import cocoapods.ToppingIOSKotlinHelper.TIOSKHTypedValueCompanion
-import cocoapods.ToppingIOSKotlinHelper.TIOSKHXmlCompanion
+import cocoapods.ToppingCompose.ComponentCallbacksProtocol
+import cocoapods.ToppingCompose.DisplayMetrics
+import cocoapods.ToppingCompose.GRAVITY_BOTTOM
+import cocoapods.ToppingCompose.GRAVITY_END
+import cocoapods.ToppingCompose.GRAVITY_START
+import cocoapods.ToppingCompose.GRAVITY_TOP
+import cocoapods.ToppingCompose.Gravity
+import cocoapods.ToppingCompose.LGColorParser
+import cocoapods.ToppingCompose.LGColorState
+import cocoapods.ToppingCompose.LGDrawableParser
+import cocoapods.ToppingCompose.LGDrawableReturn
+import cocoapods.ToppingCompose.LGFontParser
+import cocoapods.ToppingCompose.LGFontReturn
+import cocoapods.ToppingCompose.LGValueParser
+import cocoapods.ToppingCompose.LGView
+import cocoapods.ToppingCompose.LGViewGroup
+import cocoapods.ToppingCompose.LGXmlParser
+import cocoapods.ToppingCompose.Lifecycle
+import cocoapods.ToppingCompose.LifecycleOwnerProtocol
+import cocoapods.ToppingCompose.LuaBundle
+import cocoapods.ToppingCompose.LuaColor
+import cocoapods.ToppingCompose.LuaComponentDialog
+import cocoapods.ToppingCompose.LuaContext
+import cocoapods.ToppingCompose.LuaForm
+import cocoapods.ToppingCompose.LuaMenu
+import cocoapods.ToppingCompose.LuaResource
+import cocoapods.ToppingCompose.MeasureSpec
+import cocoapods.ToppingCompose.SavedStateProviderProtocol
+import cocoapods.ToppingCompose.SavedStateRegistry
+import cocoapods.ToppingCompose.SavedStateRegistryOwnerProtocol
+import cocoapods.ToppingCompose.TIOSKHKotlinArray
+import cocoapods.ToppingCompose.TIOSKHKotlinIntArray
+import cocoapods.ToppingCompose.TIOSKHMotionEvent
+import cocoapods.ToppingCompose.TIOSKHMotionEventCompanion
+import cocoapods.ToppingCompose.TIOSKHMotionEventPointerCoords
+import cocoapods.ToppingCompose.TIOSKHMotionEventPointerProperties
+import cocoapods.ToppingCompose.TIOSKHSkikoClipMode
+import cocoapods.ToppingCompose.TIOSKHTCanvasProtocol
+import cocoapods.ToppingCompose.TIOSKHTDisplayMetrics
+import cocoapods.ToppingCompose.TIOSKHViewGroupLayoutParams
+import cocoapods.ToppingCompose.ToppingResources
+import cocoapods.ToppingCompose.ViewModelStoreOwnerProtocol
+import cocoapods.ToppingCompose.TIOSKHCoreXmlBufferedReader
+import cocoapods.ToppingCompose.TIOSKHPoint
+import cocoapods.ToppingCompose.TIOSKHRect
+import cocoapods.ToppingCompose.TIOSKHTColorCompanion
+import cocoapods.ToppingCompose.TIOSKHTResourcesProtocol
+import cocoapods.ToppingCompose.TIOSKHTViewCompanion
+import cocoapods.ToppingCompose.TIOSKHTypedValueCompanion
+import cocoapods.ToppingCompose.TIOSKHXmlCompanion
 import kotlinx.atomicfu.locks.SynchronizedObject
 import kotlinx.atomicfu.locks.synchronized
 import kotlinx.cinterop.ExperimentalForeignApi
@@ -528,20 +528,20 @@ object SystemClock {
 ///////////////////////
 
 @OptIn(ExperimentalForeignApi::class)
-fun <R> Function<R>.toLuaTranslator(obj: R?): cocoapods.Topping.LuaTranslator {
+fun <R> Function<R>.toLuaTranslator(obj: R?): cocoapods.ToppingCompose.LuaTranslator {
     val kt = KTWrap()
-    val lt: cocoapods.Topping.LuaTranslator = cocoapods.Topping.LuaTranslator()
+    val lt: cocoapods.ToppingCompose.LuaTranslator = cocoapods.ToppingCompose.LuaTranslator()
     lt.nobj = StableRef.create(kt).asCPointer()
     lt.kFRetF = kt.Init(obj, this)
     return lt
 }
 
 @OptIn(ExperimentalForeignApi::class)
-fun <R> Function<R>?.toLuaTranslator(obj: R?): cocoapods.Topping.LuaTranslator? {
+fun <R> Function<R>?.toLuaTranslator(obj: R?): cocoapods.ToppingCompose.LuaTranslator? {
     if (this == null)
         return null
     val kt = KTWrap()
-    val lt: cocoapods.Topping.LuaTranslator = cocoapods.Topping.LuaTranslator()
+    val lt: cocoapods.ToppingCompose.LuaTranslator = cocoapods.ToppingCompose.LuaTranslator()
     lt.nobj = StableRef.create(kt).asCPointer()
     lt.kFRetF = kt.Init(obj, this)
     return lt
@@ -692,8 +692,8 @@ fun TIOSKHTResourcesProtocol.getValue(id: String, typedValue: TypedValue, resolv
 typealias Point = TIOSKHPoint
 
 fun TIOSKHPoint.set(x: Int, y: Int) {
-    this.x = x
-    this.y = y
+    this.setX(x)
+    this.setY(y)
 }
 
 ///////////////////////
@@ -1160,13 +1160,13 @@ var LGView.scrollY
     }
 
 val LGView.Companion.VISIBLE
-    get() = TIOSKHTViewCompanion.shared.VISIBLE
+    get() = TIOSKHTViewCompanion.shared().VISIBLE()
 
 val LGView.Companion.INVISIBLE
-    get() = TIOSKHTViewCompanion.shared.INVISIBLE
+    get() = TIOSKHTViewCompanion.shared().INVISIBLE()
 
 val LGView.Companion.GONE
-    get() = TIOSKHTViewCompanion.shared.GONE
+    get() = TIOSKHTViewCompanion.shared().GONE()
 
 //////////////////////
 
@@ -1226,16 +1226,16 @@ typealias XmlPullParser = TIOSKHCoreXmlBufferedReader
 typealias XmlResourceParser = TIOSKHCoreXmlBufferedReader
 
 val TIOSKHCoreXmlBufferedReader.Companion.START_DOCUMENT
-    get() = cocoapods.ToppingIOSKotlinHelper.TIOSKHCoreEventType.startDocument
+    get() = cocoapods.ToppingCompose.TIOSKHCoreEventType.startDocument()
 
 val TIOSKHCoreXmlBufferedReader.Companion.END_DOCUMENT
-    get() = cocoapods.ToppingIOSKotlinHelper.TIOSKHCoreEventType.endDocument
+    get() = cocoapods.ToppingCompose.TIOSKHCoreEventType.endDocument()
 
 val TIOSKHCoreXmlBufferedReader.Companion.END_TAG
-    get() = cocoapods.ToppingIOSKotlinHelper.TIOSKHCoreEventType.endElement
+    get() = cocoapods.ToppingCompose.TIOSKHCoreEventType.endElement()
 
 val TIOSKHCoreXmlBufferedReader.Companion.START_TAG
-    get() = cocoapods.ToppingIOSKotlinHelper.TIOSKHCoreEventType.startElement
+    get() = cocoapods.ToppingCompose.TIOSKHCoreEventType.startElement()
 
 val TIOSKHCoreXmlBufferedReader.depth
     get() = depth()
@@ -1947,7 +1947,7 @@ fun LuaColor.willDraw(): Boolean {
 
 var LuaColor.color : Int
     get() {
-        return TIOSKHTColorCompanion.shared.toIntInternalColor(this.colorValue!!)
+        return TIOSKHTColorCompanion.shared().toIntInternalColor(this.colorValue!!)
     }
     set(value) {
         colorValue = LuaColor.colorFromInt(value)?.colorValue
@@ -2023,7 +2023,7 @@ class Resources(val context: LuaContext)
     }
 
     fun getXml(resId: ID): TIOSKHCoreXmlBufferedReader {
-        return TIOSKHXmlCompanion.shared.getBufferedReaderValue(LGXmlParser.getInstance()!!.getXml(resId)!!)
+        return TIOSKHXmlCompanion.shared().getBufferedReaderValue(LGXmlParser.getInstance()!!.getXml(resId)!!)
     }
 }
 
@@ -2033,15 +2033,15 @@ class TypedValue {
     var string = ""
 
     companion object {
-        val TYPE_ATTRIBUTE: Int = TIOSKHTypedValueCompanion.shared.TYPE_ATTRIBUTE
-        val TYPE_DIMENSION: Int = TIOSKHTypedValueCompanion.shared.TYPE_DIMENSION
-        val TYPE_FLOAT: Int = TIOSKHTypedValueCompanion.shared.TYPE_FLOAT
-        val TYPE_FIRST_INT: Int = TIOSKHTypedValueCompanion.shared.TYPE_FIRST_INT
-        val TYPE_FIRST_COLOR_INT: Int = TIOSKHTypedValueCompanion.shared.TYPE_FIRST_COLOR_INT
-        val TYPE_INT_BOOLEAN: Int = TIOSKHTypedValueCompanion.shared.TYPE_INT_BOOLEAN
-        val TYPE_LAYOUT: Int = TIOSKHTypedValueCompanion.shared.TYPE_LAYOUT
-        val TYPE_XML: Int = TIOSKHTypedValueCompanion.shared.TYPE_XML
-        val TYPE_NULL: Int = TIOSKHTypedValueCompanion.shared.TYPE_NULL
+        val TYPE_ATTRIBUTE: Int = TIOSKHTypedValueCompanion.shared().TYPE_ATTRIBUTE()
+        val TYPE_DIMENSION: Int = TIOSKHTypedValueCompanion.shared().TYPE_DIMENSION()
+        val TYPE_FLOAT: Int = TIOSKHTypedValueCompanion.shared().TYPE_FLOAT()
+        val TYPE_FIRST_INT: Int = TIOSKHTypedValueCompanion.shared().TYPE_FIRST_INT()
+        val TYPE_FIRST_COLOR_INT: Int = TIOSKHTypedValueCompanion.shared().TYPE_FIRST_COLOR_INT()
+        val TYPE_INT_BOOLEAN: Int = TIOSKHTypedValueCompanion.shared().TYPE_INT_BOOLEAN()
+        val TYPE_LAYOUT: Int = TIOSKHTypedValueCompanion.shared().TYPE_LAYOUT()
+        val TYPE_XML: Int = TIOSKHTypedValueCompanion.shared().TYPE_XML()
+        val TYPE_NULL: Int = TIOSKHTypedValueCompanion.shared().TYPE_NULL()
     }
 }
 

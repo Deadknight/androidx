@@ -17,7 +17,7 @@
 package androidx.compose.ui.graphics.androidx.compose.ui.graphics
 
 import androidx.compose.ui.graphics.BlendMode
-import cocoapods.Topping.TIOSKHSkikoBlendMode
+import cocoapods.ToppingCompose.TIOSKHSkikoBlendMode
 
 internal fun BlendMode.toSkia() = when (this) {
     BlendMode.Clear -> TIOSKHSkikoBlendMode.clear()

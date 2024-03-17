@@ -16,10 +16,10 @@
 
 package androidx.compose.ui.graphics
 
-import cocoapods.Topping.TIOSKHSkikoColorFilter as SkiaColorFilter
+import cocoapods.ToppingCompose.TIOSKHSkikoColorFilter as SkiaColorFilter
 import androidx.compose.ui.graphics.androidx.compose.ui.graphics.toSkia
 import androidx.compose.ui.graphics.androidx.compose.ui.graphics.toTIOSKotlinFloatArray
-import cocoapods.Topping.TIOSKHSkikoColorMatrix
+import cocoapods.ToppingCompose.TIOSKHSkikoColorMatrix
 
 actual typealias NativeColorFilter = SkiaColorFilter
 

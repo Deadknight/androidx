@@ -173,6 +173,18 @@ dependencies {
     lintPublish project(":compose:material3:material3-lint")
 }
 
+kotlin {
+    compilerOptions {
+        optIn.addAll([
+                'kotlin.RequiresOptIn',
+                "kotlinx.cinterop.BetaInteropApi",
+                "kotlinx.cinterop.ExperimentalForeignApi",
+                "kotlin.experimental.ExperimentalNativeApi",
+                "org.jetbrains.kotlin.backend.konan.InternalKotlinNativeApi",
+        ])
+    }
+}
+
 androidx {
     name = "Compose Material3 Components"
     type = LibraryType.PUBLISHED_LIBRARY

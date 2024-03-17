@@ -17,11 +17,11 @@
 package androidx.lifecycle.compose.platform
 
 import UUID
-import cocoapods.Topping.Lifecycle
-import cocoapods.Topping.LifecycleEvent
-import cocoapods.Topping.LifecycleEventObserverProtocol
-import cocoapods.Topping.LifecycleOwnerProtocol
-import cocoapods.Topping.LifecycleState
+import cocoapods.ToppingCompose.Lifecycle
+import cocoapods.ToppingCompose.LifecycleEvent
+import cocoapods.ToppingCompose.LifecycleEventObserverProtocol
+import cocoapods.ToppingCompose.LifecycleOwnerProtocol
+import cocoapods.ToppingCompose.LifecycleState
 import currentState
 import kotlin.coroutines.resume
 import kotlinx.coroutines.CoroutineScope

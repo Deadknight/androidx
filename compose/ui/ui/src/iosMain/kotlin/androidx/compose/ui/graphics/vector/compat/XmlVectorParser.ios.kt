@@ -51,9 +51,9 @@ import XmlPullParserException
 import color
 import density
 import androidx.compose.ui.unit.dp
-import cocoapods.Topping.LGColorState
-import cocoapods.Topping.LuaColor
-import cocoapods.Topping.TIOSKHTColorCompanion
+import cocoapods.ToppingCompose.LGColorState
+import cocoapods.ToppingCompose.LuaColor
+import cocoapods.ToppingCompose.TIOSKHTColorCompanion
 
 private const val LINECAP_BUTT = 0
 private const val LINECAP_ROUND = 1

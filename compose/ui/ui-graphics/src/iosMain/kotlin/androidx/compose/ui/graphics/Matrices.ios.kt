@@ -16,9 +16,9 @@
 
 package androidx.compose.ui.graphics.androidx.compose.ui.graphics
 
-import cocoapods.Topping.TIOSKHFloat
-import cocoapods.Topping.TIOSKHKotlinFloatArray
-import cocoapods.Topping.TIOSKHSkikoMatrix33
+import cocoapods.ToppingCompose.TIOSKHFloat
+import cocoapods.ToppingCompose.TIOSKHKotlinFloatArray
+import cocoapods.ToppingCompose.TIOSKHSkikoMatrix33
 
 internal fun identityMatrix33(): TIOSKHSkikoMatrix33 {
     val floatArrayDef = floatArrayOf(

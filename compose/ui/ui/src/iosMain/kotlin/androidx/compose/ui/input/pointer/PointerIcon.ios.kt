@@ -16,7 +16,7 @@
 
 package androidx.compose.ui.input.pointer
 
-import cocoapods.Topping.LGView
+import cocoapods.ToppingCompose.LGView
 
 internal class AndroidPointerIconType(val type: Int) :
     PointerIcon {

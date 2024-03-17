@@ -16,19 +16,19 @@
 
 package androidx.compose.ui.graphics
 
-import cocoapods.Topping.TIOSKHSkikoPaintMode as SkPaintMode
-import cocoapods.Topping.TIOSKHSkikoPaintStrokeCap as SkPaintStrokeCap
-import cocoapods.Topping.TIOSKHSkikoPaintStrokeJoin as SkPaintStrokeJoin
+import cocoapods.ToppingCompose.TIOSKHSkikoPaintMode as SkPaintMode
+import cocoapods.ToppingCompose.TIOSKHSkikoPaintStrokeCap as SkPaintStrokeCap
+import cocoapods.ToppingCompose.TIOSKHSkikoPaintStrokeJoin as SkPaintStrokeJoin
 import androidx.compose.ui.graphics.androidx.compose.ui.graphics.toSkia
 
-actual typealias NativePaint = cocoapods.Topping.ToppingPaint
+actual typealias NativePaint = cocoapods.ToppingCompose.ToppingPaint
 
 actual fun Paint(): Paint = SkiaBackedPaint()
 
-fun cocoapods.Topping.ToppingPaint.asComposePaint(): Paint = SkiaBackedPaint(this)
+fun cocoapods.ToppingCompose.ToppingPaint.asComposePaint(): Paint = SkiaBackedPaint(this)
 
 internal class SkiaBackedPaint(
-    val skia: cocoapods.Topping.ToppingPaint = cocoapods.Topping.ToppingPaint(null)
+    val skia: cocoapods.ToppingCompose.ToppingPaint = cocoapods.ToppingCompose.ToppingPaint(null)
 ) : Paint {
     override fun asFrameworkPaint(): NativePaint = skia
 

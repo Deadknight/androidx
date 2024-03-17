@@ -16,7 +16,7 @@
 
 package androidx.compose.ui.text
 
-import cocoapods.Topping.TIOSKHSkikoBreakIterator
+import cocoapods.ToppingCompose.TIOSKHSkikoBreakIterator
 
 internal actual fun String.findPrecedingBreak(index: Int): Int {
     val it = TIOSKHSkikoBreakIterator.companion().makeCharacterInstanceLocale(null)

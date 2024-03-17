@@ -19,9 +19,9 @@ package androidx.compose.ui.navigation
 import Bundle
 import androidx.annotation.CallSuper
 import androidx.annotation.RestrictTo
-import cocoapods.Topping.LuaBundle
-import cocoapods.Topping.NavDestination
-import cocoapods.Topping.TNavigatorStateProtocol
+import cocoapods.ToppingCompose.LuaBundle
+import cocoapods.ToppingCompose.NavDestination
+import cocoapods.ToppingCompose.TNavigatorStateProtocol
 import kotlinx.atomicfu.locks.ReentrantLock
 import kotlinx.atomicfu.locks.withLock
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -29,7 +29,7 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import platform.darwin.NSObject
 
-public class NavigatorState : NSObject(), TNavigatorStateProtocol{
+/*public class NavigatorState : NSObject(), TNavigatorStateProtocol{
     private val backStackLock = ReentrantLock()
     private val _backStack: MutableStateFlow<List<PlatformNavBackStackEntry>> = MutableStateFlow(listOf())
     private val _transitionsInProgress: MutableStateFlow<Set<PlatformNavBackStackEntry>> =
@@ -58,14 +58,14 @@ public class NavigatorState : NSObject(), TNavigatorStateProtocol{
     override fun createBackStackEntryWithDestination(
         destination: NavDestination,
         arguments: LuaBundle
-    ): cocoapods.Topping.NavBackStackEntry {
+    ): cocoapods.ToppingCompose.NavBackStackEntry {
         return PlatformNavBackStackEntry()
     }
 
     /**
      * Adds the given [backStackEntry] to the [backStack].
      */
-    override fun pushWithBackStackEntry(backStackEntry: cocoapods.Topping.NavBackStackEntry) {
+    override fun pushWithBackStackEntry(backStackEntry: cocoapods.ToppingCompose.NavBackStackEntry) {
         backStackLock.withLock {
             _backStack.value = _backStack.value + backStackEntry
         }
@@ -82,7 +82,7 @@ public class NavigatorState : NSObject(), TNavigatorStateProtocol{
      * @see markTransitionComplete
      * @see popWithTransition
      */
-    override fun pushWithTransitionWithBackStackEntry(backStackEntry: cocoapods.Topping.NavBackStackEntry) {
+    override fun pushWithTransitionWithBackStackEntry(backStackEntry: cocoapods.ToppingCompose.NavBackStackEntry) {
         // When passed an entry that is already transitioning via a call to push, ignore the call
         // since we are already moving to the proper state.
         if (
@@ -108,7 +108,7 @@ public class NavigatorState : NSObject(), TNavigatorStateProtocol{
         destination: NavDestination,
         arguments: Bundle?
     ): PlatformNavBackStackEntry {
-        return cocoapods.Topping.NavBackStackEntry()
+        return cocoapods.ToppingCompose.NavBackStackEntry()
     }
 
     override fun getBackStack(): Any {
@@ -119,7 +119,7 @@ public class NavigatorState : NSObject(), TNavigatorStateProtocol{
      * Pop all destinations up to and including [popUpTo]. This will remove those
      * destinations from the [backStack], saving their state if [saveState] is `true`.
      */
-    override fun popWithPopUpTo(popUpTo: cocoapods.Topping.NavBackStackEntry, saveState: Boolean) {
+    override fun popWithPopUpTo(popUpTo: cocoapods.ToppingCompose.NavBackStackEntry, saveState: Boolean) {
         backStackLock.withLock {
             _backStack.value = _backStack.value.takeWhile { it != popUpTo }
         }
@@ -140,7 +140,7 @@ public class NavigatorState : NSObject(), TNavigatorStateProtocol{
      * @see pushWithTransition
      */
     override fun popWithTransitionWithPopUpTo(
-        popUpTo: cocoapods.Topping.NavBackStackEntry,
+        popUpTo: cocoapods.ToppingCompose.NavBackStackEntry,
         saveState: Boolean
     ) {
         // When passed an entry that is already transitioning via a call to pop, ignore the call
@@ -174,7 +174,7 @@ public class NavigatorState : NSObject(), TNavigatorStateProtocol{
      * within the [backStack]
      */
     @CallSuper
-    override fun onLaunchSingleTopWithBackStackEntry(backStackEntry: cocoapods.Topping.NavBackStackEntry) {
+    override fun onLaunchSingleTopWithBackStackEntry(backStackEntry: cocoapods.ToppingCompose.NavBackStackEntry) {
         // We update the back stack here because we don't want to leave it to the navigator since
         // it might be using transitions.
         backStackLock.withLock {
@@ -203,7 +203,7 @@ public class NavigatorState : NSObject(), TNavigatorStateProtocol{
      * within the [backStack]
      */
     @CallSuper
-    override fun onLaunchSingleTopWithTransitionWithBackStackEntry(backStackEntry: cocoapods.Topping.NavBackStackEntry) {
+    override fun onLaunchSingleTopWithTransitionWithBackStackEntry(backStackEntry: cocoapods.ToppingCompose.NavBackStackEntry) {
         val oldEntry = backStack.value.last { it.getId() == backStackEntry.getId() }
         _transitionsInProgress.value = _transitionsInProgress.value + oldEntry + backStackEntry
         onLaunchSingleTopWithBackStackEntry(backStackEntry)
@@ -224,7 +224,7 @@ public class NavigatorState : NSObject(), TNavigatorStateProtocol{
      * @see pushWithTransition
      * @see popWithTransition
      */
-    override fun markTransitionCompleteWithEntry(entry: cocoapods.Topping.NavBackStackEntry) {
+    override fun markTransitionCompleteWithEntry(entry: cocoapods.ToppingCompose.NavBackStackEntry) {
         _transitionsInProgress.value = _transitionsInProgress.value - entry
     }
 
@@ -235,7 +235,7 @@ public class NavigatorState : NSObject(), TNavigatorStateProtocol{
      *
      * @see markTransitionComplete
      */
-    override fun prepareForTransitionWithEntry(entry: cocoapods.Topping.NavBackStackEntry) {
+    override fun prepareForTransitionWithEntry(entry: cocoapods.ToppingCompose.NavBackStackEntry) {
         _transitionsInProgress.value = _transitionsInProgress.value + entry
     }
-}
+}*/

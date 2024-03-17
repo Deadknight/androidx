@@ -16,7 +16,7 @@
 
 package androidx.compose.foundation.relocation
 
-import cocoapods.Topping.TIOSKHRect as AndroidRect
+import cocoapods.ToppingCompose.TIOSKHRect as AndroidRect
 import androidx.compose.ui.geometry.Rect
 import androidx.compose.ui.layout.positionInRoot
 import androidx.compose.ui.node.CompositionLocalConsumerModifierNode

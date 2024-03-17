@@ -49,26 +49,26 @@ import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.isSpecified
 import androidx.compose.ui.unit.isUnspecified
 import androidx.compose.ui.unit.sp
-import cocoapods.Topping.TIOSKHSkikoFont as SkFont
-import cocoapods.Topping.TIOSKHSkikoFontStyle as SkFontStyle
-import cocoapods.Topping.TIOSKHSkikoPaint as Paint
-import cocoapods.Topping.TIOSKHSkikoAlignment as SkAlignment
-import cocoapods.Topping.TIOSKHSkikoBaselineMode as BaselineMode
-import cocoapods.Topping.TIOSKHSkikoDecorationLineStyle as SkDecorationLineStyle
-import cocoapods.Topping.TIOSKHSkikoDecorationStyle as SkDecorationStyle
-import cocoapods.Topping.TIOSKHSkikoDirection as SkDirection
-import cocoapods.Topping.TIOSKHSkikoParagraph as SkParagraph
-import cocoapods.Topping.TIOSKHSkikoParagraphBuilder as SkParagraphBuilder
-import cocoapods.Topping.TIOSKHSkikoParagraphStyle as ParagraphStyle
-import cocoapods.Topping.TIOSKHSkikoPlaceholderAlignment as PlaceholderAlignment
-import cocoapods.Topping.TIOSKHSkikoPlaceholderStyle as PlaceholderStyle
-import cocoapods.Topping.TIOSKHSkikoShadow as SkShadow
-import cocoapods.Topping.TIOSKHSkikoStrutStyle as StrutStyle
-import cocoapods.Topping.TIOSKHSkikoTextBox as TextBox
-import cocoapods.Topping.TIOSKHSkikoTextStyle as SkTextStyle
+import cocoapods.ToppingCompose.TIOSKHSkikoFont as SkFont
+import cocoapods.ToppingCompose.TIOSKHSkikoFontStyle as SkFontStyle
+import cocoapods.ToppingCompose.TIOSKHSkikoPaint as Paint
+import cocoapods.ToppingCompose.TIOSKHSkikoAlignment as SkAlignment
+import cocoapods.ToppingCompose.TIOSKHSkikoBaselineMode as BaselineMode
+import cocoapods.ToppingCompose.TIOSKHSkikoDecorationLineStyle as SkDecorationLineStyle
+import cocoapods.ToppingCompose.TIOSKHSkikoDecorationStyle as SkDecorationStyle
+import cocoapods.ToppingCompose.TIOSKHSkikoDirection as SkDirection
+import cocoapods.ToppingCompose.TIOSKHSkikoParagraph as SkParagraph
+import cocoapods.ToppingCompose.TIOSKHSkikoParagraphBuilder as SkParagraphBuilder
+import cocoapods.ToppingCompose.TIOSKHSkikoParagraphStyle as ParagraphStyle
+import cocoapods.ToppingCompose.TIOSKHSkikoPlaceholderAlignment as PlaceholderAlignment
+import cocoapods.ToppingCompose.TIOSKHSkikoPlaceholderStyle as PlaceholderStyle
+import cocoapods.ToppingCompose.TIOSKHSkikoShadow as SkShadow
+import cocoapods.ToppingCompose.TIOSKHSkikoStrutStyle as StrutStyle
+import cocoapods.ToppingCompose.TIOSKHSkikoTextBox as TextBox
+import cocoapods.ToppingCompose.TIOSKHSkikoTextStyle as SkTextStyle
 import androidx.compose.ui.graphics.androidx.compose.ui.graphics.toTIOSKHKotlinArray
 import androidx.compose.ui.text.font.SkiaFontLoader
-import cocoapods.Topping.TIOSKHSkikoFontStyle
+import cocoapods.ToppingCompose.TIOSKHSkikoFontStyle
 
 private val DefaultFontSize = 16.sp
 

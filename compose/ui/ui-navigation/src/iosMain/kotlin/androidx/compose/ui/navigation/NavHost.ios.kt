@@ -40,7 +40,7 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalInspectionMode
 import androidx.compose.ui.platform.LocalLifecycleOwner
 import androidx.compose.ui.platform.LocalViewModelStoreOwner
-import cocoapods.Topping.NavDestination
+import cocoapods.ToppingCompose.NavDestination
 import kotlinx.coroutines.flow.map
 
 private val NavDestination.navigatorName: String?
@@ -64,7 +64,7 @@ private val NavDestination.navigatorName: String?
  * @param popExitTransition callback to define popExit transitions for destination in this host
  */
 @Composable
-actual fun NavHost(
+actual fun PlatformNavHost(
     navController: PlatformNavHostController,
     graph: PlatformNavGraph,
     modifier: Modifier,
@@ -76,7 +76,7 @@ actual fun NavHost(
 ) {
     val lifecycleOwner = LocalLifecycleOwner.current
     val viewModelStoreOwner = checkNotNull(LocalViewModelStoreOwner.current) {
-        "NavHost requires a ViewModelStoreOwner to be provided via LocalViewModelStoreOwner"
+        "PlatformNavHost requires a ViewModelStoreOwner to be provided via LocalViewModelStoreOwner"
     }
 
     // Intercept back only when there's a destination to pop
@@ -126,31 +126,31 @@ actual fun NavHost(
     val zIndices = remember { mutableMapOf<String, Float>() }
 
     if (backStackEntry != null) {
-        val finalEnter: AnimatedContentTransitionScope<PlatformNavBackStackEntry>.() -> EnterTransition = {
-            val targetDestination = targetState.destination as ComposeNavigator.Destination
+        val finalEnter: (AnimatedContentTransitionScope<PlatformNavBackStackEntry>) -> EnterTransition = {
+            val targetDestination = it.targetState.destination as ComposeNavigator.Destination
 
             if (composeNavigator.isPop.value) {
                 targetDestination.hierarchy.firstNotNullOfOrNull { destination ->
-                    destination.createPopEnterTransition(this)
-                } ?: popEnterTransition.invoke(this)
+                    destination.createPopEnterTransition(it)
+                } ?: popEnterTransition.invoke(it)
             } else {
                 targetDestination.hierarchy.firstNotNullOfOrNull { destination ->
-                    destination.createEnterTransition(this)
-                } ?: enterTransition.invoke(this)
+                    destination.createEnterTransition(it)
+                } ?: enterTransition.invoke(it)
             }
         }
 
-        val finalExit: AnimatedContentTransitionScope<PlatformNavBackStackEntry>.() -> ExitTransition = {
-            val initialDestination = initialState.destination as ComposeNavigator.Destination
+        val finalExit: (AnimatedContentTransitionScope<PlatformNavBackStackEntry>) -> ExitTransition = {
+            val initialDestination = it.initialState.destination as ComposeNavigator.Destination
 
             if (composeNavigator.isPop.value) {
                 initialDestination.hierarchy.firstNotNullOfOrNull { destination ->
-                    destination.createPopExitTransition(this)
-                } ?: popExitTransition.invoke(this)
+                    destination.createPopExitTransition(it)
+                } ?: popExitTransition.invoke(it)
             } else {
                 initialDestination.hierarchy.firstNotNullOfOrNull { destination ->
-                    destination.createExitTransition(this)
-                } ?: exitTransition.invoke(this)
+                    destination.createExitTransition(it)
+                } ?: exitTransition.invoke(it)
             }
         }
 
@@ -224,23 +224,23 @@ actual fun NavHost(
  * Once this is called, any Composable within the given [NavGraphBuilder] can be navigated to from
  * the provided [navController].
  *
- * The graph passed into this method is [remember]ed. This means that for this NavHost, the graph
+ * The graph passed into this method is [remember]ed. This means that for this PlatformNavHost, the graph
  * cannot be changed.
  *
  * @param navController the navController for this host
  * @param graph the graph for this host
  * @param modifier The modifier to be applied to the layout.
  */
-@Composable
+/*@Composable
 @Deprecated(
-    message = "Deprecated in favor of NavHost that supports AnimatedContent",
+    message = "Deprecated in favor of PlatformNavHost that supports AnimatedContent",
     level = DeprecationLevel.HIDDEN
 )
-actual fun NavHost(
+actual fun PlatformNavHost(
     navController: PlatformNavHostController,
     graph: PlatformNavGraph,
     modifier: Modifier
-) = NavHost(navController, graph, modifier)
+) = PlatformNavHost(navController, graph, modifier)*/
 
 /**
  * Provides in place in the Compose hierarchy for self contained navigation to occur.
@@ -248,7 +248,7 @@ actual fun NavHost(
  * Once this is called, any Composable within the given [NavGraphBuilder] can be navigated to from
  * the provided [navController].
  *
- * The builder passed into this method is [remember]ed. This means that for this NavHost, the
+ * The builder passed into this method is [remember]ed. This means that for this PlatformNavHost, the
  * contents of the builder cannot be changed.
  *
  * @param navController the navController for this host
@@ -263,7 +263,7 @@ actual fun NavHost(
  * @param builder the builder used to construct the graph
  */
 @Composable
-actual fun NavHost(
+actual fun PlatformNavHost(
     navController: PlatformNavHostController,
     startDestination: String,
     modifier: Modifier,
@@ -273,9 +273,9 @@ actual fun NavHost(
     exitTransition: AnimatedContentTransitionScope<PlatformNavBackStackEntry>.() -> ExitTransition,
     popEnterTransition: AnimatedContentTransitionScope<PlatformNavBackStackEntry>.() -> EnterTransition,
     popExitTransition: AnimatedContentTransitionScope<PlatformNavBackStackEntry>.() -> ExitTransition,
-    builder: NavGraphBuilder.() -> Unit
+    builder: PlatformNavGraphBuilder.() -> Unit
 ) {
-    NavHost(
+    PlatformNavHost(
         navController,
         remember(route, startDestination, builder) {
             navController.navHostController.createGraph(startDestination, route, builder)
@@ -295,7 +295,7 @@ actual fun NavHost(
  * Once this is called, any Composable within the given [NavGraphBuilder] can be navigated to from
  * the provided [navController].
  *
- * The builder passed into this method is [remember]ed. This means that for this NavHost, the
+ * The builder passed into this method is [remember]ed. This means that for this PlatformNavHost, the
  * contents of the builder cannot be changed.
  *
  * @sample androidx.navigation.compose.samples.NavScaffold
@@ -308,17 +308,17 @@ actual fun NavHost(
  */
 /*@Composable
 @Deprecated(
-    message = "Deprecated in favor of NavHost that supports AnimatedContent",
+    message = "Deprecated in favor of PlatformNavHost that supports AnimatedContent",
     level = DeprecationLevel.HIDDEN
 )
-actual fun NavHost(
+actual fun PlatformNavHost(
     navController: NavHostController,
     startDestination: String,
     modifier: Modifier,
     route: String?,
     builder: NavGraphBuilder.() -> Unit
 ) {
-    NavHost(
+    PlatformNavHost(
         navController,
         remember(route, startDestination, builder) {
             navController.createGraph(startDestination, route, builder)
@@ -365,7 +365,7 @@ private fun NavDestination.createPopExitTransition(
  * remembered before being passed in here: any changes to those inputs will cause the
  * NavController to be recreated.
  *
- * @see NavHost
+ * @see PlatformNavHost
  */
 @Composable
 actual fun rememberNavController(vararg navigators: PlatformNavigator<out PlatformNavDestination>): PlatformNavHostController {
@@ -388,9 +388,9 @@ private fun NavControllerSaver(
 
 private fun createNavController(context: Context) =
     NavHostController(context).apply {
-        navigatorProvider.addNavigatorWithNavigator(ComposeNavGraphNavigator(navigatorProvider))
-        navigatorProvider.addNavigatorWithNavigator(ComposeNavigator())
-        navigatorProvider.addNavigatorWithNavigator(DialogNavigator())
+        navigatorProvider.addNavigatorWithName("composeNavGraphNavigator", ComposeNavGraphNavigator(navigatorProvider))
+        navigatorProvider.addNavigatorWithName(ComposeNavigatorNAME, ComposeNavigator())
+        navigatorProvider.addNavigatorWithName(DialogNavigatorName, DialogNavigator())
     }
 
 private fun PlatformNavControllerSaver(

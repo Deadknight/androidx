@@ -53,3 +53,18 @@ expect interface PlatformLifecycleStopOrDisposeEffectResult
 
 expect class PlatformLifecycleResumePauseEffectScope
 expect interface PlatformLifecyclePauseOrDisposeEffectResult
+
+expect open class PlatformViewModel
+expect interface PlatformViewModelStoreOwner
+expect object PlatformLocalViewModelStoreOwner {
+    val current: PlatformViewModelStoreOwner?
+}
+
+@Composable
+expect inline fun <reified VM : PlatformViewModel> viewModel(
+    viewModelStoreOwner: PlatformViewModelStoreOwner = checkNotNull(PlatformLocalViewModelStoreOwner.current) {
+        "No PlatformViewModelStoreOwner was provided via LocalViewModelStoreOwner"
+    },
+    key: String,
+    crossinline init: () -> VM
+): VM

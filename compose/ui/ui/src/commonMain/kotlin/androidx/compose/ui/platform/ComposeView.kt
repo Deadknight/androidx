@@ -18,14 +18,16 @@ package androidx.compose.ui.platform
 
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionContext
+import androidx.compose.ui.util.ID
+import androidx.compose.ui.util.IdEmpty
 
-expect class CommonContext(nativeContext: Any, nativeAttributeSet: Any?) {
+expect class PlatformContext(nativeContext: Any, nativeAttributeSet: Any?) {
     fun getNativeContext(): Any
     fun getNativeAttributeSet(): Any?
 }
 
-expect class ComposeView(commonContext: CommonContext, defStyleAttr: Int = 0) {
-    fun addSelfToActivity(activity: Any,
+expect class PlatformComposeView(platformContext: PlatformContext, defStyleAttr: ID = IdEmpty.value) {
+    fun addThis(activity: Any,
         parent: CompositionContext? = null,
         content: @Composable () -> Unit)
 }

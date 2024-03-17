@@ -18,12 +18,18 @@ package androidx.lifecycle.compose.platform
 
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.platform.LocalLifecycleOwner
+import androidx.lifecycle.HasDefaultViewModelProviderFactory
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleOwner
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.ViewModelStoreOwner
 import androidx.lifecycle.compose.LifecyclePauseOrDisposeEffectResult
 import androidx.lifecycle.compose.LifecycleResumePauseEffectScope
 import androidx.lifecycle.compose.LifecycleStartStopEffectScope
 import androidx.lifecycle.compose.LifecycleStopOrDisposeEffectResult
+import androidx.lifecycle.viewmodel.CreationExtras
+import androidx.lifecycle.viewmodel.compose.LocalViewModelStoreOwner
 
 actual enum class PlatformLifecycleState(val value: androidx.lifecycle.Lifecycle.State) {
     DESTROYED(androidx.lifecycle.Lifecycle.State.DESTROYED),
@@ -61,3 +67,47 @@ actual typealias PlatformLifecycleResumePauseEffectScope = LifecycleResumePauseE
 actual typealias PlatformLifecyclePauseOrDisposeEffectResult = LifecyclePauseOrDisposeEffectResult
 
 actual class PlatformLifecycle(val lifecycle: Lifecycle)
+
+open class InternalViewModel : ViewModel()
+
+actual typealias PlatformViewModel = InternalViewModel
+actual typealias PlatformViewModelStoreOwner = ViewModelStoreOwner
+actual typealias PlatformLocalViewModelStoreOwner = LocalViewModelStoreOwner
+
+@Composable
+actual inline fun <reified VM : PlatformViewModel> viewModel(
+    viewModelStoreOwner: PlatformViewModelStoreOwner,
+    key: String,
+    init: () -> VM
+): VM {
+    return viewModelInternal<VM>(viewModelStoreOwner, key)
+}
+
+inline fun <reified VM : PlatformViewModel> viewModelInternal(
+    viewModelStoreOwner: PlatformViewModelStoreOwner,
+    key: String?
+): VM = viewModelStoreOwner.get(VM::class.java, key)
+
+fun <VM : PlatformViewModel> ViewModelStoreOwner.get(
+    javaClass: Class<VM>,
+    key: String? = null,
+    factory: ViewModelProvider.Factory? = null,
+    extras: CreationExtras = if (this is HasDefaultViewModelProviderFactory) {
+        this.defaultViewModelCreationExtras
+    } else {
+        CreationExtras.Empty
+    }
+): VM {
+    val provider = if (factory != null) {
+        ViewModelProvider(this.viewModelStore, factory, extras)
+    } else if (this is HasDefaultViewModelProviderFactory) {
+        ViewModelProvider(this.viewModelStore, this.defaultViewModelProviderFactory, extras)
+    } else {
+        ViewModelProvider(this)
+    }
+    return if (key != null) {
+        provider[key, javaClass]
+    } else {
+        provider[javaClass]
+    }
+}

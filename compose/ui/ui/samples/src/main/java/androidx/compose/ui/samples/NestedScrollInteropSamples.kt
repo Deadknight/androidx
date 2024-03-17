@@ -44,8 +44,8 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.input.nestedscroll.NestedScrollConnection
 import androidx.compose.ui.input.nestedscroll.NestedScrollSource
 import androidx.compose.ui.input.nestedscroll.nestedScroll
-import androidx.compose.ui.platform.ComposeView
 import androidx.compose.ui.platform.LocalDensity
+import androidx.compose.ui.platform.PlatformComposeView
 import androidx.compose.ui.platform.rememberNestedScrollInteropConnection
 import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.dp
@@ -142,7 +142,7 @@ fun CollapsingToolbarComposeViewComposeNestedScrollInteropSample() {
 private fun AndroidViewWithCompose(context: Context): View {
     return LayoutInflater.from(context)
         .inflate(R.layout.three_fold_nested_scroll_interop, null).apply {
-            with(findViewById<ComposeView>(R.id.compose_view)) {
+            with(findViewById<PlatformComposeView>(R.id.compose_view)) {
                 // Compose
                 setContent { LazyColumnWithNestedScrollInteropEnabled() }
             }

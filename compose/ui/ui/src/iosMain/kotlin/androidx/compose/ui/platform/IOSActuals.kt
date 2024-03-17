@@ -3,9 +3,10 @@ package androidx.compose.ui.platform
 import androidx.compose.runtime.SyncLock
 import format
 import kotlin.native.identityHashCode
+import kotlinx.atomicfu.atomic
 
 actual class AtomicInt actual constructor(value: Int) {
-    val atomicInt: kotlin.native.concurrent.AtomicInt = kotlin.native.concurrent.AtomicInt(value)
+    val atomicInt = atomic(value)
     actual fun addAndGet(delta: Int): Int {
         return atomicInt.addAndGet(delta)
     }

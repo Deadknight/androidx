@@ -16,7 +16,7 @@
 
 package androidx.compose.ui.navigation
 
-import cocoapods.Topping.NavOptions
+import cocoapods.ToppingCompose.NavOptions
 
 /**
  * Construct a new [NavOptions]

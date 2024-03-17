@@ -23,7 +23,7 @@ import androidx.annotation.RequiresApi
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.colorspace.ColorSpaces
 import androidx.compose.ui.util.ID
-import cocoapods.Topping.TIOSKHTColor
+import cocoapods.ToppingCompose.TIOSKHTColor
 import kotlin.math.pow
 import kotlin.math.roundToInt
 import resources

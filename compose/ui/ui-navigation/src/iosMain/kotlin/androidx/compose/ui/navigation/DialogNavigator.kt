@@ -18,11 +18,13 @@ package androidx.compose.ui.navigation
 
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.window.DialogProperties
-import cocoapods.Topping.FloatingWindowProtocol
-import cocoapods.Topping.NavDestination
-import cocoapods.Topping.NavOptions
-import cocoapods.Topping.Navigator
-import cocoapods.Topping.NavigatorExtrasProtocol
+import cocoapods.ToppingCompose.FloatingWindowProtocol
+import cocoapods.ToppingCompose.NavDestination
+import cocoapods.ToppingCompose.NavOptions
+import cocoapods.ToppingCompose.Navigator
+import cocoapods.ToppingCompose.NavigatorExtrasProtocol
+import cocoapods.ToppingCompose.TNavigatorStateProtocol
+import kotlinx.coroutines.flow.StateFlow
 
 val DialogNavigatorName : String
     get() {
@@ -34,7 +36,7 @@ public class DialogNavigator : Navigator() {
     /**
      * Get the back stack from the [state].
      */
-    internal val backStack get() = (getState()!! as NavigatorState).backStack
+    internal val backStack get() = (getState()!! as TNavigatorStateProtocol).getBackStack() as StateFlow<List<PlatformNavBackStackEntry>>
 
     /**
      * Dismiss the dialog destination associated with the given [backStackEntry].
@@ -49,7 +51,7 @@ public class DialogNavigator : Navigator() {
         navigatorExtras: NavigatorExtrasProtocol?
     ) {
         entries.forEach { entry ->
-            (getState()!! as NavigatorState).pushWithBackStackEntry(entry as cocoapods.Topping.NavBackStackEntry)
+            (getState()!! as TNavigatorStateProtocol).pushWithBackStackEntry(entry as cocoapods.ToppingCompose.NavBackStackEntry)
         }
     }
 
@@ -58,21 +60,25 @@ public class DialogNavigator : Navigator() {
     }
 
     override fun popBackStackWithPopUpTo(
-        popUpTo: cocoapods.Topping.NavBackStackEntry,
+        popUpTo: cocoapods.ToppingCompose.NavBackStackEntry,
         savedState: Boolean
     ) {
         getState()?.popWithTransitionWithPopUpTo(popUpTo, savedState)
         // When popping, the incoming dialog is marked transitioning to hold it in
         // STARTED. With pop complete, we can remove it from transition so it can move to RESUMED.
-        val popIndex = (getState()!! as NavigatorState).transitionsInProgress.value.indexOf(popUpTo)
+        val popIndex = (getState()!! as NavController.NavControllerNavigatorState).transitionsInProgress.value.indexOf(popUpTo)
         // do not mark complete for entries up to and including popUpTo
-        (getState()!! as NavigatorState).transitionsInProgress.value.forEachIndexed { index, entry ->
+        (getState()!! as NavController.NavControllerNavigatorState).transitionsInProgress.value.forEachIndexed { index, entry ->
             if (index > popIndex) onTransitionComplete(entry)
         }
     }
 
     internal fun onTransitionComplete(entry: PlatformNavBackStackEntry) {
-        (getState()!! as NavigatorState).markTransitionCompleteWithEntry(entry)
+        (getState()!! as NavController.NavControllerNavigatorState).markTransitionCompleteWithEntry(entry)
+    }
+
+    override fun getName(): String {
+        return DialogNavigatorName
     }
 
     /**

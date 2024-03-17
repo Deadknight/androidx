@@ -49,7 +49,7 @@ public actual class ArraySet<E>
 @Suppress("ACTUAL_FUNCTION_WITH_DEFAULT_ARGUMENTS")
 // TODO(b/237405286): @JvmOverloads is redundant in this actual, but is necessary here to workaround
 //  Metalava's lack of support for expect / actual.
-@JvmOverloads actual constructor(capacity: Int = 0) : MutableCollection<E>, MutableSet<E> {
+@JvmOverloads actual constructor(capacity: Int) : MutableCollection<E>, MutableSet<E> {
     internal actual var hashes: IntArray = EMPTY_INTS
     internal actual var array: Array<Any?> = EMPTY_OBJECTS
 

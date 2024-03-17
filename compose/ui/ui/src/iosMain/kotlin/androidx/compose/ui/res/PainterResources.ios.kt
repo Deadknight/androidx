@@ -96,7 +96,7 @@ private fun obtainVectorPainter(
     var imageVector = imageVectorEntry?.imageVector
     if (imageVector == null) {
         @Suppress("ResourceType") val parser = res.getXml(id)
-        if (parser.seekToStartTag().name.getLocalPart() != "vector") {
+        if (parser.seekToStartTag().name_().getLocalPart() != "vector") {
             throw IllegalArgumentException(errorMessage)
         }
         imageVector = loadVectorResourceInner(theme, res, parser)

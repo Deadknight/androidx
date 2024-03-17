@@ -26,6 +26,10 @@ apply from: "buildSrc/dependencies.gradle"
 
 apply plugin: AndroidXRootPlugin
 
+tasks.withType(org.jetbrains.kotlin.gradle.tasks.KotlinJvmCompile.class).configureEach {
+    jvmTargetValidationMode = org.jetbrains.kotlin.gradle.dsl.jvm.JvmTargetValidationMode.WARNING
+}
+
 // workaround for https://github.com/gradle/gradle/issues/24822
 if (project.hasProperty("androidx.update.signatures")) {
     apply plugin: "java-library"

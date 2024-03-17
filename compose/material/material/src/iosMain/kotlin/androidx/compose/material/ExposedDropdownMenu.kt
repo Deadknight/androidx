@@ -64,10 +64,9 @@ import androidx.compose.ui.semantics.contentDescription
 import androidx.compose.ui.semantics.onClick
 import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.unit.DpOffset
-import cocoapods.Topping.LGView
-import cocoapods.Topping.OnAttachStateChangeListenerProtocol
-import cocoapods.Topping.ViewTreeObserverOnGlobalLayoutListenerProtocol
-import cocoapods.ToppingIOSKotlinHelper.TIOSKHRect
+import cocoapods.ToppingCompose.OnAttachStateChangeListenerProtocol
+import cocoapods.ToppingCompose.ViewTreeObserverOnGlobalLayoutListenerProtocol
+import cocoapods.ToppingCompose.TIOSKHRect
 import getWindowVisibleDisplayFrame
 import isAttachedToWindow
 import kotlin.math.max
@@ -552,9 +551,9 @@ private fun updateHeight(
         view.getWindowVisibleDisplayFrame(it)
         it
     }
-    val heightAbove = coordinates.boundsInWindow().top - visibleWindowBounds.top
+    val heightAbove = coordinates.boundsInWindow().top - visibleWindowBounds.top()
     val heightBelow =
-        visibleWindowBounds.bottom - visibleWindowBounds.top - coordinates.boundsInWindow().bottom
+        visibleWindowBounds.bottom() - visibleWindowBounds.top() - coordinates.boundsInWindow().bottom
     onHeightUpdate(max(heightAbove, heightBelow).toInt() - verticalMarginInPx)
 }
 

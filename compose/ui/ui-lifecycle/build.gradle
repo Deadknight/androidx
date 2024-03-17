@@ -66,6 +66,7 @@ androidXMultiplatform {
                 implementation(libs.kotlinStdlib)
                 api projectOrArtifact(":lifecycle:lifecycle-runtime-compose")
                 api projectOrArtifact(":lifecycle:lifecycle-runtime-ktx")
+                api projectOrArtifact(":lifecycle:lifecycle-viewmodel-compose")
             }
         }
 
@@ -119,6 +120,18 @@ androidXMultiplatform {
     }
 }
 
+kotlin {
+    compilerOptions {
+        optIn.addAll([
+                'kotlin.RequiresOptIn',
+                "kotlinx.cinterop.BetaInteropApi",
+                "kotlinx.cinterop.ExperimentalForeignApi",
+                "kotlin.experimental.ExperimentalNativeApi",
+                "org.jetbrains.kotlin.backend.konan.InternalKotlinNativeApi",
+        ])
+    }
+}
+
 androidx {
     name = "Compose Lifecycle"
     type = LibraryType.PUBLISHED_LIBRARY
@@ -130,24 +143,6 @@ androidx {
 /*androidxCompose {
     composeCompilerPluginEnabled = false
 }*/
-
-kotlin {
-    cocoapods {
-        version = "1.11.0"
-        ios.deploymentTarget = "13.0"
-        specRepos {
-            url("https://github.com/Deadknight/dk-specs.git")
-        }
-        pod("ToppingIOSKotlinHelper", "0.6.0")
-        pod("Topping", "0.6.0")
-        framework {
-            // ---> HERE: If true (or omitted) linking fails, missing symbols are from "Topping" dependency
-            // if false, then linking succeeds as per Kotlin 1.7 behaviour
-            isStatic = false
-            embedBitcode("disable")
-        }
-    }
-}
 
 android {
     namespace "androidx.lifecycle"

@@ -19,7 +19,7 @@ package androidx.compose.ui.draganddrop
 import ClipData
 import androidx.collection.ArraySet
 import androidx.compose.ui.geometry.Offset
-import cocoapods.Topping.DragEvent
+import cocoapods.ToppingCompose.DragEvent
 
 actual class DragAndDropTransfer(
     val clipData: ClipData,

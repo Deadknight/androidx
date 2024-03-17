@@ -48,3 +48,19 @@ actual class PlatformLifecycleResumePauseEffectScope
 actual interface PlatformLifecyclePauseOrDisposeEffectResult
 
 actual class PlatformLifecycle
+
+actual open class PlatformViewModel
+actual interface PlatformViewModelStoreOwner
+actual object PlatformLocalViewModelStoreOwner {
+    actual val current: PlatformViewModelStoreOwner?
+        get() = TODO("Not yet implemented")
+}
+
+@Composable
+actual inline fun <VM : PlatformViewModel> viewModel(
+    viewModelStoreOwner: PlatformViewModelStoreOwner,
+    key: String,
+    init: () -> VM
+): VM {
+    TODO("Not yet implemented")
+}

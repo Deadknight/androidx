@@ -16,8 +16,10 @@
 
 package androidx.compose.foundation
 
+import kotlinx.atomicfu.atomic
+
 actual class AtomicReference<V> actual constructor(value: V) {
-    val vInternal = kotlin.native.concurrent.AtomicReference<V>(value)
+    val vInternal = atomic(value)
 
     actual fun get(): V {
         return vInternal.value
@@ -37,7 +39,7 @@ actual class AtomicReference<V> actual constructor(value: V) {
 }
 
 actual class AtomicLong actual constructor(value: Long) {
-    val vInternal = kotlin.native.concurrent.AtomicLong(value)
+    val vInternal = atomic(value)
 
     actual fun get(): Long {
         return vInternal.value

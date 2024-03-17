@@ -99,8 +99,8 @@ class KlibAssignableParamTransformer(
             IrBlockBodyImpl(
                 body.startOffset,
                 body.endOffset
-            ) {
-                statements.addAll(variables)
+            ).also {
+                it.statements.addAll(variables)
 
                 val updatedBody = body.statements.map {
                     it.transformStatement(
@@ -143,7 +143,7 @@ class KlibAssignableParamTransformer(
                     )
                 }
 
-                statements.addAll(updatedBody)
+                it.statements.addAll(updatedBody)
             }
         }
 

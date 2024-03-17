@@ -37,31 +37,32 @@ import androidx.compose.ui.graphics.androidx.compose.ui.graphics.toTIOSKotlinInt
 import androidx.compose.ui.graphics.androidx.compose.ui.graphics.toTIOSKotlinLongArray
 import androidx.compose.ui.graphics.androidx.compose.ui.graphics.toTIOSKotlinShortArray
 import androidx.compose.ui.util.ID
-import cocoapods.Topping.DeepLinkMatch
-import cocoapods.Topping.LGNavigationParser
-import cocoapods.Topping.Lifecycle
-import cocoapods.Topping.LifecycleEvent
-import cocoapods.Topping.LifecycleEventObserverProtocol
-import cocoapods.Topping.LifecycleOwnerProtocol
-import cocoapods.Topping.LifecycleState
-import cocoapods.Topping.LuaBundle
-import cocoapods.Topping.LuaFormIntent
-import cocoapods.Topping.NavAction
-import cocoapods.Topping.NavArgument
-import cocoapods.Topping.NavBackStackEntry
-import cocoapods.Topping.NavBackStackEntryState
-import cocoapods.Topping.NavDestination
-import cocoapods.Topping.NavGraphNavigator
-import cocoapods.Topping.NavOptions
-import cocoapods.Topping.NavViewModelStoreProviderProtocol
-import cocoapods.Topping.NavigationProvider
-import cocoapods.Topping.Navigator
-import cocoapods.Topping.NavigatorExtrasProtocol
-import cocoapods.Topping.OnBackPressedCallback
-import cocoapods.Topping.OnBackPressedDispatcher
-import cocoapods.Topping.TNavigatorStateProtocol
-import cocoapods.Topping.ViewModelStore
-import cocoapods.Topping.ViewModelStoreOwnerProtocol
+import cocoapods.ToppingCompose.DeepLinkMatch
+import cocoapods.ToppingCompose.LGNavigationParser
+import cocoapods.ToppingCompose.Lifecycle
+import cocoapods.ToppingCompose.LifecycleEvent
+import cocoapods.ToppingCompose.LifecycleEventObserverProtocol
+import cocoapods.ToppingCompose.LifecycleOwnerProtocol
+import cocoapods.ToppingCompose.LifecycleState
+import cocoapods.ToppingCompose.LuaBundle
+import cocoapods.ToppingCompose.LuaFormIntent
+import cocoapods.ToppingCompose.NavAction
+import cocoapods.ToppingCompose.NavArgument
+import cocoapods.ToppingCompose.NavBackStackEntry
+import cocoapods.ToppingCompose.NavBackStackEntryState
+import cocoapods.ToppingCompose.NavDestination
+import cocoapods.ToppingCompose.NavGraph
+import cocoapods.ToppingCompose.NavGraphNavigator
+import cocoapods.ToppingCompose.NavOptions
+import cocoapods.ToppingCompose.NavViewModelStoreProviderProtocol
+import cocoapods.ToppingCompose.NavigationProvider
+import cocoapods.ToppingCompose.Navigator
+import cocoapods.ToppingCompose.NavigatorExtrasProtocol
+import cocoapods.ToppingCompose.OnBackPressedCallback
+import cocoapods.ToppingCompose.OnBackPressedDispatcher
+import cocoapods.ToppingCompose.TNavigatorStateProtocol
+import cocoapods.ToppingCompose.ViewModelStore
+import cocoapods.ToppingCompose.ViewModelStoreOwnerProtocol
 import currentState
 import kotlin.collections.ArrayDeque
 import kotlin.collections.ArrayList
@@ -110,7 +111,8 @@ import kotlin.collections.set
 import kotlin.collections.toList
 import kotlin.collections.toMutableList
 import kotlin.collections.toTypedArray
-import kotlin.native.concurrent.AtomicInt
+import kotlinx.atomicfu.AtomicInt
+import kotlinx.atomicfu.atomic
 import kotlinx.atomicfu.locks.ReentrantLock
 import kotlinx.atomicfu.locks.withLock
 import kotlinx.coroutines.channels.BufferOverflow
@@ -146,13 +148,13 @@ private val LifecycleEvent.targetState: LifecycleState
     get() {
         return Lifecycle.getTargetState(this)
     }
-var cocoapods.Topping.NavBackStackEntry.maxLifecycle
+var cocoapods.ToppingCompose.NavBackStackEntry.maxLifecycle
     get() = getMaxLifecycle()
     set(value) {
         setMaxLifecycleWithMaxState(value)
     }
 
-var cocoapods.Topping.NavBackStackEntry.destination : NavDestination
+var cocoapods.ToppingCompose.NavBackStackEntry.destination : NavDestination
     get() = getDestination()
     set(value) {
         setMDestination(value)
@@ -243,7 +245,7 @@ public fun enableDeepLinkSaveState(saveState: Boolean) {
 public open class NavController(
     val context: Context
 ) {
-    private var activity: Activity? = context as Activity
+    private var activity: Activity? = context.form
 
     private var inflater: LGNavigationParser? = null
 
@@ -313,7 +315,7 @@ public open class NavController(
     private fun linkChildToParent(child: PlatformNavBackStackEntry, parent: PlatformNavBackStackEntry) {
         childToParentEntries[child] = parent
         if (parentToChildCount[parent] == null) {
-            parentToChildCount[parent] = AtomicInt(0)
+            parentToChildCount[parent] = atomic(0)
         }
         parentToChildCount[parent]!!.incrementAndGet()
     }
@@ -417,6 +419,7 @@ public open class NavController(
         handler: (backStackEntry: PlatformNavBackStackEntry) -> Unit = {}
     ) {
         addToBackStackHandler = handler
+        println("navigateWithEntries " + this.getName())
         navigateWithEntries(entries, navOptions, navigatorExtras)
         addToBackStackHandler = null
     }
@@ -431,7 +434,7 @@ public open class NavController(
         popFromBackStackHandler = null
     }
 
-    private inner class NavControllerNavigatorState(
+    inner class NavControllerNavigatorState(
         val navigator: Navigator
     ) : NSObject(), TNavigatorStateProtocol {
         private val backStackLock = ReentrantLock()
@@ -459,7 +462,7 @@ public open class NavController(
         public val transitionsInProgress: StateFlow<Set<PlatformNavBackStackEntry>> =
             _transitionsInProgress.asStateFlow()
 
-        override fun pushWithBackStackEntry(backStackEntry: cocoapods.Topping.NavBackStackEntry) {
+        override fun pushWithBackStackEntry(backStackEntry: cocoapods.ToppingCompose.NavBackStackEntry) {
             val destinationNavigator: Navigator =
                 _navigatorProvider.getNavigatorWithName(backStackEntry.getDestination().mNavigatorName.toString())
             if (destinationNavigator == navigator) {
@@ -483,7 +486,7 @@ public open class NavController(
             }
         }
 
-        override fun pushWithTransitionWithBackStackEntry(backStackEntry: cocoapods.Topping.NavBackStackEntry) {
+        override fun pushWithTransitionWithBackStackEntry(backStackEntry: cocoapods.ToppingCompose.NavBackStackEntry) {
             // When passed an entry that is already transitioning via a call to push, ignore the call
             // since we are already moving to the proper state.
             if (
@@ -509,9 +512,10 @@ public open class NavController(
             return NavBackStackEntry.create(context, destination, arguments)
         }
 
-        fun superpushWithBackStackEntry(backStackEntry: cocoapods.Topping.NavBackStackEntry) {
+        fun superpushWithBackStackEntry(backStackEntry: cocoapods.ToppingCompose.NavBackStackEntry) {
             backStackLock.withLock {
                 _backStack.value = _backStack.value + backStackEntry
+                println("backstack size" + _backStack.value.size)
             }
         }
 
@@ -521,8 +525,8 @@ public open class NavController(
 
         override fun createBackStackEntryWithDestination(
             destination: NavDestination,
-            arguments: LuaBundle
-        ): cocoapods.Topping.NavBackStackEntry {
+            arguments: LuaBundle?
+        ): cocoapods.ToppingCompose.NavBackStackEntry {
             return NavBackStackEntry.create(context, destination, arguments, hostLifecycleState, viewModel)
         }
 
@@ -531,7 +535,7 @@ public open class NavController(
         }
 
         fun superpopWithPopUpTo(
-            popUpTo: cocoapods.Topping.NavBackStackEntry,
+            popUpTo: cocoapods.ToppingCompose.NavBackStackEntry,
             saveState: Boolean
         ) {
             backStackLock.withLock {
@@ -540,7 +544,7 @@ public open class NavController(
         }
 
         override fun popWithPopUpTo(
-            popUpTo: cocoapods.Topping.NavBackStackEntry,
+            popUpTo: cocoapods.ToppingCompose.NavBackStackEntry,
             saveState: Boolean
         ) {
             val destinationNavigator: Navigator =
@@ -561,7 +565,7 @@ public open class NavController(
         }
 
         fun superpopWithTransitionWithPopUpTo(
-            popUpTo: cocoapods.Topping.NavBackStackEntry,
+            popUpTo: cocoapods.ToppingCompose.NavBackStackEntry,
             saveState: Boolean
         ) {
             // When passed an entry that is already transitioning via a call to pop, ignore the call
@@ -586,14 +590,14 @@ public open class NavController(
         }
 
         override fun popWithTransitionWithPopUpTo(
-            popUpTo: cocoapods.Topping.NavBackStackEntry,
+            popUpTo: cocoapods.ToppingCompose.NavBackStackEntry,
             saveState: Boolean
         ) {
             superpopWithTransitionWithPopUpTo(popUpTo, saveState)
             entrySavedState[popUpTo] = saveState
         }
 
-        override fun onLaunchSingleTopWithBackStackEntry(backStackEntry: cocoapods.Topping.NavBackStackEntry) {
+        override fun onLaunchSingleTopWithBackStackEntry(backStackEntry: cocoapods.ToppingCompose.NavBackStackEntry) {
             // We update the back stack here because we don't want to leave it to the navigator since
             // it might be using transitions.
             backStackLock.withLock {
@@ -605,17 +609,17 @@ public open class NavController(
             }
         }
 
-        override fun onLaunchSingleTopWithTransitionWithBackStackEntry(backStackEntry: cocoapods.Topping.NavBackStackEntry) {
+        override fun onLaunchSingleTopWithTransitionWithBackStackEntry(backStackEntry: cocoapods.ToppingCompose.NavBackStackEntry) {
             val oldEntry = backStack.value.last { it.getId() == backStackEntry.getId() }
             _transitionsInProgress.value = _transitionsInProgress.value + oldEntry + backStackEntry
             onLaunchSingleTopWithBackStackEntry(backStackEntry)
         }
 
-        fun supermarkTransitionCompleteWithEntry(entry: cocoapods.Topping.NavBackStackEntry) {
+        fun supermarkTransitionCompleteWithEntry(entry: cocoapods.ToppingCompose.NavBackStackEntry) {
             _transitionsInProgress.value = _transitionsInProgress.value - entry
         }
 
-        override fun markTransitionCompleteWithEntry(entry: cocoapods.Topping.NavBackStackEntry) {
+        override fun markTransitionCompleteWithEntry(entry: cocoapods.ToppingCompose.NavBackStackEntry) {
             val savedState = entrySavedState[entry] == true
             supermarkTransitionCompleteWithEntry(entry)
             entrySavedState.remove(entry)
@@ -643,11 +647,11 @@ public open class NavController(
             // completes
         }
 
-        fun superprepareForTransitionWithEntry(entry: cocoapods.Topping.NavBackStackEntry) {
+        fun superprepareForTransitionWithEntry(entry: cocoapods.ToppingCompose.NavBackStackEntry) {
             _transitionsInProgress.value = _transitionsInProgress.value + entry
         }
 
-        override fun prepareForTransitionWithEntry(entry: cocoapods.Topping.NavBackStackEntry) {
+        override fun prepareForTransitionWithEntry(entry: cocoapods.ToppingCompose.NavBackStackEntry) {
             superprepareForTransitionWithEntry(entry)
             if (backQueue.contains(entry)) {
                 entry.setMaxLifecycleWithMaxState(LifecycleState.LIFECYCLESTATE_STARTED)
@@ -1352,12 +1356,12 @@ public open class NavController(
             onGraphCreated(startDestinationArgs)
         } else {
             // first we update _graph with new instances from graph
-            val keys = graph.mNodes!!.allKeys
-            for (i in 0 until graph.mNodes!!.count.toInt()) {
-                val key = keys.get(i)!!
-                val newDestination = graph.mNodes!!.objectForKey(key)
+            val keys = graph.mNodes?.allKeys
+            for (i in 0 until (graph.mNodes?.count?.toInt() ?: 0)) {
+                val key = keys?.get(i)
+                val newDestination = graph.mNodes?.objectForKey(key)
                 //TODO
-                _graph!!.mNodes!!.setObject(newDestination, key as NSString)
+                _graph?.mNodes?.setObject(newDestination, key as NSString)
             }
             // then we update backstack with the new instances
             backQueue.forEach { entry ->
@@ -2274,7 +2278,7 @@ public open class NavController(
      *
      * State may be restored from a bundle returned from this method by calling
      * [restoreState]. Saving controller state is the responsibility
-     * of a [NavHost].
+     * of a [PlatformNavHost].
      *
      * @return saved state for this controller
      */
@@ -2353,7 +2357,7 @@ public open class NavController(
      * call to [setGraph].
      *
      * State may be saved to a bundle by calling [saveState].
-     * Restoring controller state is the responsibility of a [NavHost].
+     * Restoring controller state is the responsibility of a [PlatformNavHost].
      *
      * @param navState state bundle to restore
      */
@@ -2577,7 +2581,7 @@ public fun bundleOf(vararg pairs: Pair<String, Any?>): Bundle = Bundle().apply {
  */
 public fun bundleOf(): Bundle = Bundle()
 
-private fun cocoapods.Topping.NavBackStackEntry.Companion.create(
+private fun cocoapods.ToppingCompose.NavBackStackEntry.Companion.create(
     entry: PlatformNavBackStackEntry, arguments: Bundle? = entry.getArguments()
 ): PlatformNavBackStackEntry = NavBackStackEntry.create(
     entry.mContext(), entry.getDestination(), arguments,
@@ -2588,7 +2592,7 @@ private fun cocoapods.Topping.NavBackStackEntry.Companion.create(
     it.maxLifecycle = entry.maxLifecycle
 }
 
-private fun cocoapods.Topping.NavBackStackEntry.Companion.create(
+private fun cocoapods.ToppingCompose.NavBackStackEntry.Companion.create(
     context: Context,
     destination: NavDestination,
     arguments: Bundle? = null,
@@ -2601,7 +2605,7 @@ private fun cocoapods.Topping.NavBackStackEntry.Companion.create(
     hostLifecycleState, viewModelStoreProvider, id, savedState
 )
 
-private fun cocoapods.Topping.NavBackStackEntry.Companion.createIn(
+private fun cocoapods.ToppingCompose.NavBackStackEntry.Companion.createIn(
     context: Context,
     destination: NavDestination,
     arguments: Bundle?,
@@ -2610,7 +2614,7 @@ private fun cocoapods.Topping.NavBackStackEntry.Companion.createIn(
     id: String,
     savedState: Bundle?) : PlatformNavBackStackEntry
 {
-    val result = PlatformNavBackStackEntry(context, destination, arguments, null, null)
+    val result = PlatformNavBackStackEntry(context, destination, arguments, null, if(viewModelStoreProvider is NavControllerViewModel) viewModelStoreProvider else null)
     result.setMHostLifecycle(hostLifecycleState)
     result.setViewModelStoreProvider(viewModelStoreProvider)
     result.setMId(NSUUID(id))
@@ -2645,55 +2649,55 @@ var NavDestination.arguments : MutableMap<String, NavArgument>
         customArgs!!.putObject("arguments", value)
     }
 
-var NavDestination.deepLinks : MutableList<NavDeepLink>
-    get() {
-        if(customArgs == null)
-            customArgs = LuaBundle()
-        return customArgs!!.getObject("deepLinks", mutableListOf<NavDeepLink>()) as MutableList<NavDeepLink>
-    }
-    set(value) {
-        if(customArgs == null)
-            customArgs = LuaBundle()
-        customArgs!!.putObject("deepLinks", value)
-    }
-
 private fun NavDestination.matchDeepLink(navDeepLinkRequest: NavDeepLinkRequest): DeepLinkMatch? {
-    if (deepLinks.isEmpty()) {
-        return null
-    }
     var bestMatch: DeepLinkMatch? = null
-    for (deepLink in deepLinks) {
-        val uri = navDeepLinkRequest.uri
-        // includes matching args for path, query, and fragment
-        val matchingArguments =
-            if (uri != null) deepLink.getMatchingArguments(uri, arguments) else null
-        val matchingPathSegments = deepLink.calculateMatchingPathSegments(uri)
-        val requestAction = navDeepLinkRequest.action
-        val matchingAction = requestAction != null && requestAction ==
-            deepLink.action
-        val mimeType = navDeepLinkRequest.mimeType
-        val mimeTypeMatchLevel =
-            if (mimeType != null) deepLink.getMimeTypeMatchRating(mimeType) else -1
-        if (matchingArguments != null || ((matchingAction || mimeTypeMatchLevel > -1) &&
-                hasRequiredArguments(deepLink, uri, arguments))
-        ) {
-            val newMatch = DeepLinkMatch(
-                this, matchingArguments,
-                deepLink.isExactDeepLink, matchingPathSegments, matchingAction,
-                mimeTypeMatchLevel
-            )
-            if (bestMatch == null || (newMatch.compare(bestMatch).toInt() > 0)) {
-                bestMatch = newMatch
+    if(deepLinks?.isNotEmpty() == true) {
+        for (deepLink in deepLinks!!) {
+            (deepLink as NavDeepLink)
+            val uri = navDeepLinkRequest.uri
+            // includes matching args for path, query, and fragment
+            val matchingArguments =
+                if (uri != null) deepLink.getMatchingArguments(uri, arguments) else null
+            val matchingPathSegments = deepLink.calculateMatchingPathSegments(uri)
+            val requestAction = navDeepLinkRequest.action
+            val matchingAction = requestAction != null && requestAction ==
+                deepLink.action
+            val mimeType = navDeepLinkRequest.mimeType
+            val mimeTypeMatchLevel =
+                if (mimeType != null) deepLink.getMimeTypeMatchRating(mimeType) else -1
+            if (matchingArguments != null || ((matchingAction || mimeTypeMatchLevel > -1) &&
+                    hasRequiredArguments(deepLink, uri, arguments))
+            ) {
+                val newMatch = DeepLinkMatch(
+                    this, matchingArguments,
+                    deepLink.isExactDeepLink, matchingPathSegments, matchingAction,
+                    mimeTypeMatchLevel
+                )
+                if (bestMatch == null || (newMatch.compare(bestMatch).toInt() > 0)) {
+                    bestMatch = newMatch
+                }
             }
         }
     }
-    // Then search through all child destinations for a matching deep link
-    val v = mParent?.mNodes?.count?.toInt()
+
     var nodeList: MutableList<NavDestination> = mutableListOf()
-    if(v != null && mParent != null && mParent?.mNodes != null) {
-        nodeList = mutableListOf()
-        for (key in mParent?.mNodes?.allKeys() ?: listOf<NavDestination>()) {
-            nodeList.add(mParent!!.mNodes!!.objectForKey(key) as NavDestination)
+    if(this is NavGraph) {
+        // Then search through all child destinations for a matching deep link
+        /*val v = mParent?.mNodes?.count?.toInt()
+        var nodeList: MutableList<NavDestination> = mutableListOf()
+        if (v != null && mParent != null && mParent?.mNodes != null) {
+            nodeList = mutableListOf()
+            for (key in mParent?.mNodes?.allKeys() ?: listOf<NavDestination>()) {
+                nodeList.add(mParent!!.mNodes!!.objectForKey(key) as NavDestination)
+            }
+        }*/
+
+        val v = mNodes?.count?.toInt()
+        if (v != null && mNodes != null) {
+            nodeList = mutableListOf()
+            for (key in mNodes?.allKeys() ?: listOf<NavDestination>()) {
+                nodeList.add(mNodes!!.objectForKey(key) as NavDestination)
+            }
         }
     }
 
@@ -2739,10 +2743,10 @@ public inline fun <T, R : Any> Iterable<T>.mapNotNull(transform: (T) -> R?): Lis
             "{ builder.invoke() }"
     )
 )
-public inline fun NavController.createGraphId(
+public fun NavController.createGraphId(
     id: String = "",
     startDestination: String,
-    builder: NavGraphBuilder.() -> Unit
+    builder: (NavGraphBuilder) -> Unit
 ): PlatformNavGraph = navigatorProvider.navigationId(id, startDestination, builder)
 
 /**
@@ -2752,8 +2756,14 @@ public inline fun NavController.createGraphId(
  * @param route the route for the graph
  * @param builder the builder used to construct the graph
  */
-public inline fun NavController.createGraph(
+public fun NavController.createGraph(
     startDestination: String,
     route: String? = null,
-    builder: NavGraphBuilder.() -> Unit
+    builder: (NavGraphBuilder) -> Unit
+): PlatformNavGraph = navigatorProvider.navigation(startDestination, route, builder)
+
+public fun NavController.createGraph(
+    startDestination: String,
+    route: String? = null,
+    builder: (PlatformNavGraphBuilder) -> Unit
 ): PlatformNavGraph = navigatorProvider.navigation(startDestination, route, builder)

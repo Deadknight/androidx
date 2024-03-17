@@ -69,9 +69,9 @@ import androidx.compose.ui.unit.constrainHeight
 import androidx.compose.ui.unit.constrainWidth
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.toSize
-import cocoapods.Topping.OnAttachStateChangeListenerProtocol
-import cocoapods.Topping.ViewTreeObserverOnGlobalLayoutListenerProtocol
-import cocoapods.ToppingIOSKotlinHelper.TIOSKHRect
+import cocoapods.ToppingCompose.OnAttachStateChangeListenerProtocol
+import cocoapods.ToppingCompose.ViewTreeObserverOnGlobalLayoutListenerProtocol
+import cocoapods.ToppingCompose.TIOSKHRect
 import getWindowVisibleDisplayFrame
 import isAttachedToWindow
 import kotlin.math.max
@@ -1088,7 +1088,7 @@ private fun calculateMaxHeight(
 private fun View.getWindowBounds(): Rect {
     val inRect = TIOSKHRect(0, 0, 0, 0)
     this.getWindowVisibleDisplayFrame(inRect)
-    return ViewRect(inRect.left.toFloat(), inRect.top.toFloat(), inRect.right.toFloat(), inRect.bottom.toFloat()).toComposeRect()
+    return ViewRect(inRect.left().toFloat(), inRect.top().toFloat(), inRect.right().toFloat(), inRect.bottom().toFloat()).toComposeRect()
 }
 
 private fun LayoutCoordinates?.getAnchorBounds(): Rect {

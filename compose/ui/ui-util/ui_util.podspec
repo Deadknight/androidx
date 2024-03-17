@@ -10,7 +10,17 @@ Pod::Spec.new do |spec|
     spec.libraries                = 'c++'
     spec.ios.deployment_target = '13.0'
     spec.dependency 'Topping', '0.6.0'
-    spec.dependency 'ToppingIOSKotlinHelper', '0.6.0'
+                
+    if !Dir.exist?('../../../../../out/androidx/compose/ui/ui-util/build/cocoapods/framework/ui_util.framework') || Dir.empty?('../../../../../out/androidx/compose/ui/ui-util/build/cocoapods/framework/ui_util.framework')
+        raise "
+
+        Kotlin framework 'ui_util' doesn't exist yet, so a proper Xcode project can't be generated.
+        'pod install' should be executed after running ':generateDummyFramework' Gradle task:
+
+            ./gradlew :compose:ui:ui-util:generateDummyFramework
+
+        Alternatively, proper pod installation is performed during Gradle sync in the IDE (if Podfile location is set)"
+    end
                 
     spec.pod_target_xcconfig = {
         'KOTLIN_PROJECT_PATH' => ':compose:ui:ui-util',

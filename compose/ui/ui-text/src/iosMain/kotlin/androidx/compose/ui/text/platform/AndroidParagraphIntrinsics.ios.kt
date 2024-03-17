@@ -34,7 +34,7 @@ import androidx.compose.ui.text.intl.LocaleList
 import androidx.compose.ui.text.style.TextDirection
 import androidx.compose.ui.unit.Density
 import androidx.compose.ui.util.PriorityQueue
-import cocoapods.Topping.NSQueue
+import cocoapods.ToppingCompose.NSQueue
 import kotlin.math.ceil
 import kotlinx.cinterop.ExperimentalForeignApi
 import kotlinx.cinterop.useContents

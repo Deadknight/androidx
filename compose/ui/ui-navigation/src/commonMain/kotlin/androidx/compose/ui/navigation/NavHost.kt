@@ -16,15 +16,11 @@
 
 package androidx.compose.ui.navigation
 
-import androidx.compose.animation.AnimatedContentTransitionScope
-import androidx.compose.animation.EnterTransition
-import androidx.compose.animation.ExitTransition
 import androidx.compose.animation.core.tween
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 
@@ -34,7 +30,7 @@ import androidx.compose.ui.Modifier
  * Once this is called, any Composable within the given [NavGraphBuilder] can be navigated to from
  * the provided [navController].
  *
- * The builder passed into this method is [remember]ed. This means that for this NavHost, the
+ * The builder passed into this method is [remember]ed. This means that for this PlatformNavHost, the
  * contents of the builder cannot be changed.
  *
  * @sample androidx.navigation.compose.samples.NavScaffold
@@ -46,11 +42,11 @@ import androidx.compose.ui.Modifier
  * @param builder the builder used to construct the graph
  */
 /*@Deprecated(
-    message = "Deprecated in favor of NavHost that supports AnimatedContent",
+    message = "Deprecated in favor of PlatformNavHost that supports AnimatedContent",
     level = DeprecationLevel.HIDDEN
 )
 @Composable
-expect fun NavHost(
+expect fun PlatformNavHost(
     navController: NavHostController,
     startDestination: String,
     modifier: Modifier = Modifier,
@@ -58,98 +54,66 @@ expect fun NavHost(
     builder: NavGraphBuilder.() -> Unit
 )*/
 
-/**
- * Provides in place in the Compose hierarchy for self contained navigation to occur.
- *
- * Once this is called, any Composable within the given [PlatformNavGraphBuilder] can be navigated to from
- * the provided [navController].
- *
- * The builder passed into this method is [remember]ed. This means that for this NavHost, the
- * contents of the builder cannot be changed.
- *
- * @param navController the navController for this host
- * @param startDestination the route for the start destination
- * @param modifier The modifier to be applied to the layout.
- * @param contentAlignment The [Alignment] of the [AnimatedContent]
- * @param route the route for the graph
- * @param enterTransition callback to define enter transitions for destination in this host
- * @param exitTransition callback to define exit transitions for destination in this host
- * @param popEnterTransition callback to define popEnter transitions for destination in this host
- * @param popExitTransition callback to define popExit transitions for destination in this host
- * @param builder the builder used to construct the graph
- */
 @Composable
-expect fun NavHost(
+fun NavHost(
     navController: PlatformNavHostController,
     startDestination: String,
-    modifier: Modifier = Modifier,
-    contentAlignment: Alignment = Alignment.Center,
-    route: String? = null,
-    enterTransition: (AnimatedContentTransitionScope<PlatformNavBackStackEntry>.() -> EnterTransition) =
-        { fadeIn(animationSpec = tween(700)) },
-    exitTransition: (AnimatedContentTransitionScope<PlatformNavBackStackEntry>.() -> ExitTransition) =
-        { fadeOut(animationSpec = tween(700)) },
-    popEnterTransition: (AnimatedContentTransitionScope<PlatformNavBackStackEntry>.() -> EnterTransition) =
-        enterTransition,
-    popExitTransition: (AnimatedContentTransitionScope<PlatformNavBackStackEntry>.() -> ExitTransition) =
-        exitTransition,
     builder: PlatformNavGraphBuilder.() -> Unit
-)
+) {
+    NavHost(navController, startDestination, Modifier, builder)
+}
 
-/**
- * Provides in place in the Compose hierarchy for self contained navigation to occur.
- *
- * Once this is called, any Composable within the given [PlatformNavGraphBuilder] can be navigated to from
- * the provided [navController].
- *
- * The graph passed into this method is [remember]ed. This means that for this NavHost, the graph
- * cannot be changed.
- *
- * @param navController the navController for this host
- * @param graph the graph for this host
- * @param modifier The modifier to be applied to the layout.
- */
-@Deprecated(
-    message = "Deprecated in favor of NavHost that supports AnimatedContent",
-    level = DeprecationLevel.HIDDEN
-)
 @Composable
-expect fun NavHost(
+fun NavHost(
     navController: PlatformNavHostController,
-    graph: PlatformNavGraph,
-    modifier: Modifier = Modifier
-)
+    startDestination: String,
+    modifier: Modifier,
+    builder: PlatformNavGraphBuilder.() -> Unit
+) {
+    NavHost(navController, startDestination, modifier, Alignment.Center, builder)
+}
 
-/**
- * Provides in place in the Compose hierarchy for self contained navigation to occur.
- *
- * Once this is called, any Composable within the given [PlatformNavGraphBuilder] can be navigated to from
- * the provided [navController].
- *
- * @param navController the navController for this host
- * @param graph the graph for this host
- * @param modifier The modifier to be applied to the layout.
- * @param contentAlignment The [Alignment] of the [AnimatedContent]
- * @param enterTransition callback to define enter transitions for destination in this host
- * @param exitTransition callback to define exit transitions for destination in this host
- * @param popEnterTransition callback to define popEnter transitions for destination in this host
- * @param popExitTransition callback to define popExit transitions for destination in this host
- */
 @Composable
-expect fun NavHost(
+fun NavHost(
     navController: PlatformNavHostController,
-    graph: PlatformNavGraph,
-    modifier: Modifier = Modifier,
-    contentAlignment: Alignment = Alignment.Center,
-    enterTransition: (AnimatedContentTransitionScope<PlatformNavBackStackEntry>.() -> EnterTransition) =
-        { fadeIn(animationSpec = tween(700)) },
-    exitTransition: (AnimatedContentTransitionScope<PlatformNavBackStackEntry>.() -> ExitTransition) =
-        { fadeOut(animationSpec = tween(700)) },
-    popEnterTransition: (AnimatedContentTransitionScope<PlatformNavBackStackEntry>.() -> EnterTransition) =
-        enterTransition,
-    popExitTransition: (AnimatedContentTransitionScope<PlatformNavBackStackEntry>.() -> ExitTransition) =
-        exitTransition,
-)
+    startDestination: String,
+    modifier: Modifier,
+    contentAlignment: Alignment,
+    builder: PlatformNavGraphBuilder.() -> Unit
+) {
+    NavHost(navController, startDestination, modifier, contentAlignment, null, builder)
+}
+
+@Composable
+fun NavHost(
+    navController: PlatformNavHostController,
+    startDestination: String,
+    modifier: Modifier,
+    contentAlignment: Alignment,
+    route: String?,
+    builder: PlatformNavGraphBuilder.() -> Unit
+) {
+    PlatformNavHost(
+        navController = navController,
+        startDestination = startDestination,
+        modifier = modifier,
+        contentAlignment = contentAlignment,
+        route = route,
+        enterTransition = {
+            fadeIn(animationSpec = tween(700))
+        },
+        exitTransition = {
+            fadeOut(animationSpec = tween(700))
+        },
+        popEnterTransition = {
+            fadeIn(animationSpec = tween(700))
+        },
+        popExitTransition = {
+            fadeOut(animationSpec = tween(700))
+        },
+        builder
+    )
+}
 
 /**
  * Creates a NavHostController that handles the adding of the [ComposeNavigator] and
@@ -158,7 +122,7 @@ expect fun NavHost(
  * remembered before being passed in here: any changes to those inputs will cause the
  * NavController to be recreated.
  *
- * @see NavHost
+ * @see PlatformNavHost
  */
 @Composable
 expect fun rememberNavController(

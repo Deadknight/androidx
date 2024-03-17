@@ -19,14 +19,23 @@ package androidx.lifecycle.compose.platform
 import LifecycleOwner
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.platform.LocalLifecycleOwner
+import androidx.compose.ui.platform.LocalViewModelStoreOwner
 import androidx.lifecycle.compose.LifecyclePauseOrDisposeEffectResult
 import androidx.lifecycle.compose.LifecycleResumePauseEffectScope
 import androidx.lifecycle.compose.LifecycleStartStopEffectScope
 import androidx.lifecycle.compose.LifecycleStopOrDisposeEffectResult
-import cocoapods.Topping.Lifecycle
-import cocoapods.Topping.LifecycleEvent
-import cocoapods.Topping.LifecycleState
+import cocoapods.ToppingCompose.HasDefaultViewModelProviderFactoryProtocol
+import cocoapods.ToppingCompose.Lifecycle
+import cocoapods.ToppingCompose.LifecycleEvent
+import cocoapods.ToppingCompose.LifecycleState
+import cocoapods.ToppingCompose.LuaViewModel
+import cocoapods.ToppingCompose.ViewModelProvider
+import cocoapods.ToppingCompose.ViewModelProviderFactoryProtocol
+import cocoapods.ToppingCompose.ViewModelStoreOwnerProtocol
+import kotlinx.cinterop.COpaquePointer
+import kotlinx.cinterop.ObjCClass
 import lifecycle
+import platform.darwin.NSObject
 
 actual enum class PlatformLifecycleState(val value: LifecycleState) {
     DESTROYED(LifecycleState.LIFECYCLESTATE_DESTROYED),
@@ -64,3 +73,45 @@ actual typealias PlatformLifecycleResumePauseEffectScope = LifecycleResumePauseE
 actual typealias PlatformLifecyclePauseOrDisposeEffectResult = LifecyclePauseOrDisposeEffectResult
 
 actual class PlatformLifecycle(val lifecycle: Lifecycle)
+
+actual typealias PlatformViewModel = LuaViewModel
+actual typealias PlatformViewModelStoreOwner = ViewModelStoreOwnerProtocol
+actual typealias PlatformLocalViewModelStoreOwner = LocalViewModelStoreOwner
+
+@Composable
+actual inline fun <reified VM : PlatformViewModel> viewModel(
+    viewModelStoreOwner: PlatformViewModelStoreOwner,
+    key: String,
+    crossinline init: () -> VM
+): VM = viewModelStoreOwner.get(key, object : NSObject(), ViewModelProviderFactoryProtocol {
+    override fun create(): LuaViewModel {
+        return init.invoke()
+    }
+
+    override fun createWithCls(cls: ObjCClass): NSObject {
+        TODO("Not yet implemented")
+    }
+
+    override fun createWithPtr(ptr: COpaquePointer?): COpaquePointer? {
+        TODO("Not yet implemented")
+    }
+
+})
+
+inline fun <reified VM : PlatformViewModel> ViewModelStoreOwnerProtocol.get(
+    key: String? = null,
+    factory: ViewModelProviderFactoryProtocol? = null,
+): VM {
+    val provider = if (factory != null) {
+        ViewModelProvider(this.getViewModelStore()!!, factory)
+    } else if (this is HasDefaultViewModelProviderFactoryProtocol) {
+        ViewModelProvider(this.getViewModelStore()!!, this.getDefaultViewModelProviderFactory())
+    } else {
+        ViewModelProvider(this)
+    }
+    return if (key != null) {
+        provider.getWithKey(key) as VM
+    } else {
+        provider.getWithKey(VM::class.toString()) as VM
+    }
+}

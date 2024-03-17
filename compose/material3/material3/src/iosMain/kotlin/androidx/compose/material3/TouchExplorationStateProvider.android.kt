@@ -25,10 +25,10 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalLifecycleOwner
-import cocoapods.Topping.Lifecycle
-import cocoapods.Topping.LifecycleEvent
-import cocoapods.Topping.LifecycleEventObserverProtocol
-import cocoapods.Topping.LifecycleOwnerProtocol
+import cocoapods.ToppingCompose.Lifecycle
+import cocoapods.ToppingCompose.LifecycleEvent
+import cocoapods.ToppingCompose.LifecycleEventObserverProtocol
+import cocoapods.ToppingCompose.LifecycleOwnerProtocol
 import lifecycle
 import platform.Foundation.NSUUID
 import platform.darwin.NSObject

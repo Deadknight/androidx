@@ -17,3 +17,9 @@
 package androidx.compose.ui.util
 
 actual typealias ID = Int
+actual class IdEmpty {
+    actual companion object {
+        actual val value: ID
+            get() = 0
+    }
+}

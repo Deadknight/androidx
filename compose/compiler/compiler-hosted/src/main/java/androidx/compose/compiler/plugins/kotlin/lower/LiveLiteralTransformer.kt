@@ -890,12 +890,12 @@ open class LiveLiteralTransformer(
         }
 
     fun IrFactory.buildFunction(builder: IrFunctionBuilder): IrSimpleFunction = with(builder) {
-        createFunction(
-            startOffset, endOffset, origin,
-            IrSimpleFunctionSymbolImpl(),
-            name, visibility, modality, returnType,
-            isInline, isExternal, isTailrec, isSuspend, isOperator, isInfix, isExpect,
-            isFakeOverride, containerSource,
+        createSimpleFunction(
+            startOffset = startOffset, endOffset = endOffset, origin = origin,
+            symbol = IrSimpleFunctionSymbolImpl(),
+            name = name, visibility = visibility, modality = modality, returnType = returnType,
+            isInline = isInline, isExternal = isExternal, isTailrec = isTailrec, isSuspend = isSuspend, isOperator = isOperator, isInfix = isInfix, isExpect = isExpect,
+            isFakeOverride = isFakeOverride, containerSource = containerSource,
         )
     }
 }

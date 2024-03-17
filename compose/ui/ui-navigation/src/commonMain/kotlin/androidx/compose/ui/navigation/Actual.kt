@@ -18,7 +18,7 @@ package androidx.compose.ui.navigation
 
 import androidx.compose.ui.util.ID
 
-expect class PlatformNavHostController {
+expect open class PlatformNavHostController {
     /**
      * Navigate via the given [PlatformNavDirections]
      *
@@ -195,7 +195,29 @@ expect class PlatformNavHostController {
     ): Boolean
 }
 expect class PlatformNavGraph
-expect class PlatformNavGraphBuilder
+expect class PlatformNavGraphBuilder {
+    constructor(
+        provider: PlatformNavigatonProvider,
+        id: ID,
+        startDestination: ID
+    )
+
+    constructor(
+        provider: PlatformNavigatonProvider,
+        startDestination: String,
+        route: String?
+    )
+
+    fun <D : PlatformNavDestination> destination(navDestination: PlatformNavDestinationBuilder<D>)
+
+    fun addDestination(destination: PlatformNavDestination)
+
+    fun build(): PlatformNavGraph
+
+    fun getPlatform(): Any
+}
+expect class PlatformNavDestinationBuilder<T : PlatformNavDestination>
+expect class PlatformNavigatonProvider
 expect class PlatformNavBackStackEntry
 expect class PlatformNavDestination
 expect class PlatformNavigator<T : PlatformNavDestination>
@@ -203,6 +225,35 @@ expect interface PlatformNavDirections
 expect class PlatformNavOptions
 expect class PlatformNavOptionsBuilder
 expect interface PlatformNavigatorExtras
+expect class PlatformNamedNavArgument
+expect class PlatformNavDeepLink
+enum class PlatformSecureFlagPolicy {
+    /**
+     * Inherit [WindowManager.LayoutParams.FLAG_SECURE] from the parent window and pass it on the
+     * window that is using this policy.
+     */
+    Inherit,
+
+    /**
+     * Forces [WindowManager.LayoutParams.FLAG_SECURE] to be set on the window that is using this
+     * policy.
+     */
+    SecureOn,
+    /**
+     * No [WindowManager.LayoutParams.FLAG_SECURE] will be set on the window that is using this
+     * policy.
+     */
+    SecureOff
+}
+expect class PlatformDialogProperties(
+    dismissOnBackPress: Boolean,
+    dismissOnClickOutside: Boolean,
+    securePolicy: PlatformSecureFlagPolicy,
+    usePlatformDefaultWidth: Boolean,
+    decorFitsSystemWindows: Boolean
+) {
+    constructor()
+}
 expect class PlatformBundle() {
     fun getArray(key: String, def: Array<*>): Array<*>
 

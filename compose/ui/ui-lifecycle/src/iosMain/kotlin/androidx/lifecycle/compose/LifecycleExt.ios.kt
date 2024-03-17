@@ -21,7 +21,7 @@ import androidx.compose.runtime.State
 import androidx.compose.runtime.collectAsState
 import androidx.lifecycle.compose.platform.PlatformLifecycle
 import androidx.lifecycle.compose.platform.PlatformLifecycleState
-import cocoapods.Topping.LifecycleState
+import cocoapods.ToppingCompose.LifecycleState
 import currentState
 import kotlinx.coroutines.flow.MutableStateFlow
 

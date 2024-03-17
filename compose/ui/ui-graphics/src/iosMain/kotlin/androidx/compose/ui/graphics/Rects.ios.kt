@@ -17,10 +17,10 @@ package androidx.compose.ui.graphics.androidx.compose.ui.graphics
 
 import androidx.compose.ui.geometry.Rect
 import androidx.compose.ui.geometry.RoundRect
-import cocoapods.Topping.TIOSKHFloat
-import cocoapods.Topping.TIOSKHKotlinFloatArray
-import cocoapods.Topping.TIOSKHSkikoRRect
-import cocoapods.Topping.TIOSKHSkikoRect
+import cocoapods.ToppingCompose.TIOSKHFloat
+import cocoapods.ToppingCompose.TIOSKHKotlinFloatArray
+import cocoapods.ToppingCompose.TIOSKHSkikoRRect
+import cocoapods.ToppingCompose.TIOSKHSkikoRect
 
 fun Rect.toSkiaRect(): TIOSKHSkikoRect {
     return TIOSKHSkikoRect.companion().makeLTRBL(

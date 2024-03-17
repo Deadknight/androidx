@@ -16,6 +16,7 @@
 
 package androidx.compose.material3
 
+import kotlinx.atomicfu.atomic
 import platform.Foundation.NSLocale
 import platform.Foundation.NSNumber
 import platform.Foundation.NSNumberFormatter
@@ -26,7 +27,7 @@ import platform.Foundation.systemLocale
    M2/M3-internal copy of MutatorMutex.
  */
 actual class InternalAtomicReference<V> actual constructor(value: V) {
-    val vInternal = kotlin.native.concurrent.AtomicReference<V>(value)
+    val vInternal = atomic(value)
 
     actual fun get(): V {
         return vInternal.value

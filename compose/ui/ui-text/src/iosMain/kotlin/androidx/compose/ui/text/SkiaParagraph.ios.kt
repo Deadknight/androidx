@@ -34,13 +34,13 @@ import androidx.compose.ui.text.platform.cursorHorizontalPosition
 import androidx.compose.ui.text.style.ResolvedTextDirection
 import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.unit.Constraints
-import cocoapods.Topping.TIOSKHSkikoDirection
-import cocoapods.Topping.TIOSKHSkikoLineMetrics
-import cocoapods.Topping.TIOSKHSkikoPathDirection
-import cocoapods.Topping.TIOSKHSkikoRect
-import cocoapods.Topping.TIOSKHSkikoRectHeightMode
-import cocoapods.Topping.TIOSKHSkikoRectWidthMode
-import cocoapods.Topping.TIOSKHSkikoTextBox
+import cocoapods.ToppingCompose.TIOSKHSkikoDirection
+import cocoapods.ToppingCompose.TIOSKHSkikoLineMetrics
+import cocoapods.ToppingCompose.TIOSKHSkikoPathDirection
+import cocoapods.ToppingCompose.TIOSKHSkikoRect
+import cocoapods.ToppingCompose.TIOSKHSkikoRectHeightMode
+import cocoapods.ToppingCompose.TIOSKHSkikoRectWidthMode
+import cocoapods.ToppingCompose.TIOSKHSkikoTextBox
 import kotlin.math.floor
 
 internal class SkiaParagraph(

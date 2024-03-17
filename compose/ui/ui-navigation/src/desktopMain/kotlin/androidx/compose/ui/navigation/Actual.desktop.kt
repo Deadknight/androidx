@@ -18,7 +18,7 @@ package androidx.compose.ui.navigation
 
 import androidx.compose.ui.util.ID
 
-actual class PlatformNavHostController {
+actual open class PlatformNavHostController {
     /**
      * Navigate via the given [PlatformNavDirections]
      *
@@ -231,7 +231,39 @@ actual class PlatformNavHostController {
     }
 }
 actual class PlatformNavGraph
-actual class PlatformNavGraphBuilder
+actual class PlatformNavGraphBuilder {
+    actual fun <D : PlatformNavDestination> destination(navDestination: PlatformNavDestinationBuilder<D>) {
+    }
+
+    actual fun addDestination(destination: PlatformNavDestination) {
+    }
+
+    actual fun build(): PlatformNavGraph {
+        TODO("Not yet implemented")
+    }
+
+    actual constructor(
+        provider: PlatformNavigatonProvider,
+        id: ID,
+        startDestination: ID
+    ) {
+        TODO("Not yet implemented")
+    }
+
+    actual constructor(
+        provider: PlatformNavigatonProvider,
+        startDestination: String,
+        route: String?
+    ) {
+        TODO("Not yet implemented")
+    }
+
+    actual fun getPlatform(): Any {
+        TODO("Not yet implemented")
+    }
+}
+actual class PlatformNavDestinationBuilder<T : PlatformNavDestination>()
+actual class PlatformNavigatonProvider
 actual class PlatformNavBackStackEntry
 
 actual class PlatformNavigator<T : PlatformNavDestination>
@@ -241,6 +273,18 @@ actual interface PlatformNavDirections
 actual class PlatformNavOptions
 actual class PlatformNavOptionsBuilder
 actual interface PlatformNavigatorExtras
+actual class PlatformNamedNavArgument
+actual class PlatformNavDeepLink
+actual class PlatformDialogProperties actual constructor(
+    dismissOnBackPress: Boolean,
+    dismissOnClickOutside: Boolean,
+    securePolicy: PlatformSecureFlagPolicy,
+    usePlatformDefaultWidth: Boolean,
+    decorFitsSystemWindows: Boolean
+) {
+    actual constructor() : this(true, true, PlatformSecureFlagPolicy.Inherit, true, true)
+}
+
 actual class PlatformBundle {
     actual fun getArray(key: String, def: Array<*>): Array<*> {
         TODO("Not yet implemented")

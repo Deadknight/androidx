@@ -29,8 +29,8 @@ import androidx.compose.ui.input.pointer.PointerInputScope
 import androidx.compose.ui.node.DelegatingNode
 import androidx.compose.ui.node.ModifierNodeElement
 import androidx.compose.ui.platform.InspectorInfo
-import cocoapods.Topping.TIOSKHSkikoBitmap
-import cocoapods.Topping.TIOSKHSkikoImage
+import cocoapods.ToppingCompose.TIOSKHSkikoBitmap
+import cocoapods.ToppingCompose.TIOSKHSkikoImage
 
 /**
  * A Modifier that allows an element it is applied to to be treated like a source for

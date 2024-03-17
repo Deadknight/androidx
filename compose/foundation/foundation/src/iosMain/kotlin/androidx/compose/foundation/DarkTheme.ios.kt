@@ -19,9 +19,9 @@ package androidx.compose.foundation
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.ReadOnlyComposable
 import androidx.compose.ui.platform.LocalConfiguration
-import cocoapods.Topping.CONFIGURATION_UI_MODE_NIGHT_MASK
-import cocoapods.Topping.CONFIGURATION_UI_MODE_NIGHT_YES
-import cocoapods.Topping.Configuration
+import cocoapods.ToppingCompose.CONFIGURATION_UI_MODE_NIGHT_MASK
+import cocoapods.ToppingCompose.CONFIGURATION_UI_MODE_NIGHT_YES
+import cocoapods.ToppingCompose.Configuration
 
 /**
  * This function should be used to help build responsive UIs that follow the system setting, to

@@ -27,7 +27,7 @@ import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.style.ResolvedTextDirection
 import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.unit.Density
-import cocoapods.Topping.TIOSKHSkikoParagraph as Paragraph
+import cocoapods.ToppingCompose.TIOSKHSkikoParagraph as Paragraph
 
 /**
  * The purpose of this class is to store already built paragraph and pass it between

@@ -18,21 +18,21 @@ package androidx.compose.ui.navigation
 
 import Context
 import LifecycleOwner
-import cocoapods.Topping.OnBackPressedDispatcher
-import cocoapods.Topping.ViewModelStore
+import cocoapods.ToppingCompose.OnBackPressedDispatcher
+import cocoapods.ToppingCompose.ViewModelStore
 
 /**
  * Subclass of [NavController] that offers additional APIs for use by a
- * [NavHost] to connect the NavController to external dependencies.
+ * [PlatformNavHost] to connect the NavController to external dependencies.
  *
  * Apps should generally not construct controllers, instead obtain a relevant controller
- * directly from a navigation host via [NavHost.getNavController] or by using one of
+ * directly from a navigation host via [PlatformNavHost.getNavController] or by using one of
  * the utility methods on the [Navigation] class.
  */
 public open class NavHostController
 /**
  * Construct a new controller for a given [Context] suitable for use in a
- * [NavHost]. Controllers should not be used outside of their context and retain a
+ * [PlatformNavHost]. Controllers should not be used outside of their context and retain a
  * hard reference to the context supplied. If you need a global controller, pass
  * [Context.getApplicationContext].
  *
@@ -48,7 +48,7 @@ public open class NavHostController
     /**
      * Sets the host's [LifecycleOwner].
      *
-     * @param owner The [LifecycleOwner] associated with the containing [NavHost].
+     * @param owner The [LifecycleOwner] associated with the containing [PlatformNavHost].
      * @see NavHostController.setOnBackPressedDispatcher
      */
     public final override fun setLifecycleOwner(owner: LifecycleOwner) {
@@ -67,7 +67,7 @@ public open class NavHostController
      * system Back button events by calling [enableOnBackPressed].
      *
      * @param dispatcher The [OnBackPressedDispatcher] associated with the containing
-     * [NavHost].
+     * [PlatformNavHost].
      * @throws IllegalStateException if you have not called
      * [setLifecycleOwner] before calling this method.
      * @see NavHostController.setLifecycleOwner
@@ -89,7 +89,7 @@ public open class NavHostController
     /**
      * Sets the host's ViewModelStore used by the NavController to store ViewModels at the
      * navigation graph level. This is required to call [getViewModelStoreOwner] and
-     * should generally be called for you by your [NavHost].
+     * should generally be called for you by your [PlatformNavHost].
      *
      * You must call this method before [setGraph] or similar methods, because the
      * [ViewModelStore] set here will be used by the created [NavBackStackEntry] items.

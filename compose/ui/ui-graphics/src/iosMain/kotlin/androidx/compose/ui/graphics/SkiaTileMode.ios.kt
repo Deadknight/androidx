@@ -16,7 +16,7 @@
 
 package androidx.compose.ui.graphics
 
-import cocoapods.Topping.TIOSKHSkikoFilterTileMode
+import cocoapods.ToppingCompose.TIOSKHSkikoFilterTileMode
 
 actual fun TileMode.isSupported(): Boolean = true
 

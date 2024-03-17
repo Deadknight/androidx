@@ -20,7 +20,7 @@ import Context
 import View
 import ViewGroup
 import androidx.compose.ui.graphics.Canvas
-import cocoapods.Topping.TIOSKHTCanvasProtocol
+import cocoapods.ToppingCompose.TIOSKHTCanvasProtocol
 import getChildAt
 import init
 import kotlinx.cinterop.ExperimentalForeignApi

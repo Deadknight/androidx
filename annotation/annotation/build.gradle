@@ -25,7 +25,6 @@ androidXMultiplatform {
             }
         }
 
-        println("native " + KmpPlatformsKt.enableNative(project))
         if (KmpPlatformsKt.enableNative(project)) {
             nonJvmMain {
                 dependsOn commonMain

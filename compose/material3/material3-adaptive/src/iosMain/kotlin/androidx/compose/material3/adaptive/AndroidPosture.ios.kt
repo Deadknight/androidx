@@ -43,7 +43,7 @@ fun calculatePosture(foldingFeatures: List<FoldingFeature>): Posture {
             it.state == FoldingFeature.State.HALF_OPENED) {
             isTableTop = true
         }
-        val hingeBounds = Rect(it.bounds.left.toFloat(), it.bounds.top.toFloat(), it.bounds.right.toFloat(), it.bounds.bottom.toFloat())
+        val hingeBounds = Rect(it.bounds.left().toFloat(), it.bounds.top().toFloat(), it.bounds.right().toFloat(), it.bounds.bottom().toFloat())
         // TODO(conradchen): Figure out how to deal with horizontal hinges
         if (it.orientation == FoldingFeature.Orientation.VERTICAL) {
             allHingeBounds.add(hingeBounds)

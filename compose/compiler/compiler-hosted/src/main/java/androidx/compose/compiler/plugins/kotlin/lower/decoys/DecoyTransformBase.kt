@@ -50,6 +50,7 @@ import org.jetbrains.kotlin.ir.util.getAnnotation
 import org.jetbrains.kotlin.ir.util.isTopLevel
 import org.jetbrains.kotlin.ir.util.module
 import org.jetbrains.kotlin.ir.util.remapTypeParameters
+import org.jetbrains.kotlin.ir.util.toIrConst
 
 @JvmDefaultWithCompatibility
 internal interface DecoyTransformBase {

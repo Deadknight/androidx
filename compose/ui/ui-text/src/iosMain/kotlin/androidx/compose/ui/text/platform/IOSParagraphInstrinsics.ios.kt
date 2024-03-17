@@ -17,7 +17,7 @@
 package androidx.compose.ui.text.platform
 
 import androidx.compose.ui.text.style.ResolvedTextDirection
-import cocoapods.Topping.LGView
+import cocoapods.ToppingCompose.LGView
 import platform.NaturalLanguage.NLLanguageArabic
 import platform.NaturalLanguage.NLLanguageHebrew
 import platform.NaturalLanguage.NLLanguagePersian

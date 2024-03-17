@@ -16,12 +16,13 @@
 
 package androidx.compose.ui.navigation
 
+import UUID
 import androidx.compose.animation.AnimatedContentTransitionScope
 import androidx.compose.animation.EnterTransition
 import androidx.compose.animation.ExitTransition
-import cocoapods.Topping.NavGraphNavigator
-import cocoapods.Topping.NavigationProvider
-import cocoapods.Topping.Navigator
+import cocoapods.ToppingCompose.NavGraphNavigator
+import cocoapods.ToppingCompose.NavigationProvider
+import cocoapods.ToppingCompose.Navigator
 
 /**
  * Custom subclass of [NavGraphNavigator] that adds support for defining
@@ -32,6 +33,10 @@ internal class ComposeNavGraphNavigator(
 ) : NavGraphNavigator(navigatorProvider) {
     override fun createDestination(): PlatformNavGraph {
         return ComposeNavGraph(this)
+    }
+
+    override fun getName(): String {
+        return "composeNavGraphNavigator"
     }
 
     internal class ComposeNavGraph(

@@ -30,12 +30,13 @@ import androidx.compose.ui.InternalComposeUiApi
 import androidx.compose.ui.UiComposable
 import androidx.compose.ui.node.InternalCoreApi
 import androidx.compose.ui.node.Owner
-import cocoapods.Topping.LGView
-import cocoapods.Topping.LuaForm
-import cocoapods.Topping.MeasureSpec
-import cocoapods.Topping.TIOSKHTViewProtocol
-import cocoapods.Topping.TIOSKHViewGroupLayoutParams
-import cocoapods.Topping.WRAP_CONTENT
+import androidx.compose.ui.util.ID
+import androidx.compose.ui.util.IdEmpty
+import cocoapods.ToppingCompose.LGView
+import cocoapods.ToppingCompose.MeasureSpec
+import cocoapods.ToppingCompose.TIOSKHTViewProtocol
+import cocoapods.ToppingCompose.TIOSKHViewGroupLayoutParams
+import cocoapods.ToppingCompose.WRAP_CONTENT
 import findViewTreeSavedStateRegistryOwner
 import findViewTreeViewModelStoreOwner
 import getChildAt
@@ -54,7 +55,7 @@ import setViewTreeViewModelStoreOwner
 abstract class AbstractComposeView constructor(
     context: Context,
     attrs: AttributeSet? = null,
-    defStyleAttr: Int = 0
+    defStyleAttr: ID = IdEmpty.value
 ) {
     var self: ViewGroup
 
@@ -360,7 +361,7 @@ abstract class AbstractComposeView constructor(
     fun shouldDelayChildPressedState(): Boolean = false
 }
 
-actual class CommonContext actual constructor(nativeContext: Any, nativeAttributeSet: Any?) {
+actual class PlatformContext actual constructor(nativeContext: Any, nativeAttributeSet: Any?) {
     val nContext: Context
     val nAttributeSet: AttributeSet?
     init {
@@ -376,16 +377,16 @@ actual class CommonContext actual constructor(nativeContext: Any, nativeAttribut
     }
 }
 
-actual class ComposeView @JvmOverloads constructor(
+actual class PlatformComposeView @JvmOverloads constructor(
     context: Context,
     attrs: AttributeSet? = null,
-    defStyleAttr: Int = 0
+    defStyleAttr: ID = IdEmpty.value
 ) : AbstractComposeView(context, attrs, defStyleAttr) {
 
-    actual constructor(commonContext: CommonContext, defStyleAttr: Int)
-        : this(commonContext.getNativeContext() as Context, commonContext.nAttributeSet, defStyleAttr)
+    actual constructor(platformContext: PlatformContext, defStyleAttr: ID)
+        : this(platformContext.getNativeContext() as Context, platformContext.nAttributeSet, defStyleAttr)
 
-    actual fun addSelfToActivity(activity: Any,
+    actual fun addThis(activity: Any,
         parent: CompositionContext?,
         content: @Composable () -> Unit) {
         val act = activity as Activity

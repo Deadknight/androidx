@@ -17,7 +17,7 @@
 package androidx.compose.ui.navigation
 
 import Bundle
-import cocoapods.Topping.NavArgument
+import cocoapods.ToppingCompose.NavArgument
 import containsKey
 import putAll
 
@@ -233,7 +233,7 @@ public class NavDeepLink internal constructor(
     ): Bundle? {
         // first check overall uri pattern for quick return if general pattern does not match
         val matcher = pathPattern?.matcher(deepLink.toString()) ?: return null
-        if (!matcher.matches()) {
+        if (!matcher.matches() && deepLink.toString() != uriPattern.toString()) {
             return null
         }
         // get matching path and query arguments and store in bundle
@@ -610,7 +610,7 @@ public class NavDeepLink internal constructor(
         // extract beginning of uriPattern until it hits either a query(?), a framgment(#), or
         // end of uriPattern
         var matcher = Pattern.compile("(\\?|\\#|$)").matcher(uriPattern)
-        matcher.find().let {
+        if(matcher.find()) {
             buildRegex(uriPattern.substring(0, matcher.start()), pathArgs, uriRegex)
             isExactDeepLink = !uriRegex.contains(".*") && !uriRegex.contains("([^/]+?)")
             // Match either the end of string if all params are optional or match the

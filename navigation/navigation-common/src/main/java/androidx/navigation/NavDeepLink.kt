@@ -549,7 +549,7 @@ public class NavDeepLink internal constructor(
         // extract beginning of uriPattern until it hits either a query(?), a framgment(#), or
         // end of uriPattern
         var matcher = Pattern.compile("(\\?|\\#|$)").matcher(uriPattern)
-        matcher.find().let {
+        if(matcher.find()) {
             buildRegex(uriPattern.substring(0, matcher.start()), pathArgs, uriRegex)
             isExactDeepLink = !uriRegex.contains(".*") && !uriRegex.contains("([^/]+?)")
             // Match either the end of string if all params are optional or match the

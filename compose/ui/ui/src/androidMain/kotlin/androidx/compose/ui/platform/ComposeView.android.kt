@@ -16,7 +16,6 @@
 
 package androidx.compose.ui.platform
 
-import android.app.Activity
 import android.content.Context
 import android.os.IBinder
 import android.util.AttributeSet
@@ -35,11 +34,6 @@ import androidx.compose.ui.node.Owner
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.findViewTreeLifecycleOwner
-import androidx.lifecycle.findViewTreeViewModelStoreOwner
-import androidx.lifecycle.setViewTreeLifecycleOwner
-import androidx.lifecycle.setViewTreeViewModelStoreOwner
-import androidx.savedstate.findViewTreeSavedStateRegistryOwner
-import androidx.savedstate.setViewTreeSavedStateRegistryOwner
 import java.lang.ref.WeakReference
 
 /**
@@ -419,7 +413,7 @@ abstract class AbstractComposeView @JvmOverloads constructor(
  * in the event that the view is never (re)attached is temporary.)
  */
 
-actual class CommonContext actual constructor(nativeContext: Any, nativeAttributeSet: Any?) {
+actual class PlatformContext actual constructor(nativeContext: Any, nativeAttributeSet: Any?) {
     val nContext: Context
     val nAttributeSet: AttributeSet?
     init {
@@ -457,16 +451,16 @@ private val DefaultActivityContentLayoutParams = ViewGroup.LayoutParams(
     }
 }*/
 
-actual class ComposeView @JvmOverloads constructor(
+actual class PlatformComposeView @JvmOverloads constructor(
     context: Context,
     attrs: AttributeSet? = null,
     defStyleAttr: Int = 0
 ) : AbstractComposeView(context, attrs, defStyleAttr) {
 
-    actual constructor(commonContext: CommonContext, defStyleAttr: Int)
-        : this(commonContext.getNativeContext() as Context, commonContext.nAttributeSet, defStyleAttr)
+    actual constructor(platformContext: PlatformContext, defStyleAttr: Int)
+        : this(platformContext.getNativeContext() as Context, platformContext.nAttributeSet, defStyleAttr)
 
-    actual fun addSelfToActivity(
+    actual fun addThis(
         activity: Any,
         parent: CompositionContext?,
         content: @Composable () -> Unit) {
@@ -483,7 +477,9 @@ actual class ComposeView @JvmOverloads constructor(
 
     private val content = mutableStateOf<(@Composable () -> Unit)?>(null)
 
-    @Suppress("RedundantVisibilityModifier")
+    @Suppress("RedundantVisibilityModifier", "GetterSetterNames")
+    @get:Suppress("GetterSetterNames")
+    @SuppressWarnings("GetterSetterNames")
     protected override var shouldCreateCompositionOnAttachedToWindow: Boolean = false
         private set
 

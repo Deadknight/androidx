@@ -22,6 +22,7 @@ import androidx.compose.runtime.snapshots.SnapshotContextElement
 import androidx.compose.runtime.snapshots.SnapshotMutableState
 import kotlin.coroutines.CoroutineContext
 import kotlin.native.identityHashCode
+import kotlinx.atomicfu.atomic
 import kotlinx.atomicfu.locks.SynchronizedObject
 import kotlinx.cinterop.ExperimentalForeignApi
 import kotlinx.coroutines.delay
@@ -47,7 +48,7 @@ internal actual object Trace {
 
 actual class AtomicReference<V> actual constructor(value: V) {
 
-    val ref = kotlin.native.concurrent.AtomicReference(value)
+    val ref = atomic(value)
 
     actual fun get(): V {
         return ref.value

@@ -25,9 +25,9 @@ import androidx.compose.ui.text.font.FontLoadingStrategy.Companion.OptionalLocal
 import androidx.compose.ui.text.platform.FontCache
 import androidx.compose.ui.text.platform.FontLoadResult
 import androidx.compose.ui.text.platform.PlatformFont
-import cocoapods.Topping.TIOSKHSkikoData
-import cocoapods.Topping.TIOSKHSkikoFontCollection
-import cocoapods.Topping.TIOSKHSkikoTypeface
+import cocoapods.ToppingCompose.TIOSKHSkikoData
+import cocoapods.ToppingCompose.TIOSKHSkikoFontCollection
+import cocoapods.ToppingCompose.TIOSKHSkikoTypeface
 import kotlinx.cinterop.ExperimentalForeignApi
 import kotlinx.cinterop.addressOf
 import kotlinx.cinterop.usePinned

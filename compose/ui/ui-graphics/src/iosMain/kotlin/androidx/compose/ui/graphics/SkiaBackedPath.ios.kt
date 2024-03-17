@@ -21,11 +21,11 @@ import androidx.compose.ui.geometry.Rect
 import androidx.compose.ui.geometry.RoundRect
 import androidx.compose.ui.graphics.androidx.compose.ui.graphics.toSkiaRRect
 import androidx.compose.ui.graphics.androidx.compose.ui.graphics.toSkiaRect
-import cocoapods.Topping.TIOSKHSkikoMatrix33
-import cocoapods.Topping.TIOSKHSkikoPath
-import cocoapods.Topping.TIOSKHSkikoPathDirection
-import cocoapods.Topping.TIOSKHSkikoPathFillMode
-import cocoapods.Topping.TIOSKHSkikoPathOp
+import cocoapods.ToppingCompose.TIOSKHSkikoMatrix33
+import cocoapods.ToppingCompose.TIOSKHSkikoPath
+import cocoapods.ToppingCompose.TIOSKHSkikoPathDirection
+import cocoapods.ToppingCompose.TIOSKHSkikoPathFillMode
+import cocoapods.ToppingCompose.TIOSKHSkikoPathOp
 
 actual fun Path(): Path = SkiaBackedPath()
 

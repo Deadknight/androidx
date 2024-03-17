@@ -19,8 +19,8 @@ package androidx.compose.ui.graphics
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.androidx.compose.ui.graphics.toTIOSKotlinFloatArray
 import androidx.compose.ui.graphics.androidx.compose.ui.graphics.toTIOSKotlinIntArray
-import cocoapods.Topping.TIOSKHSkikoShader
-import cocoapods.Topping.TIOSKHSkikoGradientStyle as GradientStyle
+import cocoapods.ToppingCompose.TIOSKHSkikoShader
+import cocoapods.ToppingCompose.TIOSKHSkikoGradientStyle as GradientStyle
 import androidx.compose.ui.graphics.androidx.compose.ui.graphics.identityMatrix33
 
 actual typealias Shader = TIOSKHSkikoShader

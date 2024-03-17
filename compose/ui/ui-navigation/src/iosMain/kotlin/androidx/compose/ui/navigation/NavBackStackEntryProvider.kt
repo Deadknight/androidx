@@ -23,14 +23,17 @@ import androidx.compose.runtime.saveable.SaveableStateHolder
 import androidx.compose.ui.platform.LocalLifecycleOwner
 import androidx.compose.ui.platform.LocalSavedStateRegistryOwner
 import androidx.compose.ui.platform.LocalViewModelStoreOwner
-import cocoapods.Topping.HasDefaultViewModelProviderFactoryProtocol
-import cocoapods.Topping.LuaViewModel
-import cocoapods.Topping.SavedStateHandle
-import cocoapods.Topping.ViewModelProvider
-import cocoapods.Topping.ViewModelProviderFactoryProtocol
-import cocoapods.Topping.ViewModelStoreOwnerProtocol
+import cocoapods.ToppingCompose.HasDefaultViewModelProviderFactoryProtocol
+import cocoapods.ToppingCompose.LuaViewModel
+import cocoapods.ToppingCompose.SavedStateHandle
+import cocoapods.ToppingCompose.ViewModelProvider
+import cocoapods.ToppingCompose.ViewModelProviderFactoryProtocol
+import cocoapods.ToppingCompose.ViewModelStoreOwnerProtocol
 import kotlin.native.ref.WeakReference
-import kotlin.reflect.KClass
+import kotlinx.cinterop.COpaquePointer
+import kotlinx.cinterop.ObjCClass
+import platform.Foundation.NSString
+import platform.darwin.NSObject
 import randomUUID
 
 /**
@@ -59,7 +62,9 @@ public fun PlatformNavBackStackEntry.LocalOwnersProvider(
 
 @Composable
 private fun SaveableStateHolder.SaveableStateProvider(content: @Composable () -> Unit) {
-    val viewModel = viewModel<BackStackEntryIdViewModel>()
+    val viewModel = viewModel<BackStackEntryIdViewModel>(key = "BackStackEntryIdViewModel") {
+        BackStackEntryIdViewModel(SavedStateHandle())
+    }
     // Stash a reference to the SaveableStateHolder in the ViewModel so that
     // it is available when the ViewModel is cleared, marking the permanent removal of this
     // NavBackStackEntry from the back stack. Which, because of animations,
@@ -75,7 +80,7 @@ internal class BackStackEntryIdViewModel(handle: SavedStateHandle) : LuaViewMode
 
     // we create our own id for each back stack entry to support multiple entries of the same
     // destination. this id will be restored by SavedStateHandle
-    val id: UUID = handle.getWithKey(IdKey) as UUID? ?: UUID.randomUUID().also { handle.setWithKey(IdKey, it) }
+    val id: String = handle.getWithKey(IdKey) as String? ?: UUID.randomUUID().UUIDString.also { handle.setWithKey(IdKey, it as NSString) }
 
     lateinit var saveableStateHolderRef: WeakReference<SaveableStateHolder>
 
@@ -89,30 +94,27 @@ internal class BackStackEntryIdViewModel(handle: SavedStateHandle) : LuaViewMode
     }
 }
 
-@Deprecated(
-    "Superseded by viewModel that takes CreationExtras",
-    level = DeprecationLevel.HIDDEN
-)
-@Suppress("MissingJvmstatic")
 @Composable
 public inline fun <reified VM : LuaViewModel> viewModel(
     viewModelStoreOwner: ViewModelStoreOwnerProtocol = checkNotNull(LocalViewModelStoreOwner.current) {
         "No ViewModelStoreOwnerProtocol was provided via LocalViewModelStoreOwner"
     },
-    key: String? = null,
-    factory: ViewModelProviderFactoryProtocol? = null
-): VM = viewModel(VM::class, viewModelStoreOwner, key, factory)
+    key: String,
+    crossinline init: () -> VM
+): VM = viewModelStoreOwner.get(key, object : NSObject(), ViewModelProviderFactoryProtocol {
+    override fun create(): LuaViewModel {
+        return init.invoke()
+    }
 
-@Suppress("MissingJvmstatic")
-@Composable
-public fun <VM : LuaViewModel> viewModel(
-    modelClass: KClass<VM>,
-    viewModelStoreOwner: ViewModelStoreOwnerProtocol = checkNotNull(LocalViewModelStoreOwner.current) {
-        "No ViewModelStoreOwnerProtocol was provided via LocalViewModelStoreOwner"
-    },
-    key: String? = null,
-    factory: ViewModelProviderFactoryProtocol? = null
-): VM = viewModelStoreOwner.get(modelClass, key, factory)
+    override fun createWithCls(cls: ObjCClass): NSObject {
+        TODO("Not yet implemented")
+    }
+
+    override fun createWithPtr(ptr: COpaquePointer?): COpaquePointer? {
+        TODO("Not yet implemented")
+    }
+
+})
 
 @Composable
 public inline fun <reified VM : LuaViewModel> viewModel(
@@ -120,14 +122,9 @@ public inline fun <reified VM : LuaViewModel> viewModel(
         "No ViewModelStoreOwnerProtocol was provided via LocalViewModelStoreOwner"
     },
     key: String? = null
-): VM = viewModel(
-    VM::class,
-    viewModelStoreOwner,
-    key
-)
+): VM = viewModelStoreOwner.get(key)
 
-private fun <VM : LuaViewModel> ViewModelStoreOwnerProtocol.get(
-    javaClass: KClass<VM>,
+inline fun <reified VM : LuaViewModel> ViewModelStoreOwnerProtocol.get(
     key: String? = null,
     factory: ViewModelProviderFactoryProtocol? = null,
 ): VM {
@@ -141,6 +138,6 @@ private fun <VM : LuaViewModel> ViewModelStoreOwnerProtocol.get(
     return if (key != null) {
         provider.getWithKey(key) as VM
     } else {
-        provider.get() as VM
+        provider.getWithKey(VM::class.toString()) as VM
     }
 }

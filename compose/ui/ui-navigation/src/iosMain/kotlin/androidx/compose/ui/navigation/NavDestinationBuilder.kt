@@ -16,13 +16,13 @@
 
 package androidx.compose.ui.navigation
 
-import cocoapods.Topping.NavAction
-import cocoapods.Topping.NavArgument
-import cocoapods.Topping.NavBackStackEntry
-import cocoapods.Topping.NavController
-import cocoapods.Topping.NavDestination
-import cocoapods.Topping.NavOptions
-import cocoapods.Topping.Navigator
+import cocoapods.ToppingCompose.NavAction
+import cocoapods.ToppingCompose.NavArgument
+import cocoapods.ToppingCompose.NavBackStackEntry
+import cocoapods.ToppingCompose.NavController
+import cocoapods.ToppingCompose.NavDestination
+import cocoapods.ToppingCompose.NavOptions
+import cocoapods.ToppingCompose.Navigator
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -71,7 +71,7 @@ public open class NavDestinationBuilder internal constructor(
      * @return the newly constructed [NavDestination]
      */
     public constructor(navigator: Navigator, route: String?) :
-        this(navigator, "", route)
+        this(navigator, "-1", route)
 
     /**
      * The descriptive label of the destination
@@ -156,19 +156,33 @@ public open class NavDestinationBuilder internal constructor(
                 destination.arguments[name] = argument
             }
             deepLinks.forEach { deepLink ->
-                destination.deepLinks.add(deepLink)
+                destination.deepLinks?.add(deepLink)
             }
             actions.forEach { (actionId, action) ->
                 destination.mActions?.setObject(action, actionId as NSString)
             }
             if (route != null) {
-                destination.route = route
+                destination.setRouteInternal(route)
             }
             if (id != "-1") {
                 destination.idVal = id
             }
         }
     }
+}
+
+fun NavDestination.setRouteInternal(route: String?) {
+    if (route == null) {
+        this.idVal = "0"
+    } else {
+        require(route.isNotBlank()) { "Cannot have an empty route" }
+        val internalRoute = createRoute(route)
+        this.idVal = internalRoute
+        deepLinks?.add(NavDeepLink.Builder().setUriPattern(internalRoute ?: "").build())
+        //addDeepLink(internalRoute)
+    }
+    deepLinks?.remove(deepLinks?.firstOrNull { (it as NavDeepLink).uriPattern == createRoute(this.route) })
+    this.route = route
 }
 
 public class NavActionBuilder {

@@ -17,3 +17,8 @@
 package androidx.compose.ui.util
 
 expect class ID
+expect class IdEmpty {
+    companion object {
+        val value: ID
+    }
+}

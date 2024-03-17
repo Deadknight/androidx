@@ -21,8 +21,8 @@ import androidx.compose.ui.graphics.Canvas
 import androidx.compose.ui.graphics.drawscope.CanvasDrawScope
 import androidx.compose.ui.unit.Density
 import androidx.compose.ui.unit.LayoutDirection
-import cocoapods.Topping.TIOSKHSkiaCanvas
-import cocoapods.Topping.TIOSKHTCanvasProtocol
+import cocoapods.ToppingCompose.TIOSKHSkiaCanvas
+import cocoapods.ToppingCompose.TIOSKHTCanvasProtocol
 import set
 
 internal class ComposeDragShadowBuilder(
@@ -39,8 +39,8 @@ internal class ComposeDragShadowBuilder(
             dragAndDropInfo.size.height.toDp().roundToPx()
         )
         outShadowTouchPoint.set(
-            outShadowSize.x / 2,
-            outShadowSize.y / 2
+            outShadowSize.x() / 2,
+            outShadowSize.y() / 2
         )
     }
 

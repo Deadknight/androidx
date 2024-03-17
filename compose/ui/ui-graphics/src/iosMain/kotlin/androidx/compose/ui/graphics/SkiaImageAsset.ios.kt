@@ -16,22 +16,22 @@
 
 package androidx.compose.ui.graphics
 
-import cocoapods.Topping.TIOSKHSkikoBitmap as Bitmap
-import cocoapods.Topping.TIOSKHSkikoColorAlphaType as ColorAlphaType
-import cocoapods.Topping.TIOSKHSkikoColorInfo as ColorInfo
-import cocoapods.Topping.TIOSKHSkikoColorType as ColorType
-import cocoapods.Topping.TIOSKHSkikoImage as Image
-import cocoapods.Topping.TIOSKHSkikoImageInfo as ImageInfo
+import cocoapods.ToppingCompose.TIOSKHSkikoBitmap as Bitmap
+import cocoapods.ToppingCompose.TIOSKHSkikoColorAlphaType as ColorAlphaType
+import cocoapods.ToppingCompose.TIOSKHSkikoColorInfo as ColorInfo
+import cocoapods.ToppingCompose.TIOSKHSkikoColorType as ColorType
+import cocoapods.ToppingCompose.TIOSKHSkikoImage as Image
+import cocoapods.ToppingCompose.TIOSKHSkikoImageInfo as ImageInfo
 import androidx.compose.ui.graphics.colorspace.ColorSpace
 import androidx.compose.ui.graphics.colorspace.ColorSpaces
-import cocoapods.Topping.TIOSKHRect
-import cocoapods.Topping.TIOSKHSkiaCanvas
-import cocoapods.Topping.TIOSKHSkikoColorAlphaType
-import cocoapods.Topping.TIOSKHSkikoRect as Rect
-import cocoapods.Topping.TIOSKHSkikoColorSpace
-import cocoapods.Topping.TIOSKHSkikoColorType
-import cocoapods.Topping.TIOSKHSkikoFilterMode
-import cocoapods.Topping.TIOSKHSkikoSamplingModeProtocol
+import cocoapods.ToppingCompose.TIOSKHRect
+import cocoapods.ToppingCompose.TIOSKHSkiaCanvas
+import cocoapods.ToppingCompose.TIOSKHSkikoColorAlphaType
+import cocoapods.ToppingCompose.TIOSKHSkikoRect as Rect
+import cocoapods.ToppingCompose.TIOSKHSkikoColorSpace
+import cocoapods.ToppingCompose.TIOSKHSkikoColorType
+import cocoapods.ToppingCompose.TIOSKHSkikoFilterMode
+import cocoapods.ToppingCompose.TIOSKHSkikoSamplingModeProtocol
 import kotlin.math.abs
 import platform.darwin.NSObject
 import platform.darwin.NSUInteger

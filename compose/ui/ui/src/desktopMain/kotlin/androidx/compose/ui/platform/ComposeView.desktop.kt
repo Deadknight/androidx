@@ -18,8 +18,9 @@ package androidx.compose.ui.platform
 
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionContext
+import androidx.compose.ui.util.ID
 
-actual class CommonContext actual constructor(
+actual class PlatformContext actual constructor(
     nativeContext: Any,
     nativeAttributeSet: Any?
 ) {
@@ -32,11 +33,11 @@ actual class CommonContext actual constructor(
     }
 }
 
-actual class ComposeView actual constructor(
-    commonContext: CommonContext,
-    defStyleAttr: Int
+actual class PlatformComposeView actual constructor(
+    platformContext: PlatformContext,
+    defStyleAttr: ID
 ) {
-    actual fun addSelfToActivity(activity: Any,
+    actual fun addThis(activity: Any,
         parent: CompositionContext?,
         content: @Composable () -> Unit) {
     }

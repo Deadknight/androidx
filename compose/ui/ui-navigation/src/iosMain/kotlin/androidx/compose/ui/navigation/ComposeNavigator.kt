@@ -22,16 +22,16 @@ import androidx.compose.animation.EnterTransition
 import androidx.compose.animation.ExitTransition
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
-import cocoapods.Topping.NavDestination
-import cocoapods.Topping.NavOptions
-import cocoapods.Topping.Navigator
-import cocoapods.Topping.NavigatorExtrasProtocol
+import cocoapods.ToppingCompose.NavDestination
+import cocoapods.ToppingCompose.NavOptions
+import cocoapods.ToppingCompose.Navigator
+import cocoapods.ToppingCompose.NavigatorExtrasProtocol
+import cocoapods.ToppingCompose.TNavigatorStateProtocol
 
 
-
-val ComposeNavigator.state : NavigatorState?
+val ComposeNavigator.state : NavController.NavControllerNavigatorState?
     get() {
-        return getState() as NavigatorState
+        return getState() as NavController.NavControllerNavigatorState?
     }
 
 val ComposeNavigatorNAME: String
@@ -64,7 +64,7 @@ public class ComposeNavigator : Navigator() {
         navigatorExtras: NavigatorExtrasProtocol?
     ) {
         entries.forEach { entry ->
-            state?.pushWithBackStackEntry(entry as cocoapods.Topping.NavBackStackEntry)
+            state?.pushWithBackStackEntry(entry as cocoapods.ToppingCompose.NavBackStackEntry)
         }
         isPop.value = false
     }
@@ -74,7 +74,7 @@ public class ComposeNavigator : Navigator() {
     }
 
     override fun popBackStackWithPopUpTo(
-        popUpTo: cocoapods.Topping.NavBackStackEntry,
+        popUpTo: cocoapods.ToppingCompose.NavBackStackEntry,
         savedState: Boolean
     ) {
         state?.popWithTransitionWithPopUpTo(popUpTo, savedState)
@@ -93,6 +93,10 @@ public class ComposeNavigator : Navigator() {
      */
     public fun onTransitionComplete(entry: PlatformNavBackStackEntry) {
         state?.markTransitionCompleteWithEntry(entry)
+    }
+
+    override fun getName(): String {
+        return ComposeNavigatorNAME
     }
 
     /**

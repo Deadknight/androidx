@@ -48,7 +48,7 @@ import androidx.compose.ui.unit.IntSize
 import androidx.compose.ui.unit.LayoutDirection
 import androidx.compose.ui.util.ID
 import clipToOutline
-import cocoapods.Topping.TIOSKHTCanvasProtocol
+import cocoapods.ToppingCompose.TIOSKHTCanvasProtocol
 import context
 import drawingTime
 import elevation

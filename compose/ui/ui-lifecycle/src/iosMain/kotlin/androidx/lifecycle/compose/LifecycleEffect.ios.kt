@@ -29,10 +29,10 @@ import androidx.lifecycle.compose.platform.PlatformLifecyclePauseOrDisposeEffect
 import androidx.lifecycle.compose.platform.PlatformLifecycleResumePauseEffectScope
 import androidx.lifecycle.compose.platform.PlatformLifecycleStartStopEffectScope
 import androidx.lifecycle.compose.platform.PlatformLifecycleStopOrDisposeEffectResult
-import cocoapods.Topping.Lifecycle
-import cocoapods.Topping.LifecycleEvent
-import cocoapods.Topping.LifecycleEventObserverProtocol
-import cocoapods.Topping.LifecycleOwnerProtocol
+import cocoapods.ToppingCompose.Lifecycle
+import cocoapods.ToppingCompose.LifecycleEvent
+import cocoapods.ToppingCompose.LifecycleEventObserverProtocol
+import cocoapods.ToppingCompose.LifecycleOwnerProtocol
 import lifecycle
 import platform.darwin.NSObject
 import randomUUID

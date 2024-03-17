@@ -16,11 +16,11 @@
 
 package androidx.compose.ui.navigation
 
-import cocoapods.Topping.LuaViewModel
-import cocoapods.Topping.NavViewModelStoreProviderProtocol
-import cocoapods.Topping.ViewModelProvider
-import cocoapods.Topping.ViewModelProviderFactoryProtocol
-import cocoapods.Topping.ViewModelStore
+import cocoapods.ToppingCompose.LuaViewModel
+import cocoapods.ToppingCompose.NavViewModelStoreProviderProtocol
+import cocoapods.ToppingCompose.ViewModelProvider
+import cocoapods.ToppingCompose.ViewModelProviderFactoryProtocol
+import cocoapods.ToppingCompose.ViewModelStore
 import kotlinx.cinterop.COpaquePointer
 import kotlinx.cinterop.ExperimentalForeignApi
 import kotlinx.cinterop.ObjCClass
@@ -44,14 +44,17 @@ private val NavControllerViewModelFACTORY: ViewModelProviderFactoryProtocol = ob
 @OptIn(ExperimentalForeignApi::class)
 fun NavControllerViewModelgetInstance(viewModelStore: ViewModelStore): NavControllerViewModel {
     val viewModelProvider = ViewModelProvider(viewModelStore, NavControllerViewModelFACTORY)
-    return viewModelProvider.get() as NavControllerViewModel
+    return viewModelProvider.getWithKey(
+    /*NavControllerViewModel::class.toString() //TODO:Open me when kotlin fixes reflecton*/
+        "2402NavControllerViewModel2402"
+    ) as NavControllerViewModel
 }
 
 /**
  * NavControllerViewModel is the always up to date view of the NavController's
  * non configuration state
  */
-class NavControllerViewModel : cocoapods.Topping.NavControllerViewModel(), NavViewModelStoreProviderProtocol {
+class NavControllerViewModel : cocoapods.ToppingCompose.NavControllerViewModel(), NavViewModelStoreProviderProtocol {
     private val viewModelStores = mutableMapOf<String, ViewModelStore>()
 
     fun clear(backStackEntryId: String) {

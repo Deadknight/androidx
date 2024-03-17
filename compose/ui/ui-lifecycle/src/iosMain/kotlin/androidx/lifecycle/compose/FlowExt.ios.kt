@@ -22,7 +22,7 @@ import androidx.compose.runtime.produceState
 import androidx.lifecycle.compose.platform.PlatformLifecycle
 import androidx.lifecycle.compose.platform.PlatformLifecycleState
 import androidx.lifecycle.compose.platform.repeatOnLifecycle
-import cocoapods.Topping.Lifecycle
+import cocoapods.ToppingCompose.Lifecycle
 import kotlin.coroutines.CoroutineContext
 import kotlin.coroutines.EmptyCoroutineContext
 import kotlinx.coroutines.flow.Flow

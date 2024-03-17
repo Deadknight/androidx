@@ -35,9 +35,9 @@ import androidx.compose.runtime.staticCompositionLocalOf
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.res.ImageVectorCache
 import applicationContext
-import cocoapods.Topping.ComponentCallbacksProtocol
-import cocoapods.Topping.Configuration
-import cocoapods.Topping.ViewModelStoreOwnerProtocol
+import cocoapods.ToppingCompose.ComponentCallbacksProtocol
+import cocoapods.ToppingCompose.Configuration
+import cocoapods.ToppingCompose.ViewModelStoreOwnerProtocol
 import configuration
 import context
 import findViewTreeViewModelStoreOwner

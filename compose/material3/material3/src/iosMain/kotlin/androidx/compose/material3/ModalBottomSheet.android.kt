@@ -77,9 +77,9 @@ import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.LayoutDirection
-import cocoapods.Topping.Gravity
-import cocoapods.Topping.MATCH_PARENT
-import cocoapods.Topping.ViewTreeObserverOnGlobalLayoutListenerProtocol
+import cocoapods.ToppingCompose.Gravity
+import cocoapods.ToppingCompose.MATCH_PARENT
+import cocoapods.ToppingCompose.ViewTreeObserverOnGlobalLayoutListenerProtocol
 import context
 import displayMetrics
 import findViewTreeSavedStateRegistryOwner

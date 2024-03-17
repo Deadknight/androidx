@@ -23,7 +23,7 @@ import androidx.compose.ui.graphics.ImageBitmap
 import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.unit.Dp
-import cocoapods.Topping.LuaRef
+import cocoapods.ToppingCompose.LuaRef
 
 /**
  * Load a color resource.

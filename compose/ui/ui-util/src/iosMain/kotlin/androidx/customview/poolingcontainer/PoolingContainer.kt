@@ -22,7 +22,7 @@ import allViews
 import ancestors
 import androidx.annotation.UiThread
 import children
-import cocoapods.Topping.LGView
+import cocoapods.ToppingCompose.LGView
 import platform.Foundation.NSNumber
 import platform.Foundation.numberWithBool
 import platform.darwin.NSObject

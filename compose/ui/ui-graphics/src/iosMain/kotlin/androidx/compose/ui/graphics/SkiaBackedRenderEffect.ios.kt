@@ -18,7 +18,7 @@ package androidx.compose.ui.graphics
 
 import androidx.compose.runtime.Immutable
 import androidx.compose.ui.geometry.Offset
-import cocoapods.Topping.TIOSKHSkikoImageFilter
+import cocoapods.ToppingCompose.TIOSKHSkikoImageFilter
 
 typealias ImageFilter = TIOSKHSkikoImageFilter
 

@@ -24,7 +24,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.ReadOnlyComposable
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
-import cocoapods.Topping.TIOSKHTColor
+import cocoapods.ToppingCompose.TIOSKHTColor
 import resources
 
 /**

@@ -44,9 +44,9 @@ import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.layout.LayoutInfo
-import androidx.compose.ui.platform.ComposeView
 import androidx.compose.ui.platform.LocalFontFamilyResolver
 import androidx.compose.ui.platform.LocalFontLoader
+import androidx.compose.ui.platform.PlatformComposeView
 import androidx.compose.ui.platform.ViewRootForTest
 import androidx.compose.ui.text.font.createFontFamilyResolver
 import androidx.compose.ui.tooling.animation.AnimationSearch
@@ -129,7 +129,7 @@ internal class ComposeViewAdapter : FrameLayout {
     /**
      * [ComposeView] that will contain the [Composable] to preview.
      */
-    private val composeView = ComposeView(context)
+    private val composeView = PlatformComposeView(context)
 
     /**
      * When enabled, generate and cache [ViewInfo] tree that can be inspected by the Preview
@@ -528,7 +528,7 @@ internal class ComposeViewAdapter : FrameLayout {
                         // Invalidate the descendants of this ComposeViewAdapter's only grandchild
                         // (an AndroidOwner) when setting the clock time to make sure the Compose
                         // Preview will animate when the states are read inside the draw scope.
-                        val composeView = getChildAt(0) as ComposeView
+                        val composeView = getChildAt(0) as PlatformComposeView
                         (composeView.getChildAt(0) as? ViewRootForTest)
                             ?.invalidateDescendants()
                         // Send pending apply notifications to ensure the animation duration will

@@ -39,8 +39,8 @@ import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.IntSize
 import androidx.compose.ui.unit.LayoutDirection
 import androidx.compose.ui.util.ID
-import cocoapods.Topping.TIOSKHSkikoRect
-import cocoapods.Topping.TIOSKHTPaintProtocol
+import cocoapods.ToppingCompose.TIOSKHSkikoRect
+import cocoapods.ToppingCompose.TIOSKHTPaintProtocol
 
 /**
  * RenderNode implementation of OwnedLayer.

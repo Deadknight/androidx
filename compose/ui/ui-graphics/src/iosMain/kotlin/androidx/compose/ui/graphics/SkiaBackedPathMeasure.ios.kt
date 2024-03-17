@@ -17,7 +17,7 @@
 package androidx.compose.ui.graphics
 
 import androidx.compose.ui.geometry.Offset
-import cocoapods.Topping.TIOSKHSkikoPathMeasure
+import cocoapods.ToppingCompose.TIOSKHSkikoPathMeasure
 
 /**
  * Convert the [org.jetbrains.skia.PathMeasure] instance into a Compose-compatible PathMeasure

@@ -27,11 +27,11 @@ import androidx.compose.runtime.saveable.rememberSaveableStateHolder
 import androidx.compose.runtime.snapshots.SnapshotStateList
 import androidx.compose.ui.platform.LocalInspectionMode
 import androidx.compose.ui.window.Dialog
-import cocoapods.Topping.Lifecycle
-import cocoapods.Topping.LifecycleEvent
-import cocoapods.Topping.LifecycleEventObserverProtocol
-import cocoapods.Topping.LifecycleOwnerProtocol
-import cocoapods.Topping.LifecycleState
+import cocoapods.ToppingCompose.Lifecycle
+import cocoapods.ToppingCompose.LifecycleEvent
+import cocoapods.ToppingCompose.LifecycleEventObserverProtocol
+import cocoapods.ToppingCompose.LifecycleOwnerProtocol
+import cocoapods.ToppingCompose.LifecycleState
 import currentState
 import lifecycle
 import platform.darwin.NSObject
@@ -40,7 +40,7 @@ import randomUUID
 /**
  * Show each [Destination] on the [DialogNavigator]'s back stack as a [Dialog].
  *
- * Note that [NavHost] will call this for you; you do not need to call it manually.
+ * Note that [PlatformNavHost] will call this for you; you do not need to call it manually.
  */
 @Composable
 public fun DialogHost(dialogNavigator: DialogNavigator) {

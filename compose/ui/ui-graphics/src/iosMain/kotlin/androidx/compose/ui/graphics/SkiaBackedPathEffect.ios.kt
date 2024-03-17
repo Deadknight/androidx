@@ -17,8 +17,8 @@
 package androidx.compose.ui.graphics
 
 import androidx.compose.ui.graphics.androidx.compose.ui.graphics.toTIOSKotlinFloatArray
-import cocoapods.Topping.TIOSKHSkikoPathEffect
-import cocoapods.Topping.TIOSKHSkikoPathEffectStyle
+import cocoapods.ToppingCompose.TIOSKHSkikoPathEffect
+import cocoapods.ToppingCompose.TIOSKHSkikoPathEffectStyle
 
 internal class SkiaBackedPathEffect(val nativePathEffect: TIOSKHSkikoPathEffect) : PathEffect
 

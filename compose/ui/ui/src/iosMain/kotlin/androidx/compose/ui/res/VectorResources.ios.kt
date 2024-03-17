@@ -34,9 +34,9 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.platform.LocalImageVectorCache
 import androidx.compose.ui.unit.Density
-import cocoapods.Topping.Configuration
-import cocoapods.ToppingIOSKotlinHelper.TIOSKHCoreXmlBufferedReader
-import cocoapods.ToppingIOSKotlinHelper.TIOSKHXml
+import cocoapods.ToppingCompose.Configuration
+import cocoapods.ToppingCompose.TIOSKHCoreXmlBufferedReader
+import cocoapods.ToppingCompose.TIOSKHXml
 import kotlin.native.ref.WeakReference
 import theme
 
@@ -98,7 +98,7 @@ internal fun loadVectorResourceInner(
     res: Resources,
     parser: XmlResourceParser
 ): ImageVector {
-    val attrs = TIOSKHXml.companion.asAttributeSetParser(parser as TIOSKHCoreXmlBufferedReader)
+    val attrs = TIOSKHXml.companion().asAttributeSetParser(parser as TIOSKHCoreXmlBufferedReader)
     val resourceParser = AndroidVectorParser(parser)
     val builder = resourceParser.createVectorImageBuilder(res, theme, attrs)
 

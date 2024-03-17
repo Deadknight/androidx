@@ -24,7 +24,7 @@ import androidx.compose.ui.graphics.ImageBitmap
 import androidx.compose.ui.graphics.asComposeImageBitmap
 import androidx.compose.ui.graphics.toImageBitmap
 import androidx.compose.ui.platform.LocalContext
-import cocoapods.Topping.TIOSKHSkikoBitmap
+import cocoapods.ToppingCompose.TIOSKHSkikoBitmap
 import org.jetbrains.skia.Bitmap
 
 /**

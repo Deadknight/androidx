@@ -16,10 +16,10 @@
 
 package androidx.compose.ui.navigation
 
-import cocoapods.Topping.NavArgument
-import cocoapods.Topping.NavController
-import cocoapods.Topping.NavDestination
-import cocoapods.Topping.Navigator
+import cocoapods.ToppingCompose.NavArgument
+import cocoapods.ToppingCompose.NavController
+import cocoapods.ToppingCompose.NavDestination
+import cocoapods.ToppingCompose.Navigator
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow

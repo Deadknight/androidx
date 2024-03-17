@@ -19,24 +19,97 @@ package androidx.compose.ui.navigation
 import android.os.Bundle
 import android.os.Parcelable
 import androidx.compose.ui.util.ID
+import androidx.compose.ui.window.DialogProperties
+import androidx.compose.ui.window.SecureFlagPolicy
+import androidx.navigation.NamedNavArgument
+import androidx.navigation.NavDeepLink
+import androidx.navigation.NavDestination
+import androidx.navigation.NavDestinationBuilder
 import androidx.navigation.NavDirections
+import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavHostController
 import androidx.navigation.NavOptions
 import androidx.navigation.NavOptionsBuilder
 import androidx.navigation.Navigator
+import androidx.navigation.NavigatorProvider
 
 actual typealias PlatformNavGraph = androidx.navigation.NavGraph
-actual typealias PlatformNavGraphBuilder = androidx.navigation.NavGraphBuilder
+@SuppressWarnings("TopLevelBuilder", "MissingBuildMethod", "MissingGetterMatchingBuilder")
+actual class PlatformNavGraphBuilder {
+    private val navGraphBuilder: NavGraphBuilder
+
+    actual constructor(
+        provider: PlatformNavigatonProvider,
+        id: ID,
+        startDestination: ID
+    ) {
+        navGraphBuilder = NavGraphBuilder(provider = provider, id = id, startDestination = startDestination)
+    }
+
+    @SuppressWarnings("OptionalBuilderConstructorArgument")
+    actual constructor(
+        provider: PlatformNavigatonProvider,
+        startDestination: String,
+        @SuppressWarnings("OptionalBuilderConstructorArgument")
+        route: String?
+    ) {
+        navGraphBuilder = NavGraphBuilder(provider = provider, startDestination = startDestination, route = route)
+    }
+
+    @SuppressWarnings("BuilderSetStyle")
+    actual fun <D : PlatformNavDestination> destination(navDestination: PlatformNavDestinationBuilder<D>) {
+        navGraphBuilder.destination(navDestination.navDestinationBuilder)
+    }
+
+    @SuppressWarnings("MissingGetterMatchingBuilder", "SetterReturnsThis")
+    actual fun addDestination(destination: PlatformNavDestination) {
+        navGraphBuilder.addDestination(destination)
+    }
+
+    actual fun build(): PlatformNavGraph {
+        return navGraphBuilder.build()
+    }
+
+    @SuppressWarnings("GetterOnBuilder")
+    actual fun getPlatform(): Any {
+        return navGraphBuilder
+    }
+}
+@SuppressWarnings("TopLevelBuilder", "GetterOnBuilder", "MissingBuildMethod", "OptionalBuilderConstructorArgument")
+actual class PlatformNavDestinationBuilder<T : NavDestination>(
+    internal val navDestinationBuilder: NavDestinationBuilder<T>
+)
+actual typealias PlatformNavigatonProvider = NavigatorProvider
 actual typealias PlatformNavBackStackEntry = androidx.navigation.NavBackStackEntry
 actual typealias PlatformNavDestination = androidx.navigation.NavDestination
 actual typealias PlatformNavOptions = NavOptions
 actual typealias PlatformNavOptionsBuilder = NavOptionsBuilder
 actual typealias PlatformNavigatorExtras = Navigator.Extras
+actual typealias PlatformNamedNavArgument = NamedNavArgument
+actual typealias PlatformNavDeepLink = NavDeepLink
+
+actual class PlatformDialogProperties actual constructor(
+    dismissOnBackPress: Boolean,
+    dismissOnClickOutside: Boolean,
+    securePolicy: PlatformSecureFlagPolicy,
+    usePlatformDefaultWidth: Boolean,
+    decorFitsSystemWindows: Boolean
+) {
+    val properties = DialogProperties(dismissOnBackPress, dismissOnClickOutside,
+        when(securePolicy) {
+            PlatformSecureFlagPolicy.Inherit -> SecureFlagPolicy.Inherit
+            PlatformSecureFlagPolicy.SecureOn -> SecureFlagPolicy.SecureOn
+            PlatformSecureFlagPolicy.SecureOff -> SecureFlagPolicy.SecureOff
+        },
+        usePlatformDefaultWidth, decorFitsSystemWindows)
+
+    actual constructor() : this(true, true, PlatformSecureFlagPolicy.Inherit, true, true)
+}
 
 actual class PlatformNavigator<T : PlatformNavDestination>(val navigator: Navigator<T>)
 actual typealias PlatformNavDirections = NavDirections
 
-actual class PlatformNavHostController(val navHostController: NavHostController) {
+actual open class PlatformNavHostController(val navHostController: NavHostController) {
     /**
      * Navigate via the given [PlatformNavDirections]
      *

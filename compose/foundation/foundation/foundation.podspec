@@ -1,6 +1,6 @@
 Pod::Spec.new do |spec|
     spec.name                     = 'foundation'
-    spec.version                  = '1.11.0'
+    spec.version                  = '1.6.0-alpha06-topping01'
     spec.homepage                 = ''
     spec.source                   = { :http=> ''}
     spec.authors                  = ''
@@ -8,8 +8,19 @@ Pod::Spec.new do |spec|
     spec.summary                  = ''
     spec.vendored_frameworks      = '../../../../../out/androidx/compose/foundation/foundation/build/cocoapods/framework/foundation.framework'
     spec.libraries                = 'c++'
-    spec.ios.deployment_target = '13.0'
-    spec.dependency 'Topping', '0.6.0'
+                
+                
+                
+    if !Dir.exist?('../../../../../out/androidx/compose/foundation/foundation/build/cocoapods/framework/foundation.framework') || Dir.empty?('../../../../../out/androidx/compose/foundation/foundation/build/cocoapods/framework/foundation.framework')
+        raise "
+
+        Kotlin framework 'foundation' doesn't exist yet, so a proper Xcode project can't be generated.
+        'pod install' should be executed after running ':generateDummyFramework' Gradle task:
+
+            ./gradlew :compose:foundation:foundation:generateDummyFramework
+
+        Alternatively, proper pod installation is performed during Gradle sync in the IDE (if Podfile location is set)"
+    end
                 
     spec.pod_target_xcconfig = {
         'KOTLIN_PROJECT_PATH' => ':compose:foundation:foundation',

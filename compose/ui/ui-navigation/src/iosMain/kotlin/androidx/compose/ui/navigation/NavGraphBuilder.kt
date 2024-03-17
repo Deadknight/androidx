@@ -16,10 +16,10 @@
 
 package androidx.compose.ui.navigation
 
-import cocoapods.Topping.NavDestination
-import cocoapods.Topping.NavGraph
-import cocoapods.Topping.NavGraphNavigator
-import cocoapods.Topping.NavigationProvider
+import cocoapods.ToppingCompose.NavDestination
+import cocoapods.ToppingCompose.NavGraph
+import cocoapods.ToppingCompose.NavGraphNavigator
+import cocoapods.ToppingCompose.NavigationProvider
 import platform.Foundation.NSString
 
 /**
@@ -39,10 +39,10 @@ import platform.Foundation.NSString
             "{ builder.invoke() }"
     )
 )
-public inline fun NavigationProvider.navigationId(
+public fun NavigationProvider.navigationId(
     id: String = "0",
     startDestination: String,
-    builder: NavGraphBuilder.() -> Unit
+    builder: (NavGraphBuilder) -> Unit
 ): NavGraph = NavGraphBuilder(this, id, startDestination).apply(builder).build()
 
 /**
@@ -54,11 +54,18 @@ public inline fun NavigationProvider.navigationId(
  *
  * @return the newly constructed NavGraph
  */
-public inline fun NavigationProvider.navigation(
+public fun NavigationProvider.navigation(
     startDestination: String,
     route: String? = null,
-    builder: NavGraphBuilder.() -> Unit
+    builder: (NavGraphBuilder) -> Unit
 ): NavGraph = NavGraphBuilder(this, startDestination, route).apply(builder)
+    .build()
+
+public fun NavigationProvider.navigation(
+    startDestination: String,
+    route: String? = null,
+    builder: (PlatformNavGraphBuilder) -> Unit
+): NavGraph = PlatformNavGraphBuilder(this, startDestination, route).apply(builder)
     .build()
 
 /**
@@ -78,7 +85,7 @@ public inline fun NavigationProvider.navigation(
             "{ builder.invoke() }"
     )
 )
-public inline fun NavGraphBuilder.navigationId(
+public fun NavGraphBuilder.navigationId(
     id: String = "0",
     startDestination: String,
     builder: NavGraphBuilder.() -> Unit
@@ -93,7 +100,7 @@ public inline fun NavGraphBuilder.navigationId(
  *
  * @return the newly constructed nested NavGraph
  */
-public inline fun NavGraphBuilder.navigation(
+public fun NavGraphBuilder.navigation(
     startDestination: String,
     route: String,
     builder: NavGraphBuilder.() -> Unit
@@ -128,7 +135,7 @@ public open class NavGraphBuilder : NavDestinationBuilder {
         provider: NavigationProvider,
         id: String,
         startDestination: String
-    ) : super(provider.getNavigatorWithNavigator(NavGraphNavigator()), id = id) {
+    ) : super(provider.getNavigatorWithNavigator(NavGraphNavigator(provider)), id = id) {
         this.provider = provider
         this.startDestinationId = startDestination
     }
@@ -146,7 +153,7 @@ public open class NavGraphBuilder : NavDestinationBuilder {
         provider: NavigationProvider,
         startDestination: String,
         route: String?
-    ) : super(provider.getNavigatorWithNavigator(NavGraphNavigator()), route = route) {
+    ) : super(provider.getNavigatorWithNavigator(NavGraphNavigator(provider)), route = route) {
         this.provider = provider
         this.startDestinationRoute = startDestination
     }

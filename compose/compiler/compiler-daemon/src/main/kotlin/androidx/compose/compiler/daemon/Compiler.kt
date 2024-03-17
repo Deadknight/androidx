@@ -47,7 +47,7 @@ internal fun parseArgs(
         compilerArgs.pluginOptions =
             (compilerArgs.pluginOptions ?: emptyArray()) +
                 "plugin:androidx.compose.plugins.idea:enabled=true"
-        compilerArgs.useIR = true // Force IR since it's required for Compose
+        //compilerArgs.useIR = true // Force IR since it's required for Compose
     }
     return compilerArgs
 }

@@ -20,6 +20,7 @@ import androidx.compose.animation.AnimatedContentTransitionScope
 import androidx.compose.animation.EnterTransition
 import androidx.compose.animation.ExitTransition
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 
@@ -39,7 +40,7 @@ import androidx.compose.ui.Modifier
  * @param popExitTransition callback to define popExit transitions for destination in this host
  */
 @Composable
-actual fun NavHost(
+actual fun PlatformNavHost(
     navController: PlatformNavHostController,
     graph: PlatformNavGraph,
     modifier: Modifier,
@@ -57,24 +58,24 @@ actual fun NavHost(
  * Once this is called, any Composable within the given [PlatformNavGraphBuilder] can be navigated to from
  * the provided [navController].
  *
- * The graph passed into this method is [remember]ed. This means that for this NavHost, the graph
+ * The graph passed into this method is [remember]ed. This means that for this PlatformNavHost, the graph
  * cannot be changed.
  *
  * @param navController the navController for this host
  * @param graph the graph for this host
  * @param modifier The modifier to be applied to the layout.
  */
-@Composable
+/*@Composable
 @Deprecated(
-    message = "Deprecated in favor of NavHost that supports AnimatedContent",
+    message = "Deprecated in favor of PlatformNavHost that supports AnimatedContent",
     level = DeprecationLevel.HIDDEN
 )
-actual fun NavHost(
+actual fun PlatformNavHost(
     navController: PlatformNavHostController,
     graph: PlatformNavGraph,
     modifier: Modifier
 ) {
-}
+}*/
 
 /**
  * Provides in place in the Compose hierarchy for self contained navigation to occur.
@@ -82,7 +83,7 @@ actual fun NavHost(
  * Once this is called, any Composable within the given [PlatformNavGraphBuilder] can be navigated to from
  * the provided [navController].
  *
- * The builder passed into this method is [remember]ed. This means that for this NavHost, the
+ * The builder passed into this method is [remember]ed. This means that for this PlatformNavHost, the
  * contents of the builder cannot be changed.
  *
  * @param navController the navController for this host
@@ -97,7 +98,7 @@ actual fun NavHost(
  * @param builder the builder used to construct the graph
  */
 @Composable
-actual fun NavHost(
+actual fun PlatformNavHost(
     navController: PlatformNavHostController,
     startDestination: String,
     modifier: Modifier,
@@ -117,7 +118,7 @@ actual fun NavHost(
  * Once this is called, any Composable within the given [NavGraphBuilder] can be navigated to from
  * the provided [navController].
  *
- * The builder passed into this method is [remember]ed. This means that for this NavHost, the
+ * The builder passed into this method is [remember]ed. This means that for this PlatformNavHost, the
  * contents of the builder cannot be changed.
  *
  * @sample androidx.navigation.compose.samples.NavScaffold
@@ -130,10 +131,10 @@ actual fun NavHost(
  */
 /*@Composable
 @Deprecated(
-    message = "Deprecated in favor of NavHost that supports AnimatedContent",
+    message = "Deprecated in favor of PlatformNavHost that supports AnimatedContent",
     level = DeprecationLevel.HIDDEN
 )
-actual fun NavHost(
+actual fun PlatformNavHost(
     navController: NavHostController,
     startDestination: String,
     modifier: Modifier,
@@ -148,7 +149,7 @@ actual fun NavHost(
  * remembered before being passed in here: any changes to those inputs will cause the
  * NavController to be recreated.
  *
- * @see NavHost
+ * @see PlatformNavHost
  */
 @Composable
 actual fun rememberNavController(vararg navigators: PlatformNavigator<out PlatformNavDestination>): PlatformNavHostController {

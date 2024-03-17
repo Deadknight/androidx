@@ -28,26 +28,84 @@ import androidx.compose.ui.graphics.androidx.compose.ui.graphics.toTIOSKotlinInt
 import androidx.compose.ui.graphics.androidx.compose.ui.graphics.toTIOSKotlinLongArray
 import androidx.compose.ui.graphics.androidx.compose.ui.graphics.toTIOSKotlinShortArray
 import androidx.compose.ui.util.ID
-import cocoapods.Topping.LuaBundle
-import cocoapods.Topping.NavBackStackEntry
-import cocoapods.Topping.NavDestination
-import cocoapods.Topping.NavGraph
-import cocoapods.Topping.NavOptions
-import cocoapods.Topping.Navigator
-import cocoapods.Topping.NavigatorExtrasProtocol
+import androidx.compose.ui.window.DialogProperties
+import androidx.compose.ui.window.SecureFlagPolicy
+import cocoapods.ToppingCompose.LuaBundle
+import cocoapods.ToppingCompose.NavBackStackEntry
+import cocoapods.ToppingCompose.NavDestination
+import cocoapods.ToppingCompose.NavGraph
+import cocoapods.ToppingCompose.NavOptions
+import cocoapods.ToppingCompose.NavigationProvider
+import cocoapods.ToppingCompose.Navigator
+import cocoapods.ToppingCompose.NavigatorExtrasProtocol
 
 actual typealias PlatformNavGraph = NavGraph
 actual typealias PlatformNavBackStackEntry = NavBackStackEntry
-actual typealias PlatformNavGraphBuilder = NavGraphBuilder
+actual class PlatformNavGraphBuilder {
+    val navGraphBuilder: NavGraphBuilder
+
+    actual constructor(
+        provider: PlatformNavigatonProvider,
+        id: ID,
+        startDestination: ID
+    ) {
+        navGraphBuilder = NavGraphBuilder(provider = provider, id = id, startDestination = startDestination)
+    }
+
+    actual constructor(
+        provider: PlatformNavigatonProvider,
+        startDestination: String,
+        route: String?
+    ) {
+        navGraphBuilder = NavGraphBuilder(provider = provider, startDestination = startDestination, route = route)
+    }
+
+    actual fun <D : PlatformNavDestination> destination(navDestination: PlatformNavDestinationBuilder<D>) {
+        navGraphBuilder.destination(navDestination.navDestinationBuilder)
+    }
+
+    actual fun addDestination(destination: PlatformNavDestination) {
+        navGraphBuilder.addDestination(destination)
+    }
+
+    actual fun build(): PlatformNavGraph {
+        return navGraphBuilder.build()
+    }
+
+    actual fun getPlatform(): Any {
+        return navGraphBuilder
+    }
+}
+actual class PlatformNavDestinationBuilder<T : PlatformNavDestination>(val navDestinationBuilder: NavDestinationBuilder)
+actual typealias PlatformNavigatonProvider = NavigationProvider
 actual typealias PlatformNavDestination = NavDestination
 actual typealias PlatformNavOptions = NavOptions
 actual typealias PlatformNavOptionsBuilder = NavOptionsBuilder
 actual typealias PlatformNavigatorExtras = NavigatorExtrasProtocol
+actual typealias PlatformNamedNavArgument = NamedNavArgument
+actual typealias PlatformNavDeepLink = NavDeepLink
+actual class PlatformDialogProperties actual constructor(
+    dismissOnBackPress: Boolean,
+    dismissOnClickOutside: Boolean,
+    securePolicy: PlatformSecureFlagPolicy,
+    usePlatformDefaultWidth: Boolean,
+    decorFitsSystemWindows: Boolean
+) {
+    val properties = DialogProperties(dismissOnBackPress, dismissOnClickOutside,
+        when(securePolicy) {
+            PlatformSecureFlagPolicy.Inherit -> SecureFlagPolicy.Inherit
+            PlatformSecureFlagPolicy.SecureOn -> SecureFlagPolicy.SecureOn
+            PlatformSecureFlagPolicy.SecureOff -> SecureFlagPolicy.SecureOff
+        },
+        usePlatformDefaultWidth, decorFitsSystemWindows)
+
+    actual constructor() : this(true, true, PlatformSecureFlagPolicy.Inherit, true, true)
+}
 
 actual class PlatformNavigator<T : PlatformNavDestination>(val navigator: Navigator)
 actual typealias PlatformNavDirections = NavDirections
 
-actual class PlatformNavHostController(val navHostController: NavHostController) {
+actual open class PlatformNavHostController(val navHostController: NavHostController) {
     /**
      * Navigate via the given [PlatformNavDirections]
      *

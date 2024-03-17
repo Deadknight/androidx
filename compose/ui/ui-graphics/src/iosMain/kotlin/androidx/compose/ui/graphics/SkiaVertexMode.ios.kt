@@ -16,7 +16,7 @@
 
 package androidx.compose.ui.graphics
 
-import cocoapods.Topping.TIOSKHSkikoVertexMode
+import cocoapods.ToppingCompose.TIOSKHSkikoVertexMode
 
 internal fun VertexMode.toSkiaVertexMode(): TIOSKHSkikoVertexMode = when (this) {
     VertexMode.Triangles -> TIOSKHSkikoVertexMode.triangles()

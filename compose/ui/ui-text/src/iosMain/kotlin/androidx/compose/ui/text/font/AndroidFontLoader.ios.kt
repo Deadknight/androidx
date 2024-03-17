@@ -23,7 +23,7 @@ import androidx.compose.ui.text.font.FontLoadingStrategy.Companion.Async
 import androidx.compose.ui.text.font.FontLoadingStrategy.Companion.Blocking
 import androidx.compose.ui.text.font.FontLoadingStrategy.Companion.OptionalLocal
 import androidx.compose.ui.text.platform.FontCache
-import cocoapods.Topping.TIOSKHSkikoFontCollection
+import cocoapods.ToppingCompose.TIOSKHSkikoFontCollection
 import kotlin.coroutines.resume
 import kotlin.coroutines.suspendCoroutine
 import kotlin.runCatching

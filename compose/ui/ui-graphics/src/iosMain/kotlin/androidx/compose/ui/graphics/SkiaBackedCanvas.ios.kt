@@ -16,7 +16,7 @@
 
 package androidx.compose.ui.graphics
 
-import cocoapods.Topping.TIOSKHSkiaCanvas
+import cocoapods.ToppingCompose.TIOSKHSkiaCanvas
 
 actual typealias NativeCanvas = TIOSKHSkiaCanvas
 

@@ -16,8 +16,10 @@
 
 package androidx.compose.material
 
+import kotlinx.atomicfu.atomic
+
 actual class InternalAtomicReference<V> actual constructor(value: V) {
-    val vInternal = kotlin.native.concurrent.AtomicReference<V>(value)
+    val vInternal = atomic(value)
 
     actual fun get(): V {
         return vInternal.value

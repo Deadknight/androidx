@@ -270,6 +270,18 @@ actual open class PlatformNavHostController(val navHostController: NavHostContro
     }
 
     /**
+     * Attempts to pop the controller's back stack. Analogous to when the user presses
+     * the system [Back][android.view.KeyEvent.KEYCODE_BACK] button when the associated
+     * navigation host has focus.
+     *
+     * @return true if the stack was popped at least once and the user has been navigated to
+     * another destination, false otherwise
+     */
+    actual open fun navigateUp(): Boolean {
+        return navHostController.navigateUp()
+    }
+
+    /**
      * Attempts to pop the controller's back stack back to a specific destination.
      *
      * @param destinationId The topmost destination to retain

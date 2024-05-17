@@ -54,7 +54,7 @@ expect interface PlatformLifecycleStopOrDisposeEffectResult
 expect class PlatformLifecycleResumePauseEffectScope
 expect interface PlatformLifecyclePauseOrDisposeEffectResult
 
-expect open class PlatformViewModel
+expect open class PlatformViewModel()
 expect interface PlatformViewModelStoreOwner
 expect object PlatformLocalViewModelStoreOwner {
     val current: PlatformViewModelStoreOwner?

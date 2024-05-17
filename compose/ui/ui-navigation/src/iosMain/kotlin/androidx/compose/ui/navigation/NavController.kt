@@ -419,7 +419,6 @@ public open class NavController(
         handler: (backStackEntry: PlatformNavBackStackEntry) -> Unit = {}
     ) {
         addToBackStackHandler = handler
-        println("navigateWithEntries " + this.getName())
         navigateWithEntries(entries, navOptions, navigatorExtras)
         addToBackStackHandler = null
     }
@@ -515,7 +514,6 @@ public open class NavController(
         fun superpushWithBackStackEntry(backStackEntry: cocoapods.ToppingCompose.NavBackStackEntry) {
             backStackLock.withLock {
                 _backStack.value = _backStack.value + backStackEntry
-                println("backstack size" + _backStack.value.size)
             }
         }
 
